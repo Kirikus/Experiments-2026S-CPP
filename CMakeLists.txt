@@ -12,7 +12,30 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets PrintSupport)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets PrintSupport)
 
+include(FetchContent)
+
+set(QCUSTOMPLOT_VERSION "2.1.1")
+set(QCUSTOMPLOT_URL "https://www.qcustomplot.com/release/${QCUSTOMPLOT_VERSION}/QCustomPlot.tar.gz")
+FetchContent_Declare(
+    QCustomPlot
+    URL       ${QCUSTOMPLOT_URL}
+    # URL_HASH  ${QCUSTOMPLOT_HASH}
+    DOWNLOAD_EXTRACT_TIMESTAMP ON
+)
+
+FetchContent_MakeAvailable(QCustomPlot)
+
+# Check that files exist (good practice)
+if(NOT EXISTS "${qcustomplot_SOURCE_DIR}/qcustomplot.h")
+    message(FATAL_ERROR "qcustomplot.h not found after extraction. Check tarball structure.")
+endif()
+
 file(GLOB PROJECT_SOURCES CONFIGURE_DEPENDS *.cpp *.h *.ui)
+list(APPEND PROJECT_SOURCES
+   ${PROJECT_SOURCES}
+   ${qcustomplot_SOURCE_DIR}/qcustomplot.cpp
+   ${qcustomplot_SOURCE_DIR}/qcustomplot.h
+)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Experiments
@@ -38,6 +61,7 @@ else()
 endif()
 
 target_link_libraries(Experiments PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport)
+target_include_directories(Experiments PRIVATE ${qcustomplot_SOURCE_DIR})
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

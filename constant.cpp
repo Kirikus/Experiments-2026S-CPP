@@ -14,3 +14,21 @@ double Constant::get_error() const {
 QString Constant::get_name() const {
     return name;
 }
+
+void Constant::set_value(double& new_value) {
+    if (!readonly) {
+        value = new_value;
+    }
+}
+
+void Constant::set_error(double& new_error) {
+    if (!readonly) {
+        error = new_error;
+    }
+}
+
+void Constant::set_name(QString& new_name) {
+    name = new_name;
+}
+void set_error();
+void set_name();

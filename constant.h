@@ -10,6 +10,10 @@ public:
   double get_error() const;
   QString get_name() const;
 
+  void set_value(double& value);
+  void set_error(double& error);
+  void set_name(QString& name);
+
 
 private:
 

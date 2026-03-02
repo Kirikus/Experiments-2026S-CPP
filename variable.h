@@ -11,11 +11,6 @@ public:
 
   const QList<double>& get_values();
   const QString& get_name();
-
-  void set_values(QList<double>& new_values);
-  void add_value(double new_value);
-  void set_name(QString& new_name);
-  
 private:
   QList<double> values;
   QString name;

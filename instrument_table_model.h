@@ -2,28 +2,19 @@
 #define INSTRUMENT_TABLE_MODEL_H
 
 #include "experiment.h"
-#include "QModelIndex"
-#include "Qt"
 
-class InstrumentTableModel : public QAbstractTableModel
-{
+class InstrumentTableModel {
 public:
-  explicit InstrumentTableModel(Experiment& exp);
-
-  int rowCount() const;
-  int columnCount() const;
-  QVariant data(const QModelIndex &index, int role) const override;
-
-  Qt::ItemFlags flags(const QModelIndex &index) const;
-  bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
-  QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-  void setHeader(QString& new_header);
+  InstrumentTableModel(Experiment& exp);
+  int getRowCount();
+  int getColumnCount();
+  const Instrument& data(int role, int i) const;
+  void setData(int i, auto new_data, int data_type); // int data_type: 0 - name, 1 - error_value, 2 - error_type
 
 private:
-  int rows;
-  int columns;
+  int rowCount;
+  int columnCount;
   Experiment& experiment;
-  QString header;
 };
 
 #endif // INSTRUMENT_TABLE_MODEL

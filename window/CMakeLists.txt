@@ -17,6 +17,13 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        graph_settings.h
+        graph_settings.ui
+        graph_settings.cpp
+        preview_widget.h
+        preview_widget.ui
+        preview_widget.cpp
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

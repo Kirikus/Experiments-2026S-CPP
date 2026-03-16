@@ -30,3 +30,10 @@ void InstrumentTableModel::setData(int i, auto new_data, int data_type) {
         throw std::invalid_argument("data_type must be 0 to 2");
     }
 }
+
+QString& InstrumentTableModel::getHeader() {
+    return header;
+}
+void InstrumentTableModel::setHeader(QString& new_header) {
+    header = new_header;
+}

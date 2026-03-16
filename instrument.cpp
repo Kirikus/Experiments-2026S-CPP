@@ -20,6 +20,6 @@ void Instrument::set_error_value(double new_error_value) {
 void Instrument::set_name(QString& new_name) {
     name = new_name;
 }
-void Instrument::get_error_type(QString& new_error_type) {
+void Instrument::set_error_type(QString& new_error_type) {
     error_type = new_error_type;
 }

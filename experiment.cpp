@@ -29,6 +29,10 @@ const QList<Instrument>& Experiment::getInstruments() const {
     return instruments;
 }
 
+const Instrument& Experiment::getInstrument(int i) const {
+    return instruments[i];
+}
+
 void Experiment::setVariables(const QList<Variable>& vars) {
     variables = vars;
 }

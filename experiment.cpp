@@ -29,7 +29,7 @@ const QList<Instrument>& Experiment::getInstruments() const {
     return instruments;
 }
 
-const Instrument& Experiment::getInstrument(int i) const {
+Instrument& Experiment::getInstrument(int i) {
     return instruments[i];
 }
 

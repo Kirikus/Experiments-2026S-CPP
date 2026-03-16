@@ -21,7 +21,7 @@ public:
 
   const QList<class Instrument>& getInstruments() const;
 
-  const Instrument& getInstrument(int i) const;
+  Instrument& getInstrument(int i);
 
   void setVariables(const QList<class Variable>& vars);
   void setConstants(const QList<class Constant>& cons);

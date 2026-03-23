@@ -61,11 +61,11 @@ QVariant InstrumentTableModel::headerData(int section, Qt::Orientation orientati
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
         case 0:
-            return QString("first");
+            return QString("Имя");
         case 1:
-            return QString("second");
+            return QString("Ошибка");
         case 2:
-            return QString("third");
+            return QString("Тип ошибки");
         }
     }
     return QVariant();

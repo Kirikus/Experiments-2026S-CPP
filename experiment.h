@@ -16,10 +16,13 @@ public:
   static Experiment* getInstance();
 
   const QList<class Variable>& getVariables() const;
+  QList<class Variable>& getVariables();
 
   const QList<class Constant>& getConstants() const;
+  QList<class Constant>& getConstants();
 
   const QList<class Instrument>& getInstruments() const;
+  QList<class Instrument>& getInstruments();
 
   Instrument& getInstrument(int i);
 

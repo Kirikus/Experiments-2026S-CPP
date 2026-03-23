@@ -21,11 +21,23 @@ const QList<Variable>& Experiment::getVariables() const {
     return variables;
 }
 
+QList<Variable>& Experiment::getVariables() {
+    return variables;
+}
+
 const QList<Constant>& Experiment::getConstants() const {
     return constants;
 }
 
+QList<Constant>& Experiment::getConstants() {
+    return constants;
+}
+
 const QList<Instrument>& Experiment::getInstruments() const {
+    return instruments;
+}
+
+QList<Instrument>& Experiment::getInstruments() {
     return instruments;
 }
 

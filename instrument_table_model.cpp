@@ -4,36 +4,78 @@
 
 InstrumentTableModel::InstrumentTableModel(Experiment& exp) : experiment(exp) {}
 
-int InstrumentTableModel::getRowCount() {
-    return rowCount;
+int InstrumentTableModel::rowCount() const {
+    return rows;
 }
 
-int InstrumentTableModel::getColumnCount() {
-    return columnCount;
+int InstrumentTableModel::columnCount() const {
+    return columns;
 }
 
-const Instrument& InstrumentTableModel::data(int role, int i) const { 
-    if (role == Qt::DisplayRole) {
-        return experiment.getInstrument(i);
+QVariant InstrumentTableModel::data(const QModelIndex &index, int role) const { 
+    int row = index.row();
+    int col = index.column();
+
+    switch (role) {
+    case Qt::DisplayRole:
+        if (row == 0 && col == 1) return QString("<--left");
+        if (row == 1 && col == 1) return QString("right-->");
+
+        return QString("Row%1, Column%2")
+                .arg(row + 1)
+                .arg(col + 1);
     }
+    return QVariant();
 }
 
-void InstrumentTableModel::setData(int i, auto new_data, int data_type) {
-    Instrument& instrument = experiment.getInstrument(i);
-    if (data_type == 0) {
-        instrument.set_name(new_data);
-    } else if (data_type == 1) {
-        instrument.set_error_value(new_data);
-    } else if (data_type == 2) {
-        instrument.set_error_type(new_data);
-    } else {
-        throw std::invalid_argument("data_type must be 0 to 2");
+bool InstrumentTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (role == Qt::EditRole) {
+        if (!checkIndex(index))
+            return false;
+        Instrument& instrument = experiment.getInstrument(index.row());
+
+        switch (index.column()) {
+            case 1: {
+                QString newName = value.toString();
+                instrument.set_name(newName);
+                break;
+            }
+            case 2:
+                instrument.set_error_value(value.toDouble());
+                break;
+            case 3: {
+                QString newErrorType = value.toString();
+                instrument.set_error_type(newErrorType);
+                break;
+            }
+        }   
+
+        return true;
     }
+    return false;
 }
 
-QString& InstrumentTableModel::getHeader() {
-    return header;
+QVariant InstrumentTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
+        switch (section) {
+        case 0:
+            return QString("first");
+        case 1:
+            return QString("second");
+        case 2:
+            return QString("third");
+        }
+    }
+    return QVariant();
 }
+
 void InstrumentTableModel::setHeader(QString& new_header) {
     header = new_header;
+}
+
+Qt::ItemFlags InstrumentTableModel::flags(const QModelIndex &index) const
+{
+    return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
 }

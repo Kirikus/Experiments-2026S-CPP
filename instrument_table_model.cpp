@@ -18,12 +18,19 @@ QVariant InstrumentTableModel::data(const QModelIndex &index, int role) const {
 
     switch (role) {
     case Qt::DisplayRole:
-        if (row == 0 && col == 1) return QString("<--left");
-        if (row == 1 && col == 1) return QString("right-->");
+        Instrument& instrument = experiment.getInstrument(index.row());
 
-        return QString("Row%1, Column%2")
-                .arg(row + 1)
-                .arg(col + 1);
+        switch (index.column()) {
+            case 1:
+                return instrument.get_name();
+                break;
+            case 2:
+                return instrument.get_error_value();
+                break;
+            case 3:
+                instrument.get_error_type();
+                break;
+        }
     }
     return QVariant();
 }

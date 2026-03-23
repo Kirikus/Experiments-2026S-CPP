@@ -17,7 +17,18 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void openGraphSettings();
+    void openPreview();
+    void applyLinGraphSettings();
+    void applyBarGraphSettings();
+    void applyColourGraphSettings();
+    
+
 private:
     Ui::MainWindow *ui;
 };
+
+
+
 #endif // MAINWINDOW_H

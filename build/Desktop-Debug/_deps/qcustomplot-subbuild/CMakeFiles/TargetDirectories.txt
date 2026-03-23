@@ -1,0 +1,3 @@
+/app/build/Desktop-Debug/_deps/qcustomplot-subbuild/CMakeFiles/qcustomplot-populate.dir
+/app/build/Desktop-Debug/_deps/qcustomplot-subbuild/CMakeFiles/edit_cache.dir
+/app/build/Desktop-Debug/_deps/qcustomplot-subbuild/CMakeFiles/rebuild_cache.dir

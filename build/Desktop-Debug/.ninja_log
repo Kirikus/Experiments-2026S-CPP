@@ -1,0 +1,16 @@
+# ninja log v5
+29	54	0	/app/build/Desktop-Debug/CMakeFiles/cmake.verify_globs	e31e498e10dfb061
+80	1943	1774260492947689500	Experiments_autogen/timestamp	10151cac099b1a52
+80	1943	1774260492947689500	Experiments_autogen/mocs_compilation.cpp	10151cac099b1a52
+80	1943	1774260492947689500	/app/build/Desktop-Debug/Experiments_autogen/timestamp	10151cac099b1a52
+80	1943	1774260492947689500	/app/build/Desktop-Debug/Experiments_autogen/mocs_compilation.cpp	10151cac099b1a52
+1955	6566	1774260497564959700	CMakeFiles/Experiments.dir/main.cpp.o	3f9be65a0182bd93
+1953	6973	1774260497958265600	CMakeFiles/Experiments.dir/graphsettings.cpp.o	d6e692802d6555e1
+1959	8017	1774260499025184200	CMakeFiles/Experiments.dir/preview_widget.cpp.o	92d184a692b20c57
+1955	8156	1774260499167893600	CMakeFiles/Experiments.dir/lingraphsettings.cpp.o	2bab660125d68666
+1950	8235	1774260499254503900	CMakeFiles/Experiments.dir/bargraphsettings.cpp.o	fd6d70c08c69c8a0
+1951	8371	1774260499386011300	CMakeFiles/Experiments.dir/colourgraphsettings.cpp.o	9c1ce45714b41d02
+1957	8595	1774260499612798700	CMakeFiles/Experiments.dir/mainwindow.cpp.o	bfd674e5d43092a2
+1948	19957	1774260510939409500	CMakeFiles/Experiments.dir/Experiments_autogen/mocs_compilation.cpp.o	c5975bb78407cb93
+1964	29508	1774260520466519900	CMakeFiles/Experiments.dir/_deps/qcustomplot-src/qcustomplot.cpp.o	93c0940c9315bb93
+29516	34458	1774260525460671900	Experiments	913a461483a7db4d

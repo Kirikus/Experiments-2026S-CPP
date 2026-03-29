@@ -4,8 +4,9 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
 QT_END_NAMESPACE
 
@@ -20,15 +21,18 @@ public:
 private slots:
     void openGraphSettings();
     void openPreview();
+    void createLinGraph();
+    void createBarGraph();
+    void createColourGraph();
     void applyLinGraphSettings();
     void applyBarGraphSettings();
     void applyColourGraphSettings();
-    
+
+private:
+    void setupCreateButton();
 
 private:
     Ui::MainWindow *ui;
 };
-
-
 
 #endif // MAINWINDOW_H

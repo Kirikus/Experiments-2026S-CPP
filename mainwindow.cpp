@@ -8,69 +8,66 @@
 #include "preview_widget.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    //graph settings button
-    connect(ui->GraphSetButton, &QPushButton::clicked, 
-            this, &MainWindow::openGraphSettings);
+    // new graph
+    setupCreateButton();
 
-    //preview button from menubar      
-    connect(ui->ActionPreview, &QAction::triggered, 
+    // preview button from menubar
+    connect(ui->ActionPreview, &QAction::triggered,
             this, &MainWindow::openPreview);
 }
 
 void MainWindow::openGraphSettings()
 {
-    int index = ui->GraphTypeBox->currentIndex();
-    QString graphType = ui->GraphTypeBox->currentText();
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (!action)
+        return;
 
-        if (graphType == "Line graph" || index == 0)
+    QString graphType = action->text();
+
+    if (graphType == "Line graph")
     {
-        LinGraphSettings *settings = new LinGraphSettings(this);
-        settings->setAttribute(Qt::WA_DeleteOnClose);
-
-        connect(settings, &LinGraphSettings::applySettings, 
-                this, &MainWindow::applyLinGraphSettings);
-        
-        settings->show();
+        createLinGraph();
     }
-
-    else if (graphType == "Bar graph" || index == 1)
+    else if (graphType == "Bar graph")
     {
-        BarGraphSettings *settings = new BarGraphSettings(this);
-        settings->setAttribute(Qt::WA_DeleteOnClose);
-        
-        connect(settings, &BarGraphSettings::applySettings, 
-                this, &MainWindow::applyBarGraphSettings);
-        
-        settings->show();
+        createBarGraph();
     }
-    else if (graphType == "Color graph" || index == 2)
+    else if (graphType == "Colour graph")
     {
-        ColourGraphSettings *settings = new ColourGraphSettings(this);
-        settings->setAttribute(Qt::WA_DeleteOnClose);
-        
-        connect(settings, &ColourGraphSettings::applySettings, 
-                this, &MainWindow::applyColourGraphSettings);
-        
-        settings->show();
+        createColourGraph();
     }
 }
 
-void MainWindow::applyLinGraphSettings()
-{   
-    qDebug() << "Line graph settings";
-    //graph update
+void MainWindow::createLinGraph()
+{
+    qDebug() << "Line graph";
+}
 
+void MainWindow::createBarGraph()
+{
+    qDebug() << "Bar graph";
+}
+
+void MainWindow::createColourGraph()
+{
+    qDebug() << "Colour graph";
+}
+
+
+void MainWindow::applyLinGraphSettings()
+{
+    qDebug() << "Line graph settings";
+    // graph update
 }
 
 void MainWindow::applyBarGraphSettings()
 {
     qDebug() << "Bar graph settings";
-    //graph update
+    // graph update
 }
 
 void MainWindow::applyColourGraphSettings()
@@ -87,8 +84,23 @@ void MainWindow::openPreview()
     preview->show();
 }
 
+// new graph button
+void MainWindow::setupCreateButton()
+{
+    QMenu *menu = new QMenu(this);
+
+    QAction *lineAction = menu->addAction("Line graph");
+    QAction *barAction = menu->addAction("Bar graph");
+    QAction *colourAction = menu->addAction("Colour graph");
+
+    connect(lineAction, &QAction::triggered, this, &MainWindow::createLinGraph);
+    connect(barAction, &QAction::triggered, this, &MainWindow::createBarGraph);
+    connect(colourAction, &QAction::triggered, this, &MainWindow::createColourGraph);
+
+    ui->NewGraphButton->setMenu(menu);
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-

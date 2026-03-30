@@ -2,11 +2,11 @@
 
 #include "Qt"
 
-InstrumentTableModel::InstrumentTableModel(Experiment& exp) : experiment(exp), rows(exp.getInstruments().size()), columns(3) {}
+InstrumentTableModel::InstrumentTableModel(Experiment& exp) : experiment(exp), columns(3) {}
 
 int InstrumentTableModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
-    return rows;
+    return experiment.getInstruments().size();
 }
 
 int InstrumentTableModel::columnCount(const QModelIndex &parent) const {

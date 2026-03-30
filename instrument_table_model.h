@@ -20,7 +20,6 @@ public:
   void setHeader(QString& new_header);
 
 private:
-  int rows;
   int columns;
   Experiment& experiment;
   QString header;

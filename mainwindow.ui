@@ -6,27 +6,597 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>925</width>
+    <height>806</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2"/>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QSplitter" name="splitter_4">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QSplitter" name="splitter_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <widget class="QSplitter" name="splitter_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <widget class="QWidget" name="">
+         <layout class="QGridLayout" name="Experiment">
+          <item row="1" column="1">
+           <widget class="QPushButton" name="ExpDelColButton">
+            <property name="text">
+             <string>Delete column</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" rowspan="2">
+           <widget class="QLabel" name="ExperimentLabel">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Experimental data</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="ExpAddColButton">
+            <property name="text">
+             <string>Add column</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QPushButton" name="ExpDelRowButton">
+            <property name="text">
+             <string>Delete row</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="ExpAddRowButton">
+            <property name="text">
+             <string>Add row</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3">
+           <widget class="QTableWidget" name="ExperimentTable">
+            <row>
+             <property name="text">
+              <string>Value</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>System error</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>Experiment 1</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>Experiment 2</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>Mean value</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>Error</string>
+             </property>
+            </row>
+            <column>
+             <property name="text">
+              <string>Variable 1</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Variable 2</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Variable 3</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Variable 4</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="">
+         <layout class="QGridLayout" name="Calculations">
+          <item row="0" column="0">
+           <widget class="QLabel" name="CalculationsLabel">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Calculations</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="4">
+           <widget class="QTableWidget" name="CalculationsTable">
+            <row>
+             <property name="text">
+              <string>1</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>2</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>3</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>4</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>5</string>
+             </property>
+            </row>
+            <column>
+             <property name="text">
+              <string>Name</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Value</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Formula</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Meaning</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QPushButton" name="CalcAddButton">
+            <property name="text">
+             <string>Add column</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="CalcDelButton">
+            <property name="text">
+             <string>Delete column</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="CalculateButton">
+            <property name="text">
+             <string>Calculate</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <layout class="QGridLayout" name="Graph">
+         <item row="1" column="0">
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="1" column="1">
+            <widget class="QPushButton" name="GraphSetButton">
+             <property name="text">
+              <string>Settings</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QComboBox" name="GraphTypeBox">
+             <item>
+              <property name="text">
+               <string>Line graph</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Bar graph</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Color graph</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="GraphNewButton">
+             <property name="text">
+              <string>New graph</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QPushButton" name="GraphDelButton">
+             <property name="text">
+              <string>Delete graph</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="0">
+          <widget class="QTabWidget" name="GraphTabWidget">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="tab1">
+            <attribute name="title">
+             <string>Tab 1</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QLineEdit" name="formula_2">
+               <property name="text">
+                <string>y = f(x)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>356</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab2">
+            <attribute name="title">
+             <string>Tab 2</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QLineEdit" name="formula_3">
+               <property name="text">
+                <string>y = f(x)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>356</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QSplitter" name="splitter">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <widget class="QWidget" name="layoutWidget">
+        <layout class="QGridLayout" name="Constants">
+         <item row="1" column="0" colspan="3">
+          <widget class="QTableWidget" name="ConstantsTable">
+           <row>
+            <property name="text">
+             <string>1</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>2</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>3</string>
+            </property>
+           </row>
+           <column>
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Value</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="ConstantsLabel">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Constants</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QPushButton" name="ConstDelButton">
+           <property name="text">
+            <string>Delete column</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QPushButton" name="ConstAddButton">
+           <property name="text">
+            <string>Add column</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <layout class="QGridLayout" name="Variables">
+         <item row="0" column="0">
+          <widget class="QLabel" name="VariablesLabel">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Variables</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="3">
+          <widget class="QTableWidget" name="VariablesTable">
+           <row>
+            <property name="text">
+             <string>1</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>2</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>3</string>
+            </property>
+           </row>
+           <column>
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Meaning</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QPushButton" name="VarDelButton">
+           <property name="text">
+            <string>Delete column</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QPushButton" name="VarAddButton">
+           <property name="text">
+            <string>Add column</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <layout class="QGridLayout" name="Instruments">
+         <item row="2" column="0">
+          <widget class="QPushButton" name="InstDelButton">
+           <property name="text">
+            <string>Delete instrument</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QPushButton" name="InstAddButton">
+           <property name="text">
+            <string>Add instrument</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="InstrumentsLabel">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Instruments</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="3">
+          <widget class="QTableWidget" name="InstrumentsTable">
+           <row>
+            <property name="text">
+             <string>1</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>2</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>3</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>4</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>5</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>6</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>7</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>8</string>
+            </property>
+           </row>
+           <column>
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Measure unit</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Division value</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>System error</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>925</width>
      <height>19</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="ActionNewFile"/>
+    <addaction name="ActionOpenFile"/>
+    <addaction name="ActionUploadData"/>
+    <addaction name="ActionSave"/>
+    <addaction name="ActionSaveAs"/>
+    <addaction name="ActionPreview"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <action name="ActionNewFile">
+   <property name="text">
+    <string>New file</string>
+   </property>
+  </action>
+  <action name="ActionOpenFile">
+   <property name="text">
+    <string>Open file</string>
+   </property>
+  </action>
+  <action name="ActionUploadData">
+   <property name="text">
+    <string>Upload data</string>
+   </property>
+  </action>
+  <action name="ActionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="ActionSaveAs">
+   <property name="text">
+    <string>Save as</string>
+   </property>
+  </action>
+  <action name="ActionPreview">
+   <property name="text">
+    <string>Preview</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

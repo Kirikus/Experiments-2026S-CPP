@@ -4,11 +4,11 @@
 
 VariableTableModel::VariableTableModel(Experiment& exp) : experiment(exp) {}
 
-int VariableTableModel::rowCount() const {
+int VariableTableModel::rowCount(const QModelIndex &parent) const {
     return rows;
 }
 
-int VariableTableModel::columnCount() const {
+int VariableTableModel::columnCount(const QModelIndex &parent) const {
     return columns;
 }
 

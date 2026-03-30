@@ -6,15 +6,15 @@
 class Constant
 {
 public:
-  Constant(QString &name, double &value, QString &meaning, bool readonly);
+  Constant(const QString &name, double value, const QString &meaning, bool readonly);
 
-  QString get_name();
-  double get_value();
-  QString get_meaning();
+  QString get_name() const;
+  double get_value() const;
+  QString get_meaning() const;
 
-  void set_name(QString &name);
-  void set_value(double &value);
-  void set_meaning(QString &meaning);
+  void set_name(const QString &name);
+  void set_value(double value);
+  void set_meaning(const QString &meaning);
 
 private:
   QString name;

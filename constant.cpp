@@ -1,33 +1,33 @@
 #include "constant.h"
 
-Constant::Constant(QString& name, double& value, QString& meaning, bool readonly) :
+Constant::Constant(const QString& name, double value, const QString& meaning, bool readonly) :
 name(name), value(value), meaning(meaning), readonly(readonly) {
 
 }
 
-double Constant::get_value() {
+double Constant::get_value() const {
     return value;
 }
-QString Constant::get_meaning() {
+QString Constant::get_meaning() const {
     return meaning;
 }
-QString Constant::get_name() {
+QString Constant::get_name() const {
     return name;
 }
 
-void Constant::set_value(double& new_value) {
+void Constant::set_value(double new_value) {
     if (!readonly) {
         value = new_value;
     }
 }
 
-void Constant::set_meaning(double& new_meaning) {
+void Constant::set_meaning(const QString &new_meaning) {
     if (!readonly) {
         meaning = new_meaning;
     }
 }
 
-void Constant::set_name(QString& new_name) {
+void Constant::set_name(const QString &new_name) {
     if (!readonly) {
     name = new_name;
     }

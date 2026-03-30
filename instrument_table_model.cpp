@@ -23,13 +23,10 @@ QVariant InstrumentTableModel::data(const QModelIndex &index, int role) const {
         switch (index.column()) {
             case 1:
                 return instrument.get_name();
-                break;
             case 2:
                 return instrument.get_error_value();
-                break;
             case 3:
-                instrument.get_error_type();
-                break;
+                return instrument.get_error_type();
         }
     }
     return QVariant();

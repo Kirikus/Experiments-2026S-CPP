@@ -16,8 +16,8 @@ QVariant VariableTableModel::data(const QModelIndex &index, int role) const {
     int row = index.row();
     int col = index.column();
 
-    switch (role) {
-    case Qt::DisplayRole:
+    if (role == Qt::DisplayRole) {
+        Variable& variable = experiment.getVariables()[index.row()];
         switch (index.column()) {
             case 0:
                 return variable.get_name();

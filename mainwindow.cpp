@@ -20,6 +20,12 @@ MainWindow::MainWindow(QWidget *parent)
     //preview button from menubar      
     connect(ui->ActionPreview, &QAction::triggered, 
             this, &MainWindow::openPreview);
+
+    // setup instrument table
+    instrumentModel = new InstrumentTableModel(*Experiment::getInstance());
+    instrumentDelegate = new InstrumentDelegate(this);
+    ui->InstrumentsTable->setModel(instrumentModel);
+    ui->InstrumentsTable->setItemDelegate(instrumentDelegate);
 }
 
 void MainWindow::openGraphSettings()

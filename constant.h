@@ -3,24 +3,24 @@
 
 #include <QString>
 
-class Constant {
+class Constant
+{
 public:
-  Constant(double& value, double& error, QString& name, bool readonly);
-  double get_value();
-  double get_error();
+  Constant(QString &name, double &value, QString &meaning, bool readonly);
+
   QString get_name();
+  double get_value();
+  QString get_meaning();
 
-  void set_value(double& value);
-  void set_error(double& error);
-  void set_name(QString& name);
-
+  void set_name(QString &name);
+  void set_value(double &value);
+  void set_meaning(QString &meaning);
 
 private:
-
-  double value;
-  double error;
   QString name;
-  bool readonly;      // True для подсчитанных (пр. mean(X)), False для введенных (g)
+  double value;
+  QString meaning;
+  bool readonly; // false для ввода
 };
 
 #endif // CONSTANT_H

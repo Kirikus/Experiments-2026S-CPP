@@ -16,8 +16,22 @@ QVariant VariableTableModel::data(const QModelIndex &index, int role) const {
     int row = index.row();
     int col = index.column();
 
-    // implementation
-    
+    switch (role) {
+    case Qt::DisplayRole:
+        switch (index.column()) {
+            case 0:
+                return variable.get_name();
+            case 1:
+                // Формируем строку со значениями, разделенными запятыми
+                QString valuesStr;
+                const QList<double>& values = variable.get_values();
+                for (int i = 0; i < values.size(); ++i) {
+                    if (i > 0) valuesStr += ", ";
+                    valuesStr += QString::number(values[i]);
+                }
+                return valuesStr;
+        }
+    }
     return QVariant();
 }
 
@@ -28,7 +42,18 @@ bool VariableTableModel::setData(const QModelIndex &index, const QVariant &value
             return false;
         Variable& variable = experiment.getVariables()[index.row()];
 
-        // implementation
+        switch (index.column()) {
+            case 0: {
+                QString newName = value.toString();
+                variable.set_name(newName);
+                break;
+            }
+            case 1:
+                // Значение передается как QList<double>
+                QList<double> newValues = value.value<QList<double>>();
+                variable.set_values(newValues);
+                break;
+        }   
 
         return true;
     }

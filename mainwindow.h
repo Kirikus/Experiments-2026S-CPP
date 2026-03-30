@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTableView>
+#include "instrument_table_model.h"
+#include "instrument_delegate.h"
+#include "experiment.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -27,6 +31,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    InstrumentTableModel *instrumentModel;
+    InstrumentDelegate *instrumentDelegate;
 };
 
 

@@ -37,9 +37,14 @@ bool VariableTableModel::setData(const QModelIndex &index, const QVariant &value
 
 QVariant VariableTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-
-    // implementation 
-
+    if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
+        switch (section) {
+        case 0:
+            return QString("Имя");
+        case 1:
+            return QString("Значения");
+        }
+    }
     return QVariant();
 }
 

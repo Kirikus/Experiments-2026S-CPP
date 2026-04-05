@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "constant_table_model.h"
+#include "constant_delegate.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -33,6 +35,9 @@ private:
 
 private:
     Ui::MainWindow *ui;
+
+    ConstantTableModel *constantModel;
+    ConstantDelegate *constantDelegate;
 };
 
 #endif // MAINWINDOW_H

@@ -18,6 +18,12 @@ MainWindow::MainWindow(QWidget *parent)
     // preview button from menubar
     connect(ui->ActionPreview, &QAction::triggered,
             this, &MainWindow::openPreview);
+
+    // setup constants table
+    constantModel = new ConstantTableModel();
+    constantDelegate = new ConstantDelegate(this);
+    ui->ConstantsTable->setModel(constantModel);
+    ui->ConstantsTable->setItemDelegate(constantDelegate);
 }
 
 void MainWindow::openGraphSettings()
@@ -56,7 +62,6 @@ void MainWindow::createColourGraph()
 {
     qDebug() << "Colour graph";
 }
-
 
 void MainWindow::applyLinGraphSettings()
 {
@@ -103,4 +108,7 @@ void MainWindow::setupCreateButton()
 MainWindow::~MainWindow()
 {
     delete ui;
+
+    delete constantModel;
+    delete constantDelegate;
 }

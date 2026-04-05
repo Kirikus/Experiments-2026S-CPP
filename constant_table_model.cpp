@@ -1,19 +1,19 @@
 #include "constant_table_model.h"
-
 #include "Qt"
 
-ConstantTableModel::ConstantTableModel()
-    : rows(0), columns(3)
+ConstantTableModel::ConstantTableModel() : columns(3)
 {
 }
 
-int ConstantTableModel::rowCount() const
+int ConstantTableModel::rowCount(const QModelIndex &parent) const
 {
-    return rows;
+    Q_UNUSED(parent);
+    return constants.size();
 }
 
-int ConstantTableModel::columnCount() const
+int ConstantTableModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return columns;
 }
 
@@ -24,9 +24,10 @@ QVariant ConstantTableModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::DisplayRole)
     {
-        const Constant &constant = constants[index.row()];
 
-        switch (index.column())
+        const Constant &constant = constants[row];
+
+        switch (col)
         {
         case 0:
             return constant.get_name();
@@ -46,6 +47,7 @@ bool ConstantTableModel::setData(const QModelIndex &index, const QVariant &value
         if (!checkIndex(index))
             return false;
 
+
         Constant &constant = constants[index.row()];
 
         switch (index.column())
@@ -59,6 +61,8 @@ bool ConstantTableModel::setData(const QModelIndex &index, const QVariant &value
         case 2:
             constant.set_meaning(value.toString());
             break;
+        default:
+            return false;
         }
 
         return true;
@@ -95,11 +99,7 @@ Qt::ItemFlags ConstantTableModel::flags(const QModelIndex &index) const
 
 void ConstantTableModel::addConstant()
 {
-    beginInsertRows(QModelIndex(), rows, rows);
-
+    beginInsertRows(QModelIndex(), constants.size(), constants.size());
     constants.append(Constant("", 0.0, "", false));
-
-    rows++;
-
     endInsertRows();
 }

@@ -2,7 +2,9 @@
 
 #include "Qt"
 
-VariableTableModel::VariableTableModel(Experiment& exp) : experiment(exp) {}
+VariableTableModel::VariableTableModel(Experiment& exp) : experiment(exp) {
+    rows = experiment.getVariables().size();
+}
 
 int VariableTableModel::rowCount(const QModelIndex &parent) const {
     return rows;

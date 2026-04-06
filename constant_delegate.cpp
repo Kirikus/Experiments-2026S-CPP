@@ -36,8 +36,19 @@ QWidget *ConstantDelegate::createEditor(QWidget *parent,
         editor->setSingleStep(0.1);
         return editor;
     }
-    // Колонка 2 — обозначение (текст)
+
+    // Колонка 2 — погрешность (число)
     else if (column == 2) {
+        QDoubleSpinBox *editor = new QDoubleSpinBox(parent);
+        editor->setMinimum(-999999.0);
+        editor->setMaximum(999999.0);
+        editor->setDecimals(6);
+        editor->setSingleStep(0.1);
+        return editor;
+    }
+
+    // Колонка 3 — обозначение (текст)
+    else if (column == 3) {
         QLineEdit *editor = new QLineEdit(parent);
         return editor;
     }

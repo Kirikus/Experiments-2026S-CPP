@@ -1,7 +1,7 @@
 #include "constant_table_model.h"
 #include "Qt"
 
-ConstantTableModel::ConstantTableModel() : columns(3)
+ConstantTableModel::ConstantTableModel() : columns(4)
 {
 }
 
@@ -34,6 +34,8 @@ QVariant ConstantTableModel::data(const QModelIndex &index, int role) const
         case 1:
             return constant.get_value();
         case 2:
+            return constant.get_error();
+        case 3:
             return constant.get_meaning();
         }
     }
@@ -47,7 +49,6 @@ bool ConstantTableModel::setData(const QModelIndex &index, const QVariant &value
         if (!checkIndex(index))
             return false;
 
-
         Constant &constant = constants[index.row()];
 
         switch (index.column())
@@ -59,6 +60,9 @@ bool ConstantTableModel::setData(const QModelIndex &index, const QVariant &value
             constant.set_value(value.toDouble());
             break;
         case 2:
+            constant.set_error(value.toDouble());
+            break;
+        case 3:
             constant.set_meaning(value.toString());
             break;
         default:
@@ -81,6 +85,8 @@ QVariant ConstantTableModel::headerData(int section, Qt::Orientation orientation
         case 1:
             return QString("Значение");
         case 2:
+            return QString("Погрешность");
+        case 3:
             return QString("Обозначение");
         }
     }
@@ -100,6 +106,6 @@ Qt::ItemFlags ConstantTableModel::flags(const QModelIndex &index) const
 void ConstantTableModel::addConstant()
 {
     beginInsertRows(QModelIndex(), constants.size(), constants.size());
-    constants.append(Constant("", 0.0, "", false));
+    constants.append(Constant("", 0.0, 0.0, "", false));
     endInsertRows();
 }

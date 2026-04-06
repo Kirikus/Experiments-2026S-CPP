@@ -24,6 +24,19 @@ MainWindow::MainWindow(QWidget *parent)
     constantDelegate = new ConstantDelegate(this);
     ui->ConstantsTable->setModel(constantModel);
     ui->ConstantsTable->setItemDelegate(constantDelegate);
+
+    constantModel->addConstant();
+    QModelIndex i0 = constantModel->index(0, 0);
+    constantModel->setData(i0, "g");
+
+    QModelIndex i1 = constantModel->index(0, 1);
+    constantModel->setData(i1, 9.8);
+
+    QModelIndex i2 = constantModel->index(0, 2);
+    constantModel->setData(i2, 0.1);
+
+    QModelIndex i3 = constantModel->index(0, 3);
+    constantModel->setData(i3, "ускорение св. падения");
 }
 
 void MainWindow::openGraphSettings()

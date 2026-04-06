@@ -1,12 +1,15 @@
 #include "constant.h"
 
-Constant::Constant(const QString& name, double value, const QString& meaning, bool readonly) :
-name(name), value(value), meaning(meaning), readonly(readonly) {
+Constant::Constant(const QString& name, double value, double error, const QString& meaning, bool readonly) :
+name(name), value(value), error(error), meaning(meaning), readonly(readonly) {
 
 }
 
 double Constant::get_value() const {
     return value;
+}
+double Constant::get_error() const {
+    return error;
 }
 QString Constant::get_meaning() const {
     return meaning;
@@ -18,6 +21,12 @@ QString Constant::get_name() const {
 void Constant::set_value(double new_value) {
     if (!readonly) {
         value = new_value;
+    }
+}
+
+void Constant::set_error(double new_error) {
+    if (!readonly) {
+        error = new_error;
     }
 }
 

@@ -16,7 +16,7 @@ void Variable::add_value(double new_value){
     values.append(new_value);
 }
 
-void Variable::set_name(QString& new_name){
+void Variable::set_name(const QString& new_name){
     name = new_name;
 }
 

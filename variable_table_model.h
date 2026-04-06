@@ -20,8 +20,8 @@ public:
   void setHeader(QString& new_header);
 
 private:
-  int rows;
-  int columns;
+  int rows = 0;
+  int columns = 2;
   Experiment& experiment;
   QString header;
 };

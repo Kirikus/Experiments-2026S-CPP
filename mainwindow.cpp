@@ -26,6 +26,11 @@ MainWindow::MainWindow(QWidget *parent)
     instrumentDelegate = new InstrumentDelegate(this);
     ui->InstrumentsTable->setModel(instrumentModel);
     ui->InstrumentsTable->setItemDelegate(instrumentDelegate);
+
+    variableModel = new VariableTableModel(*Experiment::getInstance());
+    variableDelegate = new VariableDelegate(this);
+    ui->VariablesTable->setModel(variableModel);
+    ui->VariablesTable->setItemDelegate(variableDelegate);
 }
 
 void MainWindow::openGraphSettings()

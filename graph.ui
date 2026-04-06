@@ -15,15 +15,16 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QCustomPlot" name="calendarWidget"/>
+    <widget class="QCustomPlot" name="customPlot" native="true"/>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
    <class>QCustomPlot</class>
-   <extends>QCalendarWidget</extends>
+   <extends>QWidget</extends>
    <header>qcustomplot.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

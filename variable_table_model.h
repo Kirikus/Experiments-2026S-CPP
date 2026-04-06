@@ -21,7 +21,6 @@ public:
   void resetModel();
 
 private:
-  int rows = 0;
   int columns = 2;
   Experiment& experiment;
   QString header;

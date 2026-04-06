@@ -29,6 +29,10 @@ private slots:
     void applyLinGraphSettings();
     void applyBarGraphSettings();
     void applyColourGraphSettings();
+    void addInstrument();
+    void addVariable();
+    void removeInstrument();
+    void removeVariable();
     
 
 private:

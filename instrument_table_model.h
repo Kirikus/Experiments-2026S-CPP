@@ -18,6 +18,7 @@ public:
   bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
   QVariant headerData(int section, Qt::Orientation orientation, int role) const;
   void setHeader(QString& new_header);
+  void resetModel();
 
 private:
   int columns;

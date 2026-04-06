@@ -7,7 +7,7 @@ VariableTableModel::VariableTableModel(Experiment& exp) : experiment(exp) {
 }
 
 int VariableTableModel::rowCount(const QModelIndex &parent) const {
-    return rows;
+    return experiment.getVariables().size();
 }
 
 int VariableTableModel::columnCount(const QModelIndex &parent) const {
@@ -57,6 +57,8 @@ bool VariableTableModel::setData(const QModelIndex &index, const QVariant &value
                 break;
         }   
 
+        emit dataChanged(index, index, QVector<int>() << role);
+        
         return true;
     }
     return false;
@@ -82,4 +84,9 @@ void VariableTableModel::setHeader(QString& new_header) {
 Qt::ItemFlags VariableTableModel::flags(const QModelIndex &index) const
 {
     return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
+}
+
+void VariableTableModel::resetModel() {
+    beginResetModel();
+    endResetModel();
 }

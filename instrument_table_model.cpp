@@ -5,12 +5,10 @@
 InstrumentTableModel::InstrumentTableModel(Experiment& exp) : experiment(exp), columns(3) {}
 
 int InstrumentTableModel::rowCount(const QModelIndex &parent) const {
-    Q_UNUSED(parent);
     return experiment.getInstruments().size();
 }
 
 int InstrumentTableModel::columnCount(const QModelIndex &parent) const {
-    Q_UNUSED(parent);
     return columns;
 }
 
@@ -84,4 +82,9 @@ void InstrumentTableModel::setHeader(QString& new_header) {
 Qt::ItemFlags InstrumentTableModel::flags(const QModelIndex &index) const
 {
     return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
+}
+
+void InstrumentTableModel::resetModel() {
+    beginResetModel();
+    endResetModel();
 }

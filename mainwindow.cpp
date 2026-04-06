@@ -31,6 +31,11 @@ MainWindow::MainWindow(QWidget *parent)
     variableDelegate = new VariableDelegate(this);
     ui->VariablesTable->setModel(variableModel);
     ui->VariablesTable->setItemDelegate(variableDelegate);
+
+    connect(ui->VarAddButton, &QPushButton::clicked, this, &MainWindow::addVariable);
+    connect(ui->VarDelButton, &QPushButton::clicked, this, &MainWindow::removeVariable);
+    connect(ui->InstAddButton, &QPushButton::clicked, this, &MainWindow::addInstrument);
+    connect(ui->InstDelButton, &QPushButton::clicked, this, &MainWindow::removeInstrument);
 }
 
 void MainWindow::openGraphSettings()
@@ -96,6 +101,55 @@ void MainWindow::openPreview()
     Preview_widget *preview = new Preview_widget(this);
     preview->setAttribute(Qt::WA_DeleteOnClose);
     preview->show();
+}
+
+void MainWindow::addVariable() {
+    // Создаем новую переменную
+    QList<double> values;
+    Variable newVar(values, "new variable");
+    
+    // Добавляем в эксперимент
+    Experiment::getInstance()->getVariables().append(newVar);
+    
+    // Уведомляем модель об изменении
+    instrumentModel->resetModel();
+}
+
+void MainWindow::removeVariable() {
+    QModelIndex currentIndex = ui->VariablesTable->currentIndex();
+    if (currentIndex.isValid()) {
+        int row = currentIndex.row();
+        // Удаляем из эксперимента
+        Experiment::getInstance()->getVariables().removeAt(row);
+        
+        // Уведомляем модель об изменении
+        instrumentModel->resetModel();
+    }
+}
+
+void MainWindow::addInstrument() {
+    // Создаем новый инструмент
+    Instrument newInst("new instrument", 0.0);
+    QString errorType = "Абсолютная";
+    newInst.set_error_type(errorType);
+    
+    // Добавляем в эксперимент
+    Experiment::getInstance()->getInstruments().append(newInst);
+    
+    // Уведомляем модель об изменении
+    instrumentModel->resetModel();
+}
+
+void MainWindow::removeInstrument() {
+    QModelIndex currentIndex = ui->InstrumentsTable->currentIndex();
+    if (currentIndex.isValid()) {
+        int row = currentIndex.row();
+        // Удаляем из эксперимента
+        Experiment::getInstance()->getInstruments().removeAt(row);
+        
+        // Уведомляем модель об изменении
+        instrumentModel->resetModel();
+    }
 }
 
 MainWindow::~MainWindow()

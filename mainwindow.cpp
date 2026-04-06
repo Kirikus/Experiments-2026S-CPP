@@ -6,13 +6,13 @@
 #include "lingraphsettings.h"
 #include "bargraphsettings.h"
 #include "preview_widget.h"
+#include "qcustomplot.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    // new graph
     setupCreateButton();
 
     // preview button from menubar
@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     QModelIndex i3 = constantModel->index(0, 3);
     constantModel->setData(i3, "ускорение св. падения");
 }
-
+/*
 void MainWindow::openGraphSettings()
 {
     QAction *action = qobject_cast<QAction *>(sender());
@@ -60,15 +60,26 @@ void MainWindow::openGraphSettings()
         createColourGraph();
     }
 }
+*/
 
 void MainWindow::createLinGraph()
 {
-    qDebug() << "Line graph";
+    Graph *graph = new Graph(this);
+    graph->setGraphType(Graph::Line);
+
+    int index = ui->GraphTabWidget->addTab(graph,
+                                           QString("График 1").arg(ui->GraphTabWidget->count() + 1));
+    ui->GraphTabWidget->setCurrentIndex(index);
 }
 
 void MainWindow::createBarGraph()
 {
-    qDebug() << "Bar graph";
+    Graph *graph = new Graph(this);
+    graph->setGraphType(Graph::Bar);
+    
+    int index = ui->GraphTabWidget->addTab(graph, 
+        QString("График 2").arg(ui->GraphTabWidget->count() + 1));
+    ui->GraphTabWidget->setCurrentIndex(index);
 }
 
 void MainWindow::createColourGraph()

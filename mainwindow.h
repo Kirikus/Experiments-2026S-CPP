@@ -2,8 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTabWidget>
+#include "qcustomplot.h"
 #include "constant_table_model.h"
 #include "constant_delegate.h"
+#include "graph.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -21,7 +24,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void openGraphSettings();
+    //void openGraphSettings();
     void openPreview();
     void createLinGraph();
     void createBarGraph();
@@ -35,6 +38,7 @@ private:
 
 private:
     Ui::MainWindow *ui;
+    QTabWidget *GraphTabWidget;
 
     ConstantTableModel *constantModel;
     ConstantDelegate *constantDelegate;

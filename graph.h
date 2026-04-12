@@ -17,22 +17,24 @@ class Graph : public QWidget
 
 public:
     explicit Graph(QWidget *parent = nullptr);
-    ~Graph();
+    virtual ~Graph();
 
-    enum GraphType
-    {
-        Line,
-        Bar,
-        Colour
-    };
+    void set_axis_labels(const QString &xLabel, const QString &yLabel);
+    void set_axis_ranges(double xMin, double xMax, double yMin, double yMax);
 
-    void setGraphType(GraphType type);
+    virtual void drawGraph() = 0;
+    virtual void openSettings() = 0;
+    virtual void applySettings() = 0;
+
+protected:
+    QCustomPlot *getPlot() const;
+    void updateAxesFromUI();
+
+private slots:
+    void onSettingsClicked();
 
 private:
-    QCustomPlot *m_plot;
     QPushButton *m_settingsButton;
-    GraphType m_type;
-
     Ui::Graph *ui;
 };
 

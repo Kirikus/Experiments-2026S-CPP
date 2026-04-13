@@ -45,7 +45,7 @@ QWidget *InstrumentDelegate::createEditor(QWidget *parent,
 
 void InstrumentDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QString value = index.model()->data(index, Qt::EditRole).toString();
+    QString value = index.model()->data(index, Qt::DisplayRole).toString();
 
     QLineEdit *lineEdit = qobject_cast<QLineEdit*>(editor);
     QDoubleSpinBox *spinBox = qobject_cast<QDoubleSpinBox*>(editor);

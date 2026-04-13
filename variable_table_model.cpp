@@ -16,8 +16,23 @@ QVariant VariableTableModel::data(const QModelIndex &index, int role) const {
     int row = index.row();
     int col = index.column();
 
-    // implementation
-    
+    if (role == Qt::DisplayRole) {
+        Variable& variable = experiment.getVariables()[index.row()];
+        switch (index.column()) {
+            case 0:
+                return variable.get_name();
+            case 1: {
+                // Формируем строку со значениями, разделенными запятыми
+                QString valuesStr;
+                const QList<double>& values = variable.get_values();
+                for (int i = 0; i < values.size(); ++i) {
+                    if (i > 0) valuesStr += ", ";
+                    valuesStr += QString::number(values[i]);
+                }
+                return valuesStr;
+            }
+        }
+    }
     return QVariant();
 }
 
@@ -37,9 +52,14 @@ bool VariableTableModel::setData(const QModelIndex &index, const QVariant &value
 
 QVariant VariableTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-
-    // implementation 
-
+    if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
+        switch (section) {
+        case 0:
+            return QString("Name");
+        case 1:
+            return QString("Values");
+        }
+    }
     return QVariant();
 }
 

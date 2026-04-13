@@ -20,6 +20,22 @@ MainWindow::MainWindow(QWidget *parent)
     //preview button from menubar      
     connect(ui->ActionPreview, &QAction::triggered, 
             this, &MainWindow::openPreview);
+
+    // setup instrument table
+    instrumentModel = new InstrumentTableModel(*Experiment::getInstance());
+    instrumentDelegate = new InstrumentDelegate(this);
+    ui->InstrumentsTable->setModel(instrumentModel);
+    ui->InstrumentsTable->setItemDelegate(instrumentDelegate);
+
+    variableModel = new VariableTableModel(*Experiment::getInstance());
+    variableDelegate = new VariableDelegate(this);
+    ui->VariablesTable->setModel(variableModel);
+    ui->VariablesTable->setItemDelegate(variableDelegate);
+
+    connect(ui->VarAddButton, &QPushButton::clicked, this, &MainWindow::addVariable);
+    connect(ui->VarDelButton, &QPushButton::clicked, this, &MainWindow::removeVariable);
+    connect(ui->InstAddButton, &QPushButton::clicked, this, &MainWindow::addInstrument);
+    connect(ui->InstDelButton, &QPushButton::clicked, this, &MainWindow::removeInstrument);
 }
 
 void MainWindow::openGraphSettings()

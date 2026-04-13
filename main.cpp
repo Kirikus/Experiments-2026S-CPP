@@ -1,4 +1,7 @@
 #include "mainwindow.h"
+#include "experiment.h"
+#include "variable.h"
+#include "instrument.h"
 
 #include <QApplication>
 
@@ -41,7 +44,6 @@ int main(int argc, char *argv[])
     experiment->getVariables().append(var4);
 
     MainWindow w;
-
     w.show();
     return a.exec();
 }

@@ -2,13 +2,13 @@
 
 #include "Qt"
 
-InstrumentTableModel::InstrumentTableModel(Experiment& exp) : experiment(exp) {}
+InstrumentTableModel::InstrumentTableModel(Experiment& exp) : experiment(exp), columns(3) {}
 
-int InstrumentTableModel::rowCount() const {
-    return rows;
+int InstrumentTableModel::rowCount(const QModelIndex &parent) const {
+    return experiment.getInstruments().size();
 }
 
-int InstrumentTableModel::columnCount() const {
+int InstrumentTableModel::columnCount(const QModelIndex &parent) const {
     return columns;
 }
 
@@ -21,15 +21,12 @@ QVariant InstrumentTableModel::data(const QModelIndex &index, int role) const {
         Instrument& instrument = experiment.getInstrument(index.row());
 
         switch (index.column()) {
-            case 1:
+            case 0:
                 return instrument.get_name();
-                break;
-            case 2:
+            case 1:
                 return instrument.get_error_value();
-                break;
-            case 3:
-                instrument.get_error_type();
-                break;
+            case 2:
+                return instrument.get_error_type();
         }
     }
     return QVariant();
@@ -43,15 +40,15 @@ bool InstrumentTableModel::setData(const QModelIndex &index, const QVariant &val
         Instrument& instrument = experiment.getInstrument(index.row());
 
         switch (index.column()) {
-            case 1: {
+            case 0: {
                 QString newName = value.toString();
                 instrument.set_name(newName);
                 break;
             }
-            case 2:
+            case 1:
                 instrument.set_error_value(value.toDouble());
                 break;
-            case 3: {
+            case 2: {
                 QString newErrorType = value.toString();
                 instrument.set_error_type(newErrorType);
                 break;
@@ -85,4 +82,9 @@ void InstrumentTableModel::setHeader(QString& new_header) {
 Qt::ItemFlags InstrumentTableModel::flags(const QModelIndex &index) const
 {
     return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
+}
+
+void InstrumentTableModel::resetModel() {
+    beginResetModel();
+    endResetModel();
 }

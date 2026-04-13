@@ -9,18 +9,22 @@
 class Experiment {   // Основной класс для хранения всех данных
 public:          
 
+  Experiment(const Experiment& obj) = delete;
+
+  void operator=(const Experiment&) = delete;
+
   static Experiment* getInstance();
 
-  Experiment(QList<class Variable>& variables, 
-             QList<class Constant>& constants,
-             QList<class Instrument>& instruments);
-  Experiment();
-
   const QList<class Variable>& getVariables() const;
+  QList<class Variable>& getVariables();
 
   const QList<class Constant>& getConstants() const;
+  QList<class Constant>& getConstants();
 
   const QList<class Instrument>& getInstruments() const;
+  QList<class Instrument>& getInstruments();
+
+  Instrument& getInstrument(int i);
 
   void setVariables(const QList<class Variable>& vars);
   void setConstants(const QList<class Constant>& cons);
@@ -29,7 +33,13 @@ public:
 
 private:
 
-  static Experiment* instance;   // the one and only instance
+  Experiment(QList<class Variable>& variables, 
+             QList<class Constant>& constants,
+             QList<class Instrument>& instruments);
+
+  Experiment();
+
+  static Experiment* instance;
 
   QList<class Variable> variables;
   QList<class Constant> constants;

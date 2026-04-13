@@ -23,6 +23,7 @@ QWidget *InstrumentDelegate::createEditor(QWidget *parent,
     // Колонка 0 — имя (текст)
     if (index.column() == 0) {
         QLineEdit *editor = new QLineEdit(parent);
+        editor->setFrame(false);
         return editor;
     }
     // Колонка 1 — ошибка (число)
@@ -36,7 +37,7 @@ QWidget *InstrumentDelegate::createEditor(QWidget *parent,
     // Колонка 2 — тип ошибки (выбор из списка)
     else if (index.column() == 2) {
         QComboBox *editor = new QComboBox(parent);
-        editor->addItems({"Absolute", "Relative"});
+        editor->addItems({"Абсолютная", "Относительная"});
         return editor;
     }
 
@@ -45,17 +46,18 @@ QWidget *InstrumentDelegate::createEditor(QWidget *parent,
 
 void InstrumentDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QString value = index.model()->data(index, Qt::DisplayRole).toString();
-
     QLineEdit *lineEdit = qobject_cast<QLineEdit*>(editor);
     QDoubleSpinBox *spinBox = qobject_cast<QDoubleSpinBox*>(editor);
     QComboBox *comboBox = qobject_cast<QComboBox*>(editor);
 
     if (lineEdit) {
+        QString value = index.model()->data(index, Qt::EditRole).toString();
         lineEdit->setText(value);
     } else if (spinBox) {
-        spinBox->setValue(value.toDouble());
+        double value = index.model()->data(index, Qt::EditRole).toDouble();
+        spinBox->setValue(value);
     } else if (comboBox) {
+        QString value = index.model()->data(index, Qt::EditRole).toString();
         comboBox->setCurrentText(value);
     }
 }

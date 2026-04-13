@@ -21,14 +21,24 @@ int main(int argc, char *argv[])
 
     // Добавляем переменные
     QList<double> values1;
+    values1 << 20 << 21 << 22 << 23;
     Variable var1(values1, "Длина");
-    values1 << 9 << 10 << 11 << 12;
     experiment->getVariables().append(var1);
-    
+
     QList<double> values2;
-    Variable var2(values2, "Напряжение");
-    values2 << 219 << 220 << 221;
+    values2 << 9 << 10 << 11 << 12;
+    Variable var2(values2, "Ширина");
     experiment->getVariables().append(var2);
+
+    QList<double> values3;
+    values3 << 5 << 6 << 7 << 8;
+    Variable var3(values3, "Высота");
+    experiment->getVariables().append(var3);
+    
+    QList<double> values4;
+    values4 << 219 << 220 << 221;
+    Variable var4(values4, "Напряжение");
+    experiment->getVariables().append(var4);
 
     MainWindow w;
 

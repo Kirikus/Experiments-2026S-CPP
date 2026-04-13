@@ -22,12 +22,19 @@ QWidget *VariableDelegate::createEditor(QWidget *parent,
     // Для колонки с именем (0) — обычное текстовое поле
     if (index.column() == 0) {
         QLineEdit *editor = new QLineEdit(parent);
+        editor->setFrame(false); // Отключаем рамку, чтобы не было визуальных артефактов
         return editor;
     }
-    // Для колонки со значениями (1) — пока тоже текстовое поле
-    // В будущем можно заменить на что-то более сложное
-    else if (index.column() == 1) {
+    // Для колонки со значениями (1 и далее) — текстовое поле
+    else if (index.column() >= 1) {
         QLineEdit *editor = new QLineEdit(parent);
+        editor->setFrame(false); // Отключаем рамку
+        QDoubleValidator *validator = new QDoubleValidator(editor);
+        validator->setRange(-99999.99, 99999.99);
+        validator->setDecimals(3);
+        validator->setLocale(QLocale::C);
+        validator->setNotation(QDoubleValidator::StandardNotation);
+        editor->setValidator(validator);
         return editor;
     }
 
@@ -36,10 +43,9 @@ QWidget *VariableDelegate::createEditor(QWidget *parent,
 
 void VariableDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QString value = index.model()->data(index, Qt::DisplayRole).toString();
-
     QLineEdit *lineEdit = qobject_cast<QLineEdit*>(editor);
     if (lineEdit) {
+        QString value = index.model()->data(index, Qt::DisplayRole).toString();
         lineEdit->setText(value);
     }
 }
@@ -49,18 +55,16 @@ void VariableDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 {
     QLineEdit *lineEdit = qobject_cast<QLineEdit*>(editor);
     if (lineEdit) {
-        if (index.column() == 1) {
-            // Колонка 1 — значения (QList<double>)
-            QString str = lineEdit->text();
-            QStringList parts = str.split(',', Qt::SkipEmptyParts);
-            QList<double> values;
-            for (const QString& part : parts) {
-                values.append(part.trimmed().toDouble());
-            }
-            model->setData(index, QVariant::fromValue(values), Qt::EditRole);
-        } else {
-            // Все остальные колонки — строки (например, имя)
+        if (index.column() == 0) {
+            // Имя переменной
             model->setData(index, lineEdit->text(), Qt::EditRole);
+        } else {
+            // Значение переменной
+            bool ok;
+            double value = lineEdit->text().toDouble(&ok);
+            if (ok) {
+                model->setData(index, value, Qt::EditRole);
+            }
         }
     }
 }

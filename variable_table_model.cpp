@@ -10,7 +10,13 @@ int VariableTableModel::rowCount(const QModelIndex &parent) const {
 }
 
 int VariableTableModel::columnCount(const QModelIndex &parent) const {
-    return columns;
+    int max = 0;
+    for (int i = 0; i < experiment.getVariables().size(); i++) {
+        if (experiment.getVariables()[i].get_values().size() > max) {
+            max = experiment.getVariables()[i].get_values().size();
+        }
+    }
+    return max + 2;
 }
 
 QVariant VariableTableModel::data(const QModelIndex &index, int role) const { 
@@ -22,16 +28,13 @@ QVariant VariableTableModel::data(const QModelIndex &index, int role) const {
         switch (index.column()) {
             case 0:
                 return variable.get_name();
-            case 1: {
-                // Формируем строку со значениями, разделенными запятыми
-                QString valuesStr;
-                const QList<double>& values = variable.get_values();
-                for (int i = 0; i < values.size(); ++i) {
-                    if (i > 0) valuesStr += ", ";
-                    valuesStr += QString::number(values[i]);
+            default:
+                QList<double> values = variable.get_values();
+                if (col >= 1 && col - 1 < values.size()) {
+                    return values[col - 1];
+                } else {
+                    return QVariant(); // или 0.0, или другое значение по умолчанию
                 }
-                return valuesStr;
-            }
         }
     }
     return QVariant();
@@ -44,17 +47,36 @@ bool VariableTableModel::setData(const QModelIndex &index, const QVariant &value
             return false;
         Variable& variable = experiment.getVariables()[index.row()];
 
+        int currentSize = variable.get_values().size();
+
         switch (index.column()) {
             case 0: {
                 QString newName = value.toString();
                 variable.set_name(newName);
                 break;
             }
-            case 1:
-                // Значение передается как QList<double>
-                QList<double> newValues = value.value<QList<double>>();
-                variable.set_values(newValues);
-                break;
+            default:
+            if (index.column() - 1 < variable.get_values().size()) {
+                variable.get_values()[index.column() - 1] = value.toDouble();
+            } else if (index.column() - 1 == variable.get_values().size()) {
+                int oldMax = 0;
+                for (int i = 0; i < experiment.getVariables().size(); i++) {
+                    if (experiment.getVariables()[i].get_values().size() > oldMax) {
+                        oldMax = experiment.getVariables()[i].get_values().size();
+                    }
+                }
+                variable.get_values().append(value.toDouble());
+                int newMax = 0;
+                for (int i = 0; i < experiment.getVariables().size(); i++) {
+                    if (experiment.getVariables()[i].get_values().size() > newMax) {
+                        newMax = experiment.getVariables()[i].get_values().size();
+                    }
+                }
+                if (newMax > oldMax) {
+                    beginInsertColumns(QModelIndex(), newMax, newMax);
+                    endInsertColumns();
+                }
+            }
         }   
 
         emit dataChanged(index, index, QVector<int>() << role);
@@ -70,8 +92,8 @@ QVariant VariableTableModel::headerData(int section, Qt::Orientation orientation
         switch (section) {
         case 0:
             return QString("Name");
-        case 1:
-            return QString("Values");
+        default:
+            return QString("Value ") + QString::number(section);
         }
     }
     return QVariant();

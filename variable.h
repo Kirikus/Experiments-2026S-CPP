@@ -9,7 +9,7 @@ public:
   Variable(QList<double> values, QString name);
   Variable();
 
-  const QList<double>& get_values();
+  QList<double>& get_values();
   const QString& get_name();
 
   void set_values(QList<double>& new_values);

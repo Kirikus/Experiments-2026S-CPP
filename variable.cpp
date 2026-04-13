@@ -4,7 +4,7 @@ Variable::Variable(QList<double> values, QString name) : values(values), name(na
 
 Variable::Variable() : values(), name() {}
 
-const QList<double>& Variable::get_values() {
+QList<double>& Variable::get_values() {
     return values;
 }
 

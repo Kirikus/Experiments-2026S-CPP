@@ -15,6 +15,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->GraphTabWidget->setTabsClosable(true);
+
+    connect(ui->GraphTabWidget, &QTabWidget::tabCloseRequested,
+        this, &MainWindow::closeTab);
+
     setupCreateButton();
 
     // preview button from menubar
@@ -129,6 +134,13 @@ void MainWindow::setupCreateButton()
     //connect(colourAction, &QAction::triggered, this, &MainWindow::createColourGraph);
 
     ui->NewGraphButton->setMenu(menu);
+}
+
+void MainWindow::closeTab(int index)
+{
+    QWidget *widget = ui->GraphTabWidget->widget(index);
+    ui->GraphTabWidget->removeTab(index);
+    delete widget;
 }
 
 MainWindow::~MainWindow()

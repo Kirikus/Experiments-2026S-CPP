@@ -7,6 +7,8 @@
 #include "bargraphsettings.h"
 #include "preview_widget.h"
 #include "qcustomplot.h"
+#include "graph.h"
+#include "lingraph.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -64,14 +66,13 @@ void MainWindow::openGraphSettings()
 
 void MainWindow::createLinGraph()
 {
-    Graph *graph = new Graph(this);
-    graph->setGraphType(Graph::Line);
+    Graph *graph = new LinGraph(this);
 
     int index = ui->GraphTabWidget->addTab(graph,
                                            QString("График 1").arg(ui->GraphTabWidget->count() + 1));
     ui->GraphTabWidget->setCurrentIndex(index);
 }
-
+/*
 void MainWindow::createBarGraph()
 {
     Graph *graph = new Graph(this);
@@ -86,13 +87,14 @@ void MainWindow::createColourGraph()
 {
     qDebug() << "Colour graph";
 }
+*/
 
 void MainWindow::applyLinGraphSettings()
 {
     qDebug() << "Line graph settings";
     // graph update
 }
-
+/*
 void MainWindow::applyBarGraphSettings()
 {
     qDebug() << "Bar graph settings";
@@ -104,7 +106,7 @@ void MainWindow::applyColourGraphSettings()
     qDebug() << "Colour graph settings";
     // graph update
 }
-
+*/
 void MainWindow::openPreview()
 {
     // preview window
@@ -119,12 +121,12 @@ void MainWindow::setupCreateButton()
     QMenu *menu = new QMenu(this);
 
     QAction *lineAction = menu->addAction("Line graph");
-    QAction *barAction = menu->addAction("Bar graph");
-    QAction *colourAction = menu->addAction("Colour graph");
+    //QAction *barAction = menu->addAction("Bar graph");
+    //QAction *colourAction = menu->addAction("Colour graph");
 
     connect(lineAction, &QAction::triggered, this, &MainWindow::createLinGraph);
-    connect(barAction, &QAction::triggered, this, &MainWindow::createBarGraph);
-    connect(colourAction, &QAction::triggered, this, &MainWindow::createColourGraph);
+    //connect(barAction, &QAction::triggered, this, &MainWindow::createBarGraph);
+    //connect(colourAction, &QAction::triggered, this, &MainWindow::createColourGraph);
 
     ui->NewGraphButton->setMenu(menu);
 }

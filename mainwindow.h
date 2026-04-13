@@ -27,11 +27,12 @@ private slots:
     //void openGraphSettings();
     void openPreview();
     void createLinGraph();
-    void createBarGraph();
-    void createColourGraph();
+    //void createBarGraph();
+    //void createColourGraph();
     void applyLinGraphSettings();
-    void applyBarGraphSettings();
-    void applyColourGraphSettings();
+    //void applyBarGraphSettings();
+    //void applyColourGraphSettings();
+    
 
 private:
     void setupCreateButton();
@@ -42,6 +43,7 @@ private:
 
     ConstantTableModel *constantModel;
     ConstantDelegate *constantDelegate;
+
 };
 
 #endif // MAINWINDOW_H

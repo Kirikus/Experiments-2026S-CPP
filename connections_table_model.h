@@ -1,14 +1,14 @@
-#ifndef VARIABLE_TABLE_MODEL
-#define VARIABLE_TABLE_MODEL
+#ifndef CONNECTIONS_TABLE_MODEL_H
+#define CONNECTIONS_TABLE_MODEL_H
 
 #include "experiment.h"
 #include "QModelIndex"
 #include "Qt"
 
-class VariableTableModel : public QAbstractTableModel
+class ConnectionsTableModel : public QAbstractTableModel
 {
 public:
-  explicit VariableTableModel(Experiment& exp);
+  explicit ConnectionsTableModel(Experiment& exp);
 
   int rowCount(const QModelIndex &parent = QModelIndex()) const override;
   int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -21,9 +21,9 @@ public:
   void resetModel();
 
 private:
-  int columns = 2;
+  int columns;
   Experiment& experiment;
   QString header;
 };
 
-#endif // VARIABLE_TABLE_MODEL
+#endif // CONNECTIONS_TABLE_MODEL_H

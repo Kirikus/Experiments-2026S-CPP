@@ -36,7 +36,7 @@ QWidget *InstrumentDelegate::createEditor(QWidget *parent,
     // Колонка 2 — тип ошибки (выбор из списка)
     else if (index.column() == 2) {
         QComboBox *editor = new QComboBox(parent);
-        editor->addItems({"Абсолютная", "Относительная"});
+        editor->addItems({"Absolute", "Relative"});
         return editor;
     }
 

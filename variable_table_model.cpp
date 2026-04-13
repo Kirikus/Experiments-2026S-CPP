@@ -2,14 +2,13 @@
 
 #include "Qt"
 
-VariableTableModel::VariableTableModel(Experiment& exp) : experiment(exp) {
+VariableTableModel::VariableTableModel(Experiment& exp) : experiment(exp) {}
+
+int VariableTableModel::rowCount() const {
+    return rows;
 }
 
-int VariableTableModel::rowCount(const QModelIndex &parent) const {
-    return experiment.getVariables().size();
-}
-
-int VariableTableModel::columnCount(const QModelIndex &parent) const {
+int VariableTableModel::columnCount() const {
     return columns;
 }
 
@@ -17,22 +16,8 @@ QVariant VariableTableModel::data(const QModelIndex &index, int role) const {
     int row = index.row();
     int col = index.column();
 
-    if (role == Qt::DisplayRole) {
-        Variable& variable = experiment.getVariables()[index.row()];
-        switch (index.column()) {
-            case 0:
-                return variable.get_name();
-            case 1:
-                // Формируем строку со значениями, разделенными запятыми
-                QString valuesStr;
-                const QList<double>& values = variable.get_values();
-                for (int i = 0; i < values.size(); ++i) {
-                    if (i > 0) valuesStr += ", ";
-                    valuesStr += QString::number(values[i]);
-                }
-                return valuesStr;
-        }
-    }
+    // implementation
+    
     return QVariant();
 }
 
@@ -43,21 +28,8 @@ bool VariableTableModel::setData(const QModelIndex &index, const QVariant &value
             return false;
         Variable& variable = experiment.getVariables()[index.row()];
 
-        switch (index.column()) {
-            case 0: {
-                QString newName = value.toString();
-                variable.set_name(newName);
-                break;
-            }
-            case 1:
-                // Значение передается как QList<double>
-                QList<double> newValues = value.value<QList<double>>();
-                variable.set_values(newValues);
-                break;
-        }   
+        // implementation
 
-        emit dataChanged(index, index, QVector<int>() << role);
-        
         return true;
     }
     return false;
@@ -65,14 +37,9 @@ bool VariableTableModel::setData(const QModelIndex &index, const QVariant &value
 
 QVariant VariableTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
-        switch (section) {
-        case 0:
-            return QString("Имя");
-        case 1:
-            return QString("Значения");
-        }
-    }
+
+    // implementation 
+
     return QVariant();
 }
 
@@ -83,9 +50,4 @@ void VariableTableModel::setHeader(QString& new_header) {
 Qt::ItemFlags VariableTableModel::flags(const QModelIndex &index) const
 {
     return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
-}
-
-void VariableTableModel::resetModel() {
-    beginResetModel();
-    endResetModel();
 }

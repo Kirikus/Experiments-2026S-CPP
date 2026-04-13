@@ -5,28 +5,12 @@ value(value), error(error), name(name), readonly(readonly) {
 
 }
 
-double Constant::get_value() {
+double Constant::get_value() const {
     return value;
 }
-double Constant::get_error() {
+double Constant::get_error() const {
     return error;
 }
-QString Constant::get_name() {
+QString Constant::get_name() const {
     return name;
-}
-
-void Constant::set_value(double& new_value) {
-    if (!readonly) {
-        value = new_value;
-    }
-}
-
-void Constant::set_error(double& new_error) {
-    if (!readonly) {
-        error = new_error;
-    }
-}
-
-void Constant::set_name(QString& new_name) {
-    name = new_name;
 }

@@ -32,6 +32,7 @@ private slots:
     void applyLinGraphSettings();
     //void applyBarGraphSettings();
     //void applyColourGraphSettings();
+    void closeTab(int index);
     
 
 private:

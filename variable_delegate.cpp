@@ -36,7 +36,7 @@ QWidget *VariableDelegate::createEditor(QWidget *parent,
 
 void VariableDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QString value = index.model()->data(index, Qt::EditRole).toString();
+    QString value = index.model()->data(index, Qt::DisplayRole).toString();
 
     QLineEdit *lineEdit = qobject_cast<QLineEdit*>(editor);
     if (lineEdit) {

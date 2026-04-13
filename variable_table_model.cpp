@@ -22,7 +22,7 @@ QVariant VariableTableModel::data(const QModelIndex &index, int role) const {
         switch (index.column()) {
             case 0:
                 return variable.get_name();
-            case 1:
+            case 1: {
                 // Формируем строку со значениями, разделенными запятыми
                 QString valuesStr;
                 const QList<double>& values = variable.get_values();
@@ -31,6 +31,7 @@ QVariant VariableTableModel::data(const QModelIndex &index, int role) const {
                     valuesStr += QString::number(values[i]);
                 }
                 return valuesStr;
+            }
         }
     }
     return QVariant();
@@ -68,9 +69,9 @@ QVariant VariableTableModel::headerData(int section, Qt::Orientation orientation
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
         case 0:
-            return QString("Имя");
+            return QString("Name");
         case 1:
-            return QString("Значения");
+            return QString("Values");
         }
     }
     return QVariant();

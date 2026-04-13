@@ -112,7 +112,7 @@ void MainWindow::addVariable() {
     Experiment::getInstance()->getVariables().append(newVar);
     
     // Уведомляем модель об изменении
-    instrumentModel->resetModel();
+    variableModel->resetModel();
 }
 
 void MainWindow::removeVariable() {
@@ -123,7 +123,7 @@ void MainWindow::removeVariable() {
         Experiment::getInstance()->getVariables().removeAt(row);
         
         // Уведомляем модель об изменении
-        instrumentModel->resetModel();
+        variableModel->resetModel();
     }
 }
 

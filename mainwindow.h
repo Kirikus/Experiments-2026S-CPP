@@ -7,6 +7,7 @@
 #include "instrument_delegate.h"
 #include "variable_table_model.h"
 #include "variable_delegate.h"
+#include "connections_table_model.h"
 #include "experiment.h"
 #include <QTabWidget>
 #include "qcustomplot.h"
@@ -61,6 +62,7 @@ private:
     ConstantTableModel *constantModel;
     ConstantDelegate *constantDelegate;
 
+    ConnectionsTableModel *connectionsModel;
 };
 
 #endif // MAINWINDOW_H

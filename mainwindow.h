@@ -7,6 +7,7 @@
 #include "instrument_delegate.h"
 #include "variable_table_model.h"
 #include "variable_delegate.h"
+#include "connections_table_model.h"
 #include "experiment.h"
 
 QT_BEGIN_NAMESPACE
@@ -41,6 +42,7 @@ private:
     InstrumentDelegate *instrumentDelegate;
     VariableTableModel *variableModel;
     VariableDelegate *variableDelegate;
+    ConnectionsTableModel *connectionsModel;
 };
 
 

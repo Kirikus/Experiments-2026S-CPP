@@ -32,6 +32,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->VariablesTable->setModel(variableModel);
     ui->VariablesTable->setItemDelegate(variableDelegate);
 
+    connectionsModel = new ConnectionsTableModel(*Experiment::getInstance());
+    // connectionsDelegate = new VariableDelegate(this);
+    ui->ConnectionsTable->setModel(connectionsModel);
+    // ui->ConnectionsTable->setItemDelegate(variableDelegate);
+
     connect(ui->VarAddButton, &QPushButton::clicked, this, &MainWindow::addVariable);
     connect(ui->VarDelButton, &QPushButton::clicked, this, &MainWindow::removeVariable);
     connect(ui->InstAddButton, &QPushButton::clicked, this, &MainWindow::addInstrument);
@@ -106,13 +111,14 @@ void MainWindow::openPreview()
 void MainWindow::addVariable() {
     // Создаем новую переменную
     QList<double> values;
-    Variable newVar(values, "new variable");
+    Variable newVar(values, "new variable", nullptr);
     
     // Добавляем в эксперимент
     Experiment::getInstance()->getVariables().append(newVar);
     
     // Уведомляем модель об изменении
     variableModel->resetModel();
+    connectionsModel->resetModel();
 }
 
 void MainWindow::removeVariable() {
@@ -124,6 +130,7 @@ void MainWindow::removeVariable() {
         
         // Уведомляем модель об изменении
         variableModel->resetModel();
+        connectionsModel->resetModel();
     }
 }
 

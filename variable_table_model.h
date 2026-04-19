@@ -1,5 +1,5 @@
-#ifndef VARIABLE_TABLE_MODEL
-#define VARIABLE_TABLE_MODEL
+#ifndef VARIABLE_TABLE_MODEL_H
+#define VARIABLE_TABLE_MODEL_H
 
 #include "experiment.h"
 #include "QModelIndex"
@@ -26,4 +26,4 @@ private:
   QString header;
 };
 
-#endif // VARIABLE_TABLE_MODEL
+#endif // VARIABLE_TABLE_MODEL_H

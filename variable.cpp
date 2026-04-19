@@ -1,8 +1,9 @@
 #include "variable.h"
+#include "instrument.h"
 
-Variable::Variable(QList<double> values, QString name) : values(values), name(name) {}
+Variable::Variable(QList<double> values, QString name, const Instrument* inst) : values(values), name(name), instrument(inst) {}
 
-Variable::Variable() : values(), name() {}
+Variable::Variable() : values(), name() , instrument() {}
 
 QList<double>& Variable::get_values() {
     return values;
@@ -22,4 +23,12 @@ void Variable::set_name(const QString& new_name){
 
 const QString& Variable::get_name() {
     return name;
+}
+
+const Instrument* Variable::get_instrument() const {
+    return instrument;
+} 
+
+void Variable::set_instrument(const Instrument* inst) {
+    instrument = inst;
 }

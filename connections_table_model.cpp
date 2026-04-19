@@ -2,14 +2,16 @@
 
 #include "Qt"
 
+#include <iostream>
+
 ConnectionsTableModel::ConnectionsTableModel(Experiment& exp) : experiment(exp), columns(3) {}
 
 int ConnectionsTableModel::rowCount(const QModelIndex &parent) const {
-    // to be implemented
+    return experiment.getVariables().size();
 }
 
 int ConnectionsTableModel::columnCount(const QModelIndex &parent) const {
-    return columns;
+    return 2;
 }
 
 QVariant ConnectionsTableModel::data(const QModelIndex &index, int role) const { 
@@ -18,36 +20,42 @@ QVariant ConnectionsTableModel::data(const QModelIndex &index, int role) const {
 
     switch (role) {
         case Qt::DisplayRole:
-        
-        // to be implemented
-
-            return QVariant();
-    }
+            switch (index.column()) {
+                case 0:
+                    return experiment.getVariables()[index.row()].get_name();
+                case 1: 
+                    if (experiment.getVariables()[index.row()].get_instrument() == nullptr) {
+                        return QVariant();
+                    }
+                    return experiment.getVariables()[index.row()].get_instrument()->get_name();
+                }
+        }
     return QVariant();
 }
 
 bool ConnectionsTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (role == Qt::EditRole) {
-        if (!checkIndex(index))
+    if (role != Qt::EditRole || !checkIndex(index))
+      return false;
+    
+    switch (index.column()) {
+        case 0:
             return false;
-
-        switch (index.column()) {
-            
-            // to be implemented
-
-        }   
-
-        return true;
+        case 1:
+            return false;
     }
-    return false;
+
+    return true;
 }
 
 QVariant ConnectionsTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
-        // to be implemented
+            case 0:
+                return QString("Variable");
+            case 1:
+                return QString("Instrument");
         }
     }
     return QVariant();

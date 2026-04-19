@@ -26,4 +26,4 @@ private:
   QString header;
 };
 
-#endif // INSTRUMENT_TABLE_MODEL
+#endif // INSTRUMENT_TABLE_MODEL_H

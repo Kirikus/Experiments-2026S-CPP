@@ -51,13 +51,13 @@ void InstrumentDelegate::setEditorData(QWidget *editor, const QModelIndex &index
     QComboBox *comboBox = qobject_cast<QComboBox*>(editor);
 
     if (lineEdit) {
-        QString value = index.model()->data(index, Qt::EditRole).toString();
+        QString value = index.model()->data(index, Qt::DisplayRole).toString();
         lineEdit->setText(value);
     } else if (spinBox) {
-        double value = index.model()->data(index, Qt::EditRole).toDouble();
+        double value = index.model()->data(index, Qt::DisplayRole).toDouble();
         spinBox->setValue(value);
     } else if (comboBox) {
-        QString value = index.model()->data(index, Qt::EditRole).toString();
+        QString value = index.model()->data(index, Qt::DisplayRole).toString();
         comboBox->setCurrentText(value);
     }
 }

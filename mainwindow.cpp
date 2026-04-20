@@ -122,7 +122,14 @@ void MainWindow::applyLinGraphSettings()
     qDebug() << "Line graph settings";
     // graph update
 }
+*/
 
+void MainWindow::applyLinGraphSettings()
+{
+    qDebug() << "Line graph settings";
+    // graph update
+}
+/*
 void MainWindow::applyBarGraphSettings()
 {
     qDebug() << "Bar graph settings";
@@ -134,7 +141,7 @@ void MainWindow::applyColourGraphSettings()
     qDebug() << "Colour graph settings";
     // graph update
 }
-
+*/
 void MainWindow::openPreview()
 {
     // preview window

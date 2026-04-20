@@ -141,7 +141,7 @@ void MainWindow::applyColourGraphSettings()
     qDebug() << "Colour graph settings";
     // graph update
 }
-*/
+
 void MainWindow::openPreview()
 {
     // preview window

@@ -26,6 +26,27 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ActionPreview, &QAction::triggered,
             this, &MainWindow::openPreview);
 
+    // setup instrument table
+    instrumentModel = new InstrumentTableModel(*Experiment::getInstance());
+    instrumentDelegate = new InstrumentDelegate(this);
+    ui->InstrumentsTable->setModel(instrumentModel);
+    ui->InstrumentsTable->setItemDelegate(instrumentDelegate);
+
+    variableModel = new VariableTableModel(*Experiment::getInstance());
+    variableDelegate = new VariableDelegate(this);
+    ui->VariablesTable->setModel(variableModel);
+    ui->VariablesTable->setItemDelegate(variableDelegate);
+
+    connectionsModel = new ConnectionsTableModel(*Experiment::getInstance());
+    // connectionsDelegate = new VariableDelegate(this);
+    ui->ConnectionsTable->setModel(connectionsModel);
+    // ui->ConnectionsTable->setItemDelegate(variableDelegate);
+
+    connect(ui->VarAddButton, &QPushButton::clicked, this, &MainWindow::addVariable);
+    connect(ui->VarDelButton, &QPushButton::clicked, this, &MainWindow::removeVariable);
+    connect(ui->InstAddButton, &QPushButton::clicked, this, &MainWindow::addInstrument);
+    connect(ui->InstDelButton, &QPushButton::clicked, this, &MainWindow::removeInstrument);
+
     // setup constants table
     constantModel = new ConstantTableModel();
     constantDelegate = new ConstantDelegate(this);
@@ -45,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
     QModelIndex i3 = constantModel->index(0, 3);
     constantModel->setData(i3, "ускорение св. падения");
 }
+
 /*
 void MainWindow::openGraphSettings()
 {
@@ -99,7 +121,7 @@ void MainWindow::applyLinGraphSettings()
     qDebug() << "Line graph settings";
     // graph update
 }
-/*
+
 void MainWindow::applyBarGraphSettings()
 {
     qDebug() << "Bar graph settings";
@@ -111,7 +133,7 @@ void MainWindow::applyColourGraphSettings()
     qDebug() << "Colour graph settings";
     // graph update
 }
-*/
+
 void MainWindow::openPreview()
 {
     // preview window
@@ -120,6 +142,56 @@ void MainWindow::openPreview()
     preview->show();
 }
 
+void MainWindow::addVariable() {
+    // Создаем новую переменную
+    QList<double> values;
+    Variable newVar(values, "new variable", nullptr);
+    
+    // Добавляем в эксперимент
+    Experiment::getInstance()->getVariables().append(newVar);
+    
+    // Уведомляем модель об изменении
+    variableModel->resetModel();
+    connectionsModel->resetModel();
+}
+
+void MainWindow::removeVariable() {
+    QModelIndex currentIndex = ui->VariablesTable->currentIndex();
+    if (currentIndex.isValid()) {
+        int row = currentIndex.row();
+        // Удаляем из эксперимента
+        Experiment::getInstance()->getVariables().removeAt(row);
+        
+        // Уведомляем модель об изменении
+        variableModel->resetModel();
+        connectionsModel->resetModel();
+    }
+}
+
+void MainWindow::addInstrument() {
+    // Создаем новый инструмент
+    Instrument newInst("new instrument", 0.0);
+    QString errorType = "Абсолютная";
+    newInst.set_error_type(errorType);
+    
+    // Добавляем в эксперимент
+    Experiment::getInstance()->getInstruments().append(newInst);
+    
+    // Уведомляем модель об изменении
+    instrumentModel->resetModel();
+}
+
+void MainWindow::removeInstrument() {
+    QModelIndex currentIndex = ui->InstrumentsTable->currentIndex();
+    if (currentIndex.isValid()) {
+        int row = currentIndex.row();
+        // Удаляем из эксперимента
+        Experiment::getInstance()->getInstruments().removeAt(row);
+        
+        // Уведомляем модель об изменении
+        instrumentModel->resetModel();
+    }
+}
 // new graph button
 void MainWindow::setupCreateButton()
 {

@@ -8,10 +8,16 @@
 #include "variable_table_model.h"
 #include "variable_delegate.h"
 #include "experiment.h"
+#include <QTabWidget>
+#include "qcustomplot.h"
+#include "constant_table_model.h"
+#include "constant_delegate.h"
+#include "graph.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
 QT_END_NAMESPACE
 
@@ -24,8 +30,11 @@ public:
     ~MainWindow();
 
 private slots:
-    void openGraphSettings();
+    //void openGraphSettings();
     void openPreview();
+    void createLinGraph();
+    //void createBarGraph();
+    //void createColourGraph();
     void applyLinGraphSettings();
     void applyBarGraphSettings();
     void applyColourGraphSettings();
@@ -33,7 +42,13 @@ private slots:
     void addVariable();
     void removeInstrument();
     void removeVariable();
+    //void applyBarGraphSettings();
+    //void applyColourGraphSettings();
+    void closeTab(int index);
     
+
+private:
+    void setupCreateButton();
 
 private:
     Ui::MainWindow *ui;
@@ -41,8 +56,11 @@ private:
     InstrumentDelegate *instrumentDelegate;
     VariableTableModel *variableModel;
     VariableDelegate *variableDelegate;
+    QTabWidget *GraphTabWidget;
+
+    ConstantTableModel *constantModel;
+    ConstantDelegate *constantDelegate;
+
 };
-
-
 
 #endif // MAINWINDOW_H

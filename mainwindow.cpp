@@ -46,7 +46,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->VarDelButton, &QPushButton::clicked, this, &MainWindow::removeVariable);
     connect(ui->InstAddButton, &QPushButton::clicked, this, &MainWindow::addInstrument);
     connect(ui->InstDelButton, &QPushButton::clicked, this, &MainWindow::removeInstrument);
-}
 
     // setup constants table
     constantModel = new ConstantTableModel();
@@ -67,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
     QModelIndex i3 = constantModel->index(0, 3);
     constantModel->setData(i3, "ускорение св. падения");
 }
+
 /*
 void MainWindow::openGraphSettings()
 {
@@ -121,7 +121,7 @@ void MainWindow::applyLinGraphSettings()
     qDebug() << "Line graph settings";
     // graph update
 }
-/*
+
 void MainWindow::applyBarGraphSettings()
 {
     qDebug() << "Bar graph settings";
@@ -133,7 +133,7 @@ void MainWindow::applyColourGraphSettings()
     qDebug() << "Colour graph settings";
     // graph update
 }
-*/
+
 void MainWindow::openPreview()
 {
     // preview window
@@ -191,6 +191,7 @@ void MainWindow::removeInstrument() {
         // Уведомляем модель об изменении
         instrumentModel->resetModel();
     }
+}
 // new graph button
 void MainWindow::setupCreateButton()
 {

@@ -2,6 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTableView>
+#include "instrument_table_model.h"
+#include "instrument_delegate.h"
+#include "variable_table_model.h"
+#include "variable_delegate.h"
+#include "connections_table_model.h"
+#include "experiment.h"
 #include <QTabWidget>
 #include "qcustomplot.h"
 #include "constant_table_model.h"
@@ -30,6 +37,12 @@ private slots:
     //void createBarGraph();
     //void createColourGraph();
     void applyLinGraphSettings();
+    void applyBarGraphSettings();
+    void applyColourGraphSettings();
+    void addInstrument();
+    void addVariable();
+    void removeInstrument();
+    void removeVariable();
     //void applyBarGraphSettings();
     //void applyColourGraphSettings();
     void closeTab(int index);
@@ -40,11 +53,16 @@ private:
 
 private:
     Ui::MainWindow *ui;
+    InstrumentTableModel *instrumentModel;
+    InstrumentDelegate *instrumentDelegate;
+    VariableTableModel *variableModel;
+    VariableDelegate *variableDelegate;
     QTabWidget *GraphTabWidget;
 
     ConstantTableModel *constantModel;
     ConstantDelegate *constantDelegate;
 
+    ConnectionsTableModel *connectionsModel;
 };
 
 #endif // MAINWINDOW_H

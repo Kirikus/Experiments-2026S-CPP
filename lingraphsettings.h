@@ -15,6 +15,7 @@ struct LineSetting
     QColor color;
     QString lineType;
     QString pointType;
+    bool visible;
 };
 
 class LinGraphSettings : public QDialog
@@ -32,8 +33,6 @@ signals:
     void settingsApplied(); 
 
 private slots:
-    void onAddLine();
-    void onDeleteLine();
     void onSave();
     void onCancel();
     

@@ -1,5 +1,5 @@
-#ifndef VARIABLE_TABLE_MODEL
-#define VARIABLE_TABLE_MODEL
+#ifndef VARIABLE_TABLE_MODEL_H
+#define VARIABLE_TABLE_MODEL_H
 
 #include "experiment.h"
 #include "QModelIndex"
@@ -10,20 +10,20 @@ class VariableTableModel : public QAbstractTableModel
 public:
   explicit VariableTableModel(Experiment& exp);
 
-  int rowCount() const;
-  int columnCount() const;
+  int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+  int columnCount(const QModelIndex &parent = QModelIndex()) const override;
   QVariant data(const QModelIndex &index, int role) const override;
 
   Qt::ItemFlags flags(const QModelIndex &index) const;
   bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
   QVariant headerData(int section, Qt::Orientation orientation, int role) const;
   void setHeader(QString& new_header);
+  void resetModel();
 
 private:
-  int rows;
-  int columns;
+  int columns = 2;
   Experiment& experiment;
   QString header;
 };
 
-#endif // VARIABLE_TABLE_MODEL
+#endif // VARIABLE_TABLE_MODEL_H

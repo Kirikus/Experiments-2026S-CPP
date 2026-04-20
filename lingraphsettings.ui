@@ -16,42 +16,28 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="1" column="0">
-      <widget class="QPushButton" name="AddLineButton">
-       <property name="text">
-        <string>Add line</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0" colspan="2">
+     <item row="0" column="0">
       <widget class="QTableWidget" name="LineTable">
-       <row>
-        <property name="text">
-         <string>1</string>
-        </property>
-       </row>
        <column>
         <property name="text">
-         <string>Colour</string>
+         <string>Цвет</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>New Column</string>
+         <string>Тип линии</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>Points Type</string>
+         <string>Тип точек</string>
         </property>
        </column>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QPushButton" name="DelLineButton">
-       <property name="text">
-        <string>Delete line</string>
-       </property>
+       <column>
+        <property name="text">
+         <string>Отображать</string>
+        </property>
+       </column>
       </widget>
      </item>
     </layout>
@@ -69,38 +55,5 @@
   </layout>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

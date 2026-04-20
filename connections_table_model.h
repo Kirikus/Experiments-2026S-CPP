@@ -1,14 +1,14 @@
-#ifndef INSTRUMENT_TABLE_MODEL_H
-#define INSTRUMENT_TABLE_MODEL_H
+#ifndef CONNECTIONS_TABLE_MODEL_H
+#define CONNECTIONS_TABLE_MODEL_H
 
 #include "experiment.h"
 #include "QModelIndex"
 #include "Qt"
 
-class InstrumentTableModel : public QAbstractTableModel
+class ConnectionsTableModel : public QAbstractTableModel
 {
 public:
-  explicit InstrumentTableModel(Experiment& exp);
+  explicit ConnectionsTableModel(Experiment& exp);
 
   int rowCount(const QModelIndex &parent = QModelIndex()) const override;
   int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -26,4 +26,4 @@ private:
   QString header;
 };
 
-#endif // INSTRUMENT_TABLE_MODEL_H
+#endif // CONNECTIONS_TABLE_MODEL_H

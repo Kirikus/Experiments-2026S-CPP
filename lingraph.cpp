@@ -1,6 +1,8 @@
 #include "lingraph.h"
 #include "lingraphsettings.h"
 #include <QDebug>
+#include "experiment.h"
+#include "variable.h"
 
 LinGraph::LinGraph(QWidget *parent)
     : Graph(parent)
@@ -19,63 +21,49 @@ void LinGraph::drawGraph()
         return;
 
     plot->clearGraphs();
-
     updateAxesFromUI();
 
-    if (linesSettings.isEmpty())
-    {
-        LineSetting defaultLine;
-        defaultLine.color = Qt::blue;
-        defaultLine.lineType = "Сплошная";
-        defaultLine.pointType = "Нет";
-        linesSettings.append(defaultLine);
+    Experiment *exp = Experiment::getInstance();
+    QList<Variable> &variables = exp->getVariables();
+
+    if (variables.isEmpty()) {
+        plot->replot();
+        return;
     }
 
-    for (const LineSetting &line : linesSettings)
-    {
+    // Первая переменная будет по оси X
+    QList<double> xValues = variables[0].get_values();
+    
+    // Рисуем каждую переменную
+    for (int col = 0; col < variables.size(); ++col) {
+        QList<double> yValues = variables[col].get_values();
+        
+        if (yValues.size() != xValues.size()) {
+            qDebug() << "Size mismatch for variable" << col;
+            continue;
+        }
+        
+        QVector<double> xData, yData;
+        for (int i = 0; i < xValues.size(); ++i) {
+            xData.append(xValues[i]);
+            yData.append(yValues[i]);
+        }
+        
         plot->addGraph();
-        int graphIndex = plot->graphCount() - 1;
-
+        int idx = plot->graphCount() - 1;
+        plot->graph(idx)->setData(xData, yData);
+        
         QPen pen;
-        pen.setColor(line.color);
+        // Цвета для разных переменных
+        static QList<QColor> colors = {Qt::red, Qt::green, Qt::blue, Qt::magenta,
+                                       Qt::cyan, Qt::darkYellow, Qt::darkCyan};
+        pen.setColor(colors[col % colors.size()]);
         pen.setWidth(2);
-
-        if (line.lineType == "Сплошная")
-            pen.setStyle(Qt::SolidLine);
-        else if (line.lineType == "Штрих")
-            pen.setStyle(Qt::DashLine);
-        else if (line.lineType == "Пунктир")
-            pen.setStyle(Qt::DotLine);
-        else if (line.lineType == "Штрих-пунктир")
-            pen.setStyle(Qt::DashDotLine);
-        else
-            pen.setStyle(Qt::SolidLine);
-
-        plot->graph(graphIndex)->setPen(pen);
-
-        QCPScatterStyle scatterStyle;
-        if (line.pointType == "Нет")
-            scatterStyle.setShape(QCPScatterStyle::ssNone);
-        else if (line.pointType == "Круг")
-            scatterStyle.setShape(QCPScatterStyle::ssCircle);
-        else if (line.pointType == "Квадрат")
-            scatterStyle.setShape(QCPScatterStyle::ssSquare);
-        else if (line.pointType == "Крест")
-            scatterStyle.setShape(QCPScatterStyle::ssCross);
-        else if (line.pointType == "Звезда")
-            scatterStyle.setShape(QCPScatterStyle::ssStar);
-        else
-            scatterStyle.setShape(QCPScatterStyle::ssNone);
-
-        scatterStyle.setSize(8);
-        plot->graph(graphIndex)->setScatterStyle(scatterStyle);
-
-        // example
-        QVector<double> x = {0, 1, 2, 3, 4, 5};
-        QVector<double> y = {0, 1, 4, 9, 16, 25};
-        plot->graph(graphIndex)->setData(x, y);
+        plot->graph(idx)->setPen(pen);
+        plot->graph(idx)->setName(variables[col].get_name());
     }
 
+    plot->legend->setVisible(true);
     plot->replot();
 }
 

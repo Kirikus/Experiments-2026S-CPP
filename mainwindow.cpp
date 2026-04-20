@@ -9,6 +9,7 @@
 #include "qcustomplot.h"
 #include "graph.h"
 #include "lingraph.h"
+#include "variable_delegate.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)

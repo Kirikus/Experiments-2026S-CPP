@@ -18,7 +18,7 @@ LinGraphSettings::LinGraphSettings(QWidget *parent)
     ui->LineTable->setColumnWidth(0, 100);
     ui->LineTable->setColumnWidth(1, 120);
     ui->LineTable->setColumnWidth(2, 120);
-    ui->LineTable->setColumnWidth(3, 60);
+    ui->LineTable->setColumnWidth(3, 120);
 
     if (ui->buttonBox)
     {
@@ -32,8 +32,6 @@ LinGraphSettings::~LinGraphSettings()
     delete ui;
 }
 
-
-    
 void LinGraphSettings::updateTable()
 {
     ui->LineTable->setRowCount(lines_e.size());

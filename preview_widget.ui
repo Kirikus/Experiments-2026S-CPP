@@ -13,238 +13,86 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <widget class="QScrollArea" name="scrollArea">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>20</y>
+     <width>481</width>
+     <height>641</height>
+    </rect>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>479</width>
+      <height>639</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
   <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>22</x>
-     <y>21</y>
-     <width>921</width>
-     <height>651</height>
+     <x>0</x>
+     <y>23</y>
+     <width>160</width>
+     <height>241</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
-      <item>
-       <widget class="QPushButton" name="AddGraphButton">
-        <property name="text">
-         <string>Add Graph</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="DelGraphButton">
-        <property name="text">
-         <string>Delete Graph</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="AddExpButton">
-        <property name="text">
-         <string>Add Experiment table</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="DelExpButton">
-        <property name="text">
-         <string>Delete Experiment table</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="AddCalButton">
-        <property name="text">
-         <string>Add calculations table</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="DelCalcButton">
-        <property name="text">
-         <string>Delete calculations table</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="AddConstButton">
-        <property name="text">
-         <string>Add constants table</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="DelConstButton">
-        <property name="text">
-         <string>Delete constants table</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="AddValButton">
-        <property name="text">
-         <string>Add values table</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="DelValButton">
-        <property name="text">
-         <string>Delete values table</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="AddInstButton">
-        <property name="text">
-         <string>Add instruments table</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="DelInstButton">
-        <property name="text">
-         <string>Delete instruments table</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="AddNoteButton">
-        <property name="text">
-         <string>Add note</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="DelNoteButton">
-        <property name="text">
-         <string>Delete note</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QPushButton" name="AddGraphButton">
+      <property name="text">
+       <string>Add Graph</string>
+      </property>
+     </widget>
     </item>
     <item>
-     <widget class="QSplitter" name="splitter">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+     <widget class="QPushButton" name="AddExpButton">
+      <property name="text">
+       <string>Add Experiment table</string>
       </property>
-      <widget class="QWidget" name="">
-       <layout class="QVBoxLayout" name="Preview">
-        <item>
-         <widget class="QLabel" name="label_5">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Preview</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QScrollArea" name="scrollArea">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents_2">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>401</width>
-             <height>620</height>
-            </rect>
-           </property>
-          </widget>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="">
-       <layout class="QVBoxLayout" name="Text">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Title</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="Title"/>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Description</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPlainTextEdit" name="Description">
-            <property name="plainText">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Note</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPlainTextEdit" name="Note">
-            <property name="plainText">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="AddCalButton">
+      <property name="text">
+       <string>Add calculations table</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="AddConstButton">
+      <property name="text">
+       <string>Add constants table</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="AddValButton">
+      <property name="text">
+       <string>Add values table</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="AddInstButton">
+      <property name="text">
+       <string>Add instruments table</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="AddNoteButton">
+      <property name="text">
+       <string>Add note</string>
+      </property>
      </widget>
     </item>
    </layout>

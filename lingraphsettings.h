@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QColor>
 #include <QStringList>
+#include <QComboBox>
 
 namespace Ui
 {
@@ -12,6 +13,7 @@ namespace Ui
 
 struct LineSetting
 {
+    QString variableName;
     QColor color;
     QString lineType;
     QString pointType;
@@ -28,6 +30,11 @@ public:
     
     QList<LineSetting> getLines() const;
     void setLines(const QList<LineSetting> &lines);
+    int getSelectedXIndex() const;
+    QComboBox* getXAxisCombo() const;
+
+
+
 
 signals:
     void settingsApplied(); 

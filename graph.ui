@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -47,7 +47,7 @@
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>X:</string>
+           <string>Y:</string>
           </property>
          </widget>
         </item>
@@ -71,7 +71,7 @@
         <item>
          <widget class="QLabel" name="XLabel">
           <property name="text">
-           <string>Y:</string>
+           <string>X:</string>
           </property>
          </widget>
         </item>

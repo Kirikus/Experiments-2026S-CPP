@@ -8,16 +8,6 @@
 LinGraph::LinGraph(QWidget *parent)
     : Graph(parent)
 {
-    if (linesSettings.isEmpty())
-    {
-        LineSetting defaultLine;
-        defaultLine.color = Qt::blue;
-        defaultLine.lineType = "Сплошная";
-        defaultLine.pointType = "Нет";
-        defaultLine.visible = true;
-        linesSettings.append(defaultLine);
-    }
-
     drawGraph();
 }
 
@@ -43,16 +33,26 @@ void LinGraph::drawGraph()
         return;
     }
 
-    QList<double> xValues = variables[0].get_values();
+    if (selectedIndex < 0 || selectedIndex >= variables.size())
+    {
+        selectedIndex = 0;
+    }
 
+    QList<double> xValues = variables[selectedIndex].get_values();
     if (xValues.isEmpty())
     {
         plot->replot();
         return;
     }
 
-    for (int col = 1; col < variables.size(); ++col)
+    QList<QColor> defaultColors = {Qt::red, Qt::green, Qt::blue, Qt::magenta, Qt::cyan, Qt::darkYellow};
+    int colorIndex = 0;
+
+    for (int col = 0; col < variables.size(); ++col)
     {
+        if (col == selectedIndex)
+            continue;
+        QString varName = variables[col].get_name();
         QList<double> yValues = variables[col].get_values();
 
         if (yValues.size() != xValues.size())
@@ -73,9 +73,9 @@ void LinGraph::drawGraph()
         QPen pen;
         pen.setWidth(2);
 
-        if (col < linesSettings.size())
+        if (linesSettings.contains(varName))
         {
-            const LineSetting &line = linesSettings[col];
+            const LineSetting &line = linesSettings[varName];
             pen.setColor(line.color);
 
             std::map<QString, Qt::PenStyle> lineStyleMap = {
@@ -118,12 +118,18 @@ void LinGraph::drawGraph()
         }
         else
         {
-            pen.setColor(Qt::blue);
+            // чтобы сразу разными цветами рисовались по умолчанию
+            pen.setColor(defaultColors[colorIndex % defaultColors.size()]);
             plot->graph(idx)->setPen(pen);
+            colorIndex++;
         }
     }
-
     plot->rescaleAxes();
+    if (hasXYRange())
+    {
+        plot->xAxis->setRange(getXMin(), getXMax());
+        plot->yAxis->setRange(getYMin(), getYMax());
+    }
 
     plot->legend->setVisible(true);
     plot->replot();
@@ -137,25 +143,47 @@ void LinGraph::openSettings()
     Experiment *exp = Experiment::getInstance();
     QList<Variable> &variables = exp->getVariables();
 
-    QList<LineSetting> allSettings;
+    QComboBox *xCombo = settings->getXAxisCombo();
 
-    for (int col = 1; col < variables.size(); ++col)
+    //выбор икса из комбобокса
+    if (xCombo)
     {
-        LineSetting line;
-
-        if (col < linesSettings.size())
+        xCombo->clear();
+        for (Variable &var : variables)
         {
-            line = linesSettings[col];
+            xCombo->addItem(var.get_name());
+        }
+        xCombo->setCurrentIndex(selectedIndex);
+
+        connect(xCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+                this, [this](int index)
+                {
+                    selectedIndex = index;
+                    drawGraph(); });
+    }
+
+    QList<LineSetting> allSettings;
+    for (int i = 0; i < variables.size(); ++i)
+    {
+        if (i == selectedIndex)
+            continue;
+
+        QString varName = variables[i].get_name();
+
+        if (linesSettings.contains(varName))
+        {
+            allSettings.append(linesSettings[varName]);
         }
         else
         {
-            line.color = Qt::blue;
-            line.lineType = "Сплошная";
-            line.pointType = "Нет";
-            line.visible = true;
+            LineSetting newLine;
+            newLine.variableName = varName;
+            newLine.color = Qt::blue;
+            newLine.lineType = "Сплошная";
+            newLine.pointType = "Нет";
+            newLine.visible = true;
+            allSettings.append(newLine);
         }
-
-        allSettings.append(line);
     }
 
     settings->setLines(allSettings);
@@ -163,26 +191,13 @@ void LinGraph::openSettings()
     connect(settings, &LinGraphSettings::settingsApplied, [this, settings]()
             {
         QList<LineSetting> newSettings = settings->getLines();
-        
-
-        for (int i = 0; i < newSettings.size(); ++i) {
-            int col = i + 1;
-            if (col < linesSettings.size()) {
-                linesSettings[col] = newSettings[i];
-            } else {
-                linesSettings.append(newSettings[i]);
-            }
+        for (const LineSetting &line : newSettings) {
+            linesSettings[line.variableName] = line;
         }
         
         drawGraph(); });
 
     settings->show();
-}
-
-void LinGraph::applyLinesSettings(const QList<LineSetting> &lines)
-{
-    currentLines = lines;
-    applySettings();
 }
 
 void LinGraph::applySettings()

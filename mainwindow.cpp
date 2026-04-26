@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->GraphTabWidget->setTabsClosable(true);
 
     connect(ui->GraphTabWidget, &QTabWidget::tabCloseRequested,
-        this, &MainWindow::closeTab);
+            this, &MainWindow::closeTab);
 
     setupCreateButton();
 
@@ -66,31 +66,16 @@ MainWindow::MainWindow(QWidget *parent)
 
     QModelIndex i3 = constantModel->index(0, 3);
     constantModel->setData(i3, "ускорение св. падения");
+
+    // сигналы об изменениях для обновления графиков
+    connect(variableModel, &QAbstractTableModel::dataChanged, this, &MainWindow::updateAllGraphs);
+    connect(variableModel, &QAbstractTableModel::rowsInserted, this, &MainWindow::updateAllGraphs);
+    connect(variableModel, &QAbstractTableModel::rowsRemoved, this, &MainWindow::updateAllGraphs);
+    connect(variableModel, &QAbstractTableModel::modelReset, this, &MainWindow::updateAllGraphs);
+
+    connect(connectionsModel, &QAbstractTableModel::dataChanged, this, &MainWindow::updateAllGraphs);
+    connect(connectionsModel, &QAbstractTableModel::modelReset, this, &MainWindow::updateAllGraphs);
 }
-
-/*
-void MainWindow::openGraphSettings()
-{
-    QAction *action = qobject_cast<QAction *>(sender());
-    if (!action)
-        return;
-
-    QString graphType = action->text();
-
-    if (graphType == "Line graph")
-    {
-        createLinGraph();
-    }
-    else if (graphType == "Bar graph")
-    {
-        createBarGraph();
-    }
-    else if (graphType == "Colour graph")
-    {
-        createColourGraph();
-    }
-}
-*/
 
 void MainWindow::createLinGraph()
 {
@@ -105,8 +90,8 @@ void MainWindow::createBarGraph()
 {
     Graph *graph = new Graph(this);
     graph->setGraphType(Graph::Bar);
-    
-    int index = ui->GraphTabWidget->addTab(graph, 
+
+    int index = ui->GraphTabWidget->addTab(graph,
         QString("График 2").arg(ui->GraphTabWidget->count() + 1));
     ui->GraphTabWidget->setCurrentIndex(index);
 }
@@ -143,68 +128,88 @@ void MainWindow::openPreview()
     preview->show();
 }
 
-void MainWindow::addVariable() {
+void MainWindow::addVariable()
+{
     // Создаем новую переменную
     QList<double> values;
     Variable newVar(values, "new variable", nullptr);
-    
+
     // Добавляем в эксперимент
     Experiment::getInstance()->getVariables().append(newVar);
-    
+
     // Уведомляем модель об изменении
     variableModel->resetModel();
     connectionsModel->resetModel();
 }
 
-void MainWindow::removeVariable() {
+void MainWindow::removeVariable()
+{
     QModelIndex currentIndex = ui->VariablesTable->currentIndex();
-    if (currentIndex.isValid()) {
+    if (currentIndex.isValid())
+    {
         int row = currentIndex.row();
         // Удаляем из эксперимента
         Experiment::getInstance()->getVariables().removeAt(row);
-        
+
         // Уведомляем модель об изменении
         variableModel->resetModel();
         connectionsModel->resetModel();
     }
 }
 
-void MainWindow::addInstrument() {
+void MainWindow::addInstrument()
+{
     // Создаем новый инструмент
     Instrument newInst("new instrument", 0.0);
     QString errorType = "Абсолютная";
     newInst.set_error_type(errorType);
-    
+
     // Добавляем в эксперимент
     Experiment::getInstance()->getInstruments().append(newInst);
-    
+
     // Уведомляем модель об изменении
     instrumentModel->resetModel();
 }
 
-void MainWindow::removeInstrument() {
+void MainWindow::removeInstrument()
+{
     QModelIndex currentIndex = ui->InstrumentsTable->currentIndex();
-    if (currentIndex.isValid()) {
+    if (currentIndex.isValid())
+    {
         int row = currentIndex.row();
         // Удаляем из эксперимента
         Experiment::getInstance()->getInstruments().removeAt(row);
-        
+
         // Уведомляем модель об изменении
         instrumentModel->resetModel();
     }
 }
+
+// перерисовка всех графиков при изменении данных
+void MainWindow::updateAllGraphs()
+{
+    for (int i = 0; i < ui->GraphTabWidget->count(); ++i)
+    {
+        Graph *graph = qobject_cast<Graph *>(ui->GraphTabWidget->widget(i));
+        if (graph)
+        {
+            graph->applySettings();
+        }
+    }
+}
+
 // new graph button
 void MainWindow::setupCreateButton()
 {
     QMenu *menu = new QMenu(this);
 
     QAction *lineAction = menu->addAction("Line graph");
-    //QAction *barAction = menu->addAction("Bar graph");
-    //QAction *colourAction = menu->addAction("Colour graph");
+    // QAction *barAction = menu->addAction("Bar graph");
+    // QAction *colourAction = menu->addAction("Colour graph");
 
     connect(lineAction, &QAction::triggered, this, &MainWindow::createLinGraph);
-    //connect(barAction, &QAction::triggered, this, &MainWindow::createBarGraph);
-    //connect(colourAction, &QAction::triggered, this, &MainWindow::createColourGraph);
+    // connect(barAction, &QAction::triggered, this, &MainWindow::createBarGraph);
+    // connect(colourAction, &QAction::triggered, this, &MainWindow::createColourGraph);
 
     ui->NewGraphButton->setMenu(menu);
 }

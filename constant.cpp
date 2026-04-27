@@ -1,43 +1,47 @@
 #include "constant.h"
 
 Constant::Constant(const QString& name, double value, double error, const QString& meaning, bool readonly) :
-name(name), value(value), error(error), meaning(meaning), readonly(readonly) {
+    name(name), value(value), error(error), meaning(meaning), readonly(readonly) {
+}
 
+QString Constant::get_name() const {
+    return name;
 }
 
 double Constant::get_value() const {
     return value;
 }
+
 double Constant::get_error() const {
     return error;
 }
+
 QString Constant::get_meaning() const {
     return meaning;
 }
-QString Constant::get_name() const {
-    return name;
+
+void Constant::set_name(const QString& name) {
+    this->name = name;
 }
 
-void Constant::set_value(double new_value) {
+void Constant::set_value(double value) {
     if (!readonly) {
-        value = new_value;
+        this->value = value;
     }
 }
 
-void Constant::set_error(double new_error) {
+void Constant::set_error(double error) {
     if (!readonly) {
-        error = new_error;
+        this->error = error;
     }
 }
 
-void Constant::set_meaning(const QString &new_meaning) {
+void Constant::set_meaning(const QString& meaning) {
     if (!readonly) {
-        meaning = new_meaning;
+        this->meaning = meaning;
     }
 }
 
-void Constant::set_name(const QString &new_name) {
-    if (!readonly) {
-    name = new_name;
-    }
+bool Constant::get_readonly() const {
+    return readonly;
 }

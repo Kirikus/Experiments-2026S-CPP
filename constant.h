@@ -17,6 +17,7 @@ public:
   void set_value(double value);
   void set_error(double value);
   void set_meaning(const QString &meaning);
+  bool get_readonly() const;
 
 private:
   QString name;

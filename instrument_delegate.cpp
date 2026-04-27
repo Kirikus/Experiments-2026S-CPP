@@ -77,10 +77,3 @@ void InstrumentDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
         model->setData(index, comboBox->currentText(), Qt::EditRole);
     }
 }
-
-void InstrumentDelegate::updateEditorGeometry(QWidget *editor,
-                                            const QStyleOptionViewItem &option,
-                                            const QModelIndex &index) const
-{
-    editor->setGeometry(option.rect);
-}

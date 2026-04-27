@@ -68,10 +68,3 @@ void VariableDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
         }
     }
 }
-
-void VariableDelegate::updateEditorGeometry(QWidget *editor,
-                                            const QStyleOptionViewItem &option,
-                                            const QModelIndex &index) const
-{
-    editor->setGeometry(option.rect);
-}

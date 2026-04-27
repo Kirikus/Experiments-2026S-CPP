@@ -51,10 +51,3 @@ void ConnectionsDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
     QString selectedName = comboBox->currentText();
     model->setData(index, selectedName, Qt::EditRole);
 }
-
-void ConnectionsDelegate::updateEditorGeometry(QWidget *editor,
-                                               const QStyleOptionViewItem &option,
-                                               const QModelIndex &index) const
-{
-    editor->setGeometry(option.rect);
-}

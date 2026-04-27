@@ -46,6 +46,8 @@ private slots:
     //void applyBarGraphSettings();
     //void applyColourGraphSettings();
     void closeTab(int index);
+    void updateAllGraphs();
+
     
 
 private:

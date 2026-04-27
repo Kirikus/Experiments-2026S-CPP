@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <QComboBox>
 
 class QCustomPlot;
 
@@ -25,6 +26,13 @@ public:
     virtual void drawGraph() = 0;
     virtual void openSettings() = 0;
     virtual void applySettings() = 0;
+
+    // для настройки осей
+    double getXMin() const;
+    double getXMax() const;
+    double getYMin() const;
+    double getYMax() const;
+    bool hasXYRange() const;
 
 protected:
     QCustomPlot *getPlot() const;

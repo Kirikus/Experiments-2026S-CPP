@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     experiment->getVariables().append(var3);
     
     QList<double> values4;
-    values4 << 219 << 220 << 221;
+    values4 << 219 << 220 << 221 << 222;
     Variable var4(values4, "Напряжение", voltmeter_ptr);
     experiment->getVariables().append(var4);
 

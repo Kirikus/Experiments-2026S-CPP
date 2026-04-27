@@ -160,11 +160,15 @@ void MainWindow::addInstrument()
     instrumentModel->resetModel();
 }
 
-void MainWindow::removeInstrument()
-{
+void MainWindow::removeInstrument() {
+    Experiment* experiment = Experiment::getInstance();
     QModelIndex currentIndex = ui->InstrumentsTable->currentIndex();
-    if (currentIndex.isValid())
-    {
+    if (currentIndex.isValid()) {
+        for (int i = 0; i < experiment->getVariables().size(); i++) {
+            if (experiment->getVariables()[i].get_instrument() == &experiment->getInstruments()[currentIndex.row()]) {
+                return;
+            }
+        }
         int row = currentIndex.row();
         // Удаляем из эксперимента
         Experiment::getInstance()->getInstruments().removeAt(row);
@@ -195,7 +199,15 @@ void MainWindow::addConstant() {
 }
 
 void MainWindow::removeConstant() {
-
+QModelIndex currentIndex = ui->ConstantsTable->currentIndex();
+    if (currentIndex.isValid()) {
+        int row = currentIndex.row();
+        
+        Experiment::getInstance()->getConstants().removeAt(row);
+        
+        // Уведомляем модель об изменении
+        constantModel->resetModel();
+    }
 }
 // new graph button
 void MainWindow::setupCreateButton()

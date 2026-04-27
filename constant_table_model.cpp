@@ -101,7 +101,13 @@ void ConstantTableModel::setHeader(QString &new_header)
 
 Qt::ItemFlags ConstantTableModel::flags(const QModelIndex &index) const
 {
-    return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
+    Qt::ItemFlags flags = QAbstractTableModel::flags(index);
+    const Constant& constant = experiment.getConstants()[index.row()];
+
+    if (!constant.get_readonly()) {
+        flags |= Qt::ItemIsEditable;
+    }
+    return flags;
 }
 
 void ConstantTableModel::resetModel() {

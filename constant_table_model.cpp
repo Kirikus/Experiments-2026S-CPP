@@ -1,14 +1,15 @@
 #include "constant_table_model.h"
 #include "Qt"
 
-ConstantTableModel::ConstantTableModel() : columns(4)
+
+ConstantTableModel::ConstantTableModel(Experiment& exp) : columns(4), experiment(exp)
 {
 }
 
 int ConstantTableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return constants.size();
+    return experiment.getConstants().size();
 }
 
 int ConstantTableModel::columnCount(const QModelIndex &parent) const
@@ -25,9 +26,9 @@ QVariant ConstantTableModel::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole)
     {
 
-        const Constant &constant = constants[row];
+        const Constant& constant = experiment.getConstants()[index.row()];
 
-        switch (col)
+        switch (index.column())
         {
         case 0:
             return constant.get_name();
@@ -49,7 +50,7 @@ bool ConstantTableModel::setData(const QModelIndex &index, const QVariant &value
         if (!checkIndex(index))
             return false;
 
-        Constant &constant = constants[index.row()];
+        Constant& constant = experiment.getConstants()[index.row()];
 
         switch (index.column())
         {
@@ -103,9 +104,7 @@ Qt::ItemFlags ConstantTableModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
 }
 
-void ConstantTableModel::addConstant()
-{
-    beginInsertRows(QModelIndex(), constants.size(), constants.size());
-    constants.append(Constant("", 0.0, 0.0, "", false));
-    endInsertRows();
+void ConstantTableModel::resetModel() {
+    beginResetModel();
+    endResetModel();
 }

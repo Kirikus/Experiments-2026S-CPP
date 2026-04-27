@@ -38,13 +38,15 @@ bool ConnectionsTableModel::setData(const QModelIndex &index, const QVariant &va
     if (role != Qt::EditRole || !checkIndex(index))
       return false;
     
-    switch (index.column()) {
-        case 0:
-            return false;
-        case 1:
-            return false;
+    if (index.column() == 1) {
+            QString instrument_name = value.toString();
+            for (auto& instrument : experiment.getInstruments()) {
+                if (instrument.get_name() == instrument_name) {
+                    experiment.getVariables()[index.row()].set_instrument(&instrument);
+                    return true;
+                }
+            }
     }
-
     return true;
 }
 

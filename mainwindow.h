@@ -39,6 +39,10 @@ private slots:
     void addVariable();
     void removeInstrument();
     void removeVariable();
+    void addConstant();
+    void removeConstant();
+    //void applyBarGraphSettings();
+    //void applyColourGraphSettings();
     void closeTab(int index);
     void updateAllGraphs();
 

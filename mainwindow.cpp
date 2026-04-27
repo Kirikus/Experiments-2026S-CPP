@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->InstDelButton, &QPushButton::clicked, this, &MainWindow::removeInstrument);
 
     // setup constants table
-    constantModel = new ConstantTableModel();
+    constantModel = new ConstantTableModel(*Experiment::getInstance());
     constantDelegate = new ConstantDelegate(this);
     ui->ConstantsTable->setModel(constantModel);
     ui->ConstantsTable->setItemDelegate(constantDelegate);
@@ -187,6 +187,16 @@ void MainWindow::updateAllGraphs()
     }
 }
 
+void MainWindow::addConstant() {
+    Constant newConst("new constant", 0.0, 0.0, "meaning", false);
+    Experiment::getInstance()->getConstants().append(newConst);
+
+    constantModel->resetModel();
+}
+
+void MainWindow::removeConstant() {
+
+}
 // new graph button
 void MainWindow::setupCreateButton()
 {

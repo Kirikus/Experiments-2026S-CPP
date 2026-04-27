@@ -3,12 +3,12 @@
 
 #include "QModelIndex"
 #include "Qt"
-#include "constant.h"
+#include "experiment.h"
 
 class ConstantTableModel : public QAbstractTableModel
 {
 public:
-    explicit ConstantTableModel();
+    explicit ConstantTableModel(Experiment& exp);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -20,10 +20,11 @@ public:
     void setHeader(QString& new_header);
 
     void addConstant();
+    void resetModel();
 
 private:
     int columns;
-    QList<Constant> constants;
+    Experiment& experiment;
     QString header;
 };
 

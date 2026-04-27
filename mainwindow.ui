@@ -172,9 +172,6 @@
        </property>
        <widget class="QWidget" name="layoutWidget">
         <layout class="QGridLayout" name="Constants">
-         <item row="1" column="0" colspan="3">
-          <widget class="QTableView" name="ConstantsTable"/>
-         </item>
          <item row="0" column="0">
           <widget class="QLabel" name="ConstantsLabel">
            <property name="font">

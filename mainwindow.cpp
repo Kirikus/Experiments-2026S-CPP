@@ -54,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->VarDelButton, &QPushButton::clicked, this, &MainWindow::removeVariable);
     connect(ui->InstAddButton, &QPushButton::clicked, this, &MainWindow::addInstrument);
     connect(ui->InstDelButton, &QPushButton::clicked, this, &MainWindow::removeInstrument);
+    connect(ui->ConstAddButton, &QPushButton::clicked, this, &MainWindow::addConstant);
+    connect(ui->ConstDelButton, &QPushButton::clicked, this, &MainWindow::removeConstant);
 
     // setup constants table
     constantModel = new ConstantTableModel(*Experiment::getInstance());

@@ -58,7 +58,7 @@ QWidget *ConstantDelegate::createEditor(QWidget *parent,
 
 void ConstantDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QVariant data = index.model()->data(index, Qt::EditRole);
+    QVariant data = index.model()->data(index, Qt::DisplayRole);
 
     QLineEdit *lineEdit = qobject_cast<QLineEdit*>(editor);
     QDoubleSpinBox *spinBox = qobject_cast<QDoubleSpinBox*>(editor);

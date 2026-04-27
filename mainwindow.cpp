@@ -46,9 +46,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->VariablesTable->setItemDelegate(variableDelegate);
 
     connectionsModel = new ConnectionsTableModel(*Experiment::getInstance());
-    // connectionsDelegate = new VariableDelegate(this);
+    connectionsDelegate = new ConnectionsDelegate(this);
     ui->ConnectionsTable->setModel(connectionsModel);
-    // ui->ConnectionsTable->setItemDelegate(variableDelegate);
+    ui->ConnectionsTable->setItemDelegate(connectionsDelegate);
 
     connect(ui->VarAddButton, &QPushButton::clicked, this, &MainWindow::addVariable);
     connect(ui->VarDelButton, &QPushButton::clicked, this, &MainWindow::removeVariable);
@@ -226,4 +226,5 @@ MainWindow::~MainWindow()
 
     delete constantModel;
     delete constantDelegate;
+    delete connectionsDelegate;
 }

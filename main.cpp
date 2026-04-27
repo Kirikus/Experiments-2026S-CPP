@@ -46,8 +46,8 @@ int main(int argc, char *argv[])
     Variable var4(values4, "Напряжение", voltmeter_ptr);
     experiment->getVariables().append(var4);
 
-    Constant const1("g", 9.8, 0.1, "meaning", false);
-    Experiment::getInstance()->getConstants().append(const1);
+    Constant const1("Ускорение", 9.8, 0.1, "g", false);
+    experiment->getConstants().append(const1);
 
     MainWindow w;
     w.show();

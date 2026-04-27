@@ -13,6 +13,7 @@
 #include "qcustomplot.h"
 #include "constant_table_model.h"
 #include "constant_delegate.h"
+#include "connections_delegate.h"
 #include "graph.h"
 
 QT_BEGIN_NAMESPACE
@@ -63,6 +64,7 @@ private:
     ConstantDelegate *constantDelegate;
 
     ConnectionsTableModel *connectionsModel;
+    ConnectionsDelegate *connectionsDelegate;
 };
 
 #endif // MAINWINDOW_H

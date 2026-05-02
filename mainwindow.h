@@ -47,6 +47,12 @@ private slots:
     void closeTab(int index);
     void updateAllGraphs();
 
+
+    void newFile();
+    void openFile();
+    void saveFile();
+    void saveAsFile();
+    void uploadFile();
     
 
 private:

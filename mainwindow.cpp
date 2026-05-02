@@ -10,6 +10,7 @@
 #include "graph.h"
 #include "lingraph.h"
 #include "variable_delegate.h"
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -56,6 +57,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->InstDelButton, &QPushButton::clicked, this, &MainWindow::removeInstrument);
     connect(ui->ConstAddButton, &QPushButton::clicked, this, &MainWindow::addConstant);
     connect(ui->ConstDelButton, &QPushButton::clicked, this, &MainWindow::removeConstant);
+    connect(ui->ActionNewFile, &QAction::triggered, this, &MainWindow::newFile);
+    connect(ui->ActionOpenFile, &QAction::triggered, this, &MainWindow::openFile);
+    connect(ui->ActionSave, &QAction::triggered, this, &MainWindow::saveFile);
+    connect(ui->ActionSaveAs, &QAction::triggered, this, &MainWindow::saveAsFile);
+    connect(ui->ActionUploadData, &QAction::triggered, this, &MainWindow::uploadFile);
+
 
     // setup constants table
     constantModel = new ConstantTableModel(*Experiment::getInstance());
@@ -232,6 +239,26 @@ void MainWindow::closeTab(int index)
     QWidget *widget = ui->GraphTabWidget->widget(index);
     ui->GraphTabWidget->removeTab(index);
     delete widget;
+}
+
+void MainWindow::newFile(){
+    std::cout << "New file" << std::endl;
+}
+
+void MainWindow::openFile(){
+    std::cout << "Open file" << std::endl;
+}
+
+void MainWindow::saveFile(){
+    std::cout << "Save file" << std::endl;
+}
+
+void MainWindow::saveAsFile(){
+    std::cout << "Save as file" << std::endl;
+}
+
+void MainWindow::uploadFile(){
+    std::cout << "Upload file" << std::endl;
 }
 
 MainWindow::~MainWindow()

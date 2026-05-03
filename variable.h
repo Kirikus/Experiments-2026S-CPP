@@ -7,26 +7,24 @@
 
 class Variable{
 public:
-  Variable(QList<double> values, QString name, const Instrument* inst);
+  Variable(QList<double> values, QString name);
   Variable();
 
   QList<double>& get_values();
   const QString& get_name();
-  const Instrument* get_instrument() const;
 
   void set_values(QList<double>& new_values);
   void add_value(double new_value);
   void set_name(const QString& new_name);
-  void set_instrument(const Instrument* instrument);
   int get_id() const;
   void set_id(int id);
   int get_instrument_id() const;
+  void set_instrument_id(int id);
   
 private:
   int id;
   QList<double> values;
   QString name;
-  const Instrument* instrument;
   int instrument_id;
 };
 

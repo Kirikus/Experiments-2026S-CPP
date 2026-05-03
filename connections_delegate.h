@@ -21,7 +21,7 @@ public:
 
 
 private:
-    mutable Experiment* experiment = nullptr;
+    Experiment* experiment = nullptr;
 };
 
 #endif // CONNECTIONS_DELEGATE_H

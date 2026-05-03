@@ -17,10 +17,12 @@ QWidget *ConnectionsDelegate::createEditor(QWidget *parent,
     if (index.column() == 1) {
         QComboBox *editor = new QComboBox(parent);
 
-        const QList<Instrument>& instruments = experiment->getInstruments();
-        for (const Instrument& inst : instruments) {
-            editor->addItem(inst.get_name());
+        const QHash<int, Instrument>& instruments = experiment->getInstruments();
+        for (const Instrument& inst : instruments.values()) {
+            editor->addItem(inst.get_name(), inst.get_id());
         }
+
+        editor->addItem("Не выбран", -1);
 
         return editor;
     }
@@ -36,8 +38,10 @@ void ConnectionsDelegate::setEditorData(QWidget *editor, const QModelIndex &inde
     QComboBox *comboBox = qobject_cast<QComboBox*>(editor);
     if (!comboBox) return;
 
-    QString currentName = index.model()->data(index, Qt::DisplayRole).toString();
-    comboBox->setCurrentText(currentName);
+    int currentId = index.model()->data(index, Qt::EditRole).toInt();
+    int idx = comboBox->findData(currentId, Qt::UserRole);
+    if (idx >= 0)
+        comboBox->setCurrentIndex(idx);
 }
 
 void ConnectionsDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
@@ -48,6 +52,6 @@ void ConnectionsDelegate::setModelData(QWidget *editor, QAbstractItemModel *mode
     QComboBox *comboBox = qobject_cast<QComboBox*>(editor);
     if (!comboBox) return;
 
-    QString selectedName = comboBox->currentText();
-    model->setData(index, selectedName, Qt::EditRole);
+    QVariant selected_id = comboBox->currentData(Qt::UserRole);
+    model->setData(index, selected_id, Qt::EditRole);
 }

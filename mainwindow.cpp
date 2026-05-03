@@ -134,7 +134,7 @@ void MainWindow::addVariable()
 {
     // Создаем новую переменную
     QList<double> values;
-    Variable newVar(values, "New variable", nullptr);
+    Variable newVar(values, "New variable");
     newVar.set_id(Experiment::getInstance()->getVariables().size());
     
 
@@ -168,28 +168,41 @@ void MainWindow::addInstrument()
     newInst.set_error_type(errorType);
 
     // Добавляем в эксперимент
-    Experiment::getInstance()->getInstruments().append(newInst);
-
+    Experiment::getInstance()->addInstrument(newInst);
+    
     // Уведомляем модель об изменении
     instrumentModel->resetModel();
 }
 
-void MainWindow::removeInstrument() {
+bool MainWindow::removeInstrument() {
     Experiment* experiment = Experiment::getInstance();
     QModelIndex currentIndex = ui->InstrumentsTable->currentIndex();
     if (currentIndex.isValid()) {
+        
+        QHash <int, Instrument>& insts = experiment->getInstruments();
+        QList<int> keys = insts.keys();
+        std::sort(keys.begin(), keys.end());
+
+        int row = currentIndex.row();
+
         for (int i = 0; i < experiment->getVariables().size(); i++) {
-            if (experiment->getVariables()[i].get_instrument() == &experiment->getInstruments()[currentIndex.row()]) {
-                return;
+            if (experiment->getVariables()[i].get_instrument_id() == insts[keys[row]].get_id()) {
+                std::cout << "Нельзя удалить инструмент, который используется в эксперименте" << std::endl;
+                return false;
             }
         }
-        int row = currentIndex.row();
-        // Удаляем из эксперимента
-        Experiment::getInstance()->getInstruments().removeAt(row);
 
+        
+        // Удаляем из эксперимента
+        insts.remove(keys[row]);
+        
         // Уведомляем модель об изменении
         instrumentModel->resetModel();
+
+        return true;
     }
+
+    return false;
 }
 
 // перерисовка всех графиков при изменении данных
@@ -259,6 +272,8 @@ bool MainWindow::saveFile(){
         return saveAsFile();
     }
 
+    Experiment* experiment = Experiment::getInstance();
+
     QString& fileName = Experiment::getInstance()->get_file_name();
 
     QJsonObject mainObject;
@@ -269,18 +284,18 @@ bool MainWindow::saveFile(){
 
     QJsonArray instruments;
 
-    for (int i = 0; i < Experiment::getInstance()->getVariables().size(); i++) {
+    for (int i = 0; i < experiment->getVariables().size(); i++) {
         QJsonObject variable;
         QJsonArray values;
-        variable["id"] = Experiment::getInstance()->getVariables()[i].get_id();
-        if (Experiment::getInstance()->getVariables()[i].get_instrument() != nullptr) {
-            variable["instrument_id"] = Experiment::getInstance()->getVariables()[i].get_instrument_id();
+        variable["id"] = experiment->getVariables()[i].get_id();
+        if (experiment->getVariables()[i].get_instrument_id() != -1) {
+            variable["instrument_id"] = experiment->getVariables()[i].get_instrument_id();
         } else {
             variable["instrument_id"] = -1;
         }
-        variable["name"] = Experiment::getInstance()->getVariables()[i].get_name();
-        for (int j = 0; j < Experiment::getInstance()->getVariables()[i].get_values().size(); j++) {
-            values.append(Experiment::getInstance()->getVariables()[i].get_values()[j]);
+        variable["name"] = experiment->getVariables()[i].get_name();
+        for (int j = 0; j < experiment->getVariables()[i].get_values().size(); j++) {
+            values.append(experiment->getVariables()[i].get_values()[j]);
         }
         if (values.size() > 0) {
             variable["values"] = values;
@@ -290,24 +305,29 @@ bool MainWindow::saveFile(){
 
     mainObject["Variables"] = variables;
 
-    for (int i = 0; i < Experiment::getInstance()->getConstants().size(); i++) {
+    for (int i = 0; i < experiment->getConstants().size(); i++) {
         QJsonObject constant;
-        constant["id"] = Experiment::getInstance()->getConstants()[i].get_id();
-        constant["name"] = Experiment::getInstance()->getConstants()[i].get_name();
-        constant["value"] = Experiment::getInstance()->getConstants()[i].get_value();
-        constant["meaning"] = Experiment::getInstance()->getConstants()[i].get_meaning();
-        constant["readonly"] = Experiment::getInstance()->getConstants()[i].get_readonly();
+        constant["id"] = experiment->getConstants()[i].get_id();
+        constant["name"] = experiment->getConstants()[i].get_name();
+        constant["value"] = experiment->getConstants()[i].get_value();
+        constant["meaning"] = experiment->getConstants()[i].get_meaning();
+        constant["readonly"] = experiment->getConstants()[i].get_readonly();
         constants.append(constant);
     }
 
     mainObject["Constants"] = constants;
 
-    for (int i = 0; i < Experiment::getInstance()->getInstruments().size(); i++) {
+
+    QList<int> keys = experiment->getInstruments().keys();
+    std::sort(keys.begin(), keys.end());
+
+    for (int key : keys) {
+
         QJsonObject instrument;
-        instrument["id"] = Experiment::getInstance()->getInstruments()[i].get_id();
-        instrument["error_type"] = Experiment::getInstance()->getInstruments()[i].get_error_type();
-        instrument["name"] = Experiment::getInstance()->getInstruments()[i].get_name();
-        instrument["error_value"] = Experiment::getInstance()->getInstruments()[i].get_error_value();
+        instrument["id"] = experiment->getInstruments()[key].get_id();
+        instrument["error_type"] = experiment->getInstruments()[key].get_error_type();
+        instrument["name"] = experiment->getInstruments()[key].get_name();
+        instrument["error_value"] = experiment->getInstruments()[key].get_error_value();
         instruments.append(instrument);
     }
 
@@ -325,7 +345,7 @@ bool MainWindow::saveFile(){
 
     file.close();
 
-    Experiment::getInstance()->set_file_name(fileName);
+    experiment->set_file_name(fileName);
 
     return true;
 }
@@ -356,4 +376,10 @@ MainWindow::~MainWindow()
     delete constantModel;
     delete constantDelegate;
     delete connectionsDelegate;
+
+    delete instrumentModel;
+    delete instrumentDelegate;
+    delete variableModel;
+    delete variableDelegate;
+    delete connectionsModel;
 }

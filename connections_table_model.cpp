@@ -24,11 +24,21 @@ QVariant ConnectionsTableModel::data(const QModelIndex &index, int role) const {
                 case 0:
                     return experiment.getVariables()[index.row()].get_name();
                 case 1: 
-                    if (experiment.getVariables()[index.row()].get_instrument() == nullptr) {
-                        return QVariant();
+                    if (experiment.getVariables()[index.row()].get_instrument_id() == -1) {
+                        return QVariant("Не выбран");
                     }
-                    return experiment.getVariables()[index.row()].get_instrument()->get_name();
+
+                    int instrument_id = experiment.getVariables()[index.row()].get_instrument_id();
+
+                    return experiment.getInstrument(instrument_id)->get_name();
                 }
+                break;
+        case Qt::EditRole:
+            if (index.column() == 1) {
+                int instrument_id = experiment.getVariables()[row].get_instrument_id();
+                return instrument_id;
+            }
+            break;
         }
     return QVariant();
 }
@@ -39,13 +49,9 @@ bool ConnectionsTableModel::setData(const QModelIndex &index, const QVariant &va
       return false;
     
     if (index.column() == 1) {
-            QString instrument_name = value.toString();
-            for (auto& instrument : experiment.getInstruments()) {
-                if (instrument.get_name() == instrument_name) {
-                    experiment.getVariables()[index.row()].set_instrument(&instrument);
-                    return true;
-                }
-            }
+            int instrument_id = value.toInt();
+            QList<Variable>& vars = experiment.getVariables();
+            vars[index.row()].set_instrument_id(instrument_id);
     }
     return true;
 }

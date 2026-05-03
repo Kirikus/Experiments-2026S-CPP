@@ -6,6 +6,7 @@
 class Instrument {
 public:
   Instrument(const QString& name, double error_value);
+  Instrument() = default;
   double get_error_value() const;
   const QString& get_name() const;
   const QString& get_error_type() const;

@@ -23,3 +23,11 @@ void Instrument::set_name(QString& new_name) {
 void Instrument::set_error_type(QString& new_error_type) {
     error_type = new_error_type;
 }
+
+int Instrument::get_id() const {
+    return id;
+}
+
+void Instrument::set_id(int new_id) {
+    id = new_id;
+}

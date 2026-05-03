@@ -32,3 +32,11 @@ const Instrument* Variable::get_instrument() const {
 void Variable::set_instrument(const Instrument* inst) {
     instrument = inst;
 }
+
+int Variable::get_id() const {
+    return id;
+}
+
+void Variable::set_id(int new_id) {
+    id = new_id;
+}

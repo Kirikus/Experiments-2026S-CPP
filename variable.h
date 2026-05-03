@@ -18,8 +18,11 @@ public:
   void add_value(double new_value);
   void set_name(const QString& new_name);
   void set_instrument(const Instrument* instrument);
+  int get_id() const;
+  void set_id(int id);
   
 private:
+  int id;
   QList<double> values;
   QString name;
   const Instrument* instrument;

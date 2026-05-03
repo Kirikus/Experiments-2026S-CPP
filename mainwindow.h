@@ -50,7 +50,7 @@ private slots:
 
     void newFile();
     void openFile();
-    void saveFile();
+    bool saveFile();
     bool saveAsFile();
     void uploadFile();
     

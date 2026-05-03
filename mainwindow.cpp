@@ -254,19 +254,12 @@ void MainWindow::openFile(){
     std::cout << "Open file" << std::endl;
 }
 
-void MainWindow::saveFile(){
-    std::cout << "Save file" << std::endl;
-}
-
-bool MainWindow::saveAsFile(){
-    QString fileName = QFileDialog::getSaveFileName(this,
-        tr("Сохранить файл"),
-        QDir::homePath(),
-        tr("JSON файлы (*.json);;Все файлы (*)"));
-
-    if (fileName.isEmpty()) {
-        return false;
+bool MainWindow::saveFile(){
+    if (Experiment::getInstance()->get_file_name().isEmpty()) {
+        return saveAsFile();
     }
+
+    QString& fileName = Experiment::getInstance()->get_file_name();
 
     QJsonObject mainObject;
 
@@ -331,7 +324,25 @@ bool MainWindow::saveAsFile(){
     file.write(doc.toJson(QJsonDocument::Indented)); 
 
     file.close();
+
+    Experiment::getInstance()->set_file_name(fileName);
+
     return true;
+}
+
+bool MainWindow::saveAsFile(){
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Сохранить файл"),
+        QDir::homePath(),
+        tr("JSON файлы (*.json);;Все файлы (*)"));
+
+    if (fileName.isEmpty()) {
+        return false;
+    }
+
+    Experiment::getInstance()->set_file_name(fileName);
+
+    return saveFile();
 }
 
 void MainWindow::uploadFile(){

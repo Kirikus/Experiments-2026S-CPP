@@ -34,6 +34,9 @@ public:
   void addInstrument(Instrument& inst);
   void addConstant(Constant& cons);
 
+  QString& get_file_name();
+  void set_file_name(QString& name);
+
 private:
 
   Experiment(QList<class Variable>& variables, 
@@ -51,6 +54,8 @@ private:
   unsigned long long variable_id = 1;
   unsigned long long instrument_id = 1;
   unsigned long long constant_id = 1;
+
+  QString fileName;
 };
 
 #endif // EXPERIMENT_H

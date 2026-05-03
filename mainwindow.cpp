@@ -345,7 +345,6 @@ void MainWindow::openFile()
     }
     experiment->getConstants() = loadedConstants;
 
-    // ----- Загрузка переменных -----
     QJsonArray variablesArray = root["Variables"].toArray();
     QList<Variable> loadedVariables;
 
@@ -355,19 +354,16 @@ void MainWindow::openFile()
         QString name = obj["name"].toString();
         int instrumentId = obj["instrument_id"].toInt(-1);
 
-        // Проверяем, существует ли инструмент с таким ID
         if (instrumentId != -1 && !experiment->getInstruments().contains(instrumentId)) {
             qWarning() << "Переменная" << name << "ссылается на несуществующий инструмент id=" << instrumentId;
             instrumentId = -1;
         }
 
-        // Создаём переменную (пока без значений)
         QList<double> values;
         Variable var(values, name);
         var.set_id(id);
         var.set_instrument_id(instrumentId);
 
-        // Читаем массив значений
         QJsonArray valuesArray = obj["values"].toArray();
         for (const QJsonValue& v : valuesArray) {
             var.add_value(v.toDouble());

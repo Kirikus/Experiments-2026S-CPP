@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     experiment->addVariable(var4);
 
     Constant const1("Ускорение", 9.8, 0.1, "g", false);
-    experiment->getConstants().append(const1);
+    experiment->addConstant(const1);
 
     MainWindow w;
     w.show();

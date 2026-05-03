@@ -309,6 +309,17 @@ bool MainWindow::saveAsFile(){
 
     mainObject["Constants"] = constants;
 
+    for (int i = 0; i < Experiment::getInstance()->getInstruments().size(); i++) {
+        QJsonObject instrument;
+        instrument["id"] = Experiment::getInstance()->getInstruments()[i].get_id();
+        instrument["error_type"] = Experiment::getInstance()->getInstruments()[i].get_error_type();
+        instrument["name"] = Experiment::getInstance()->getInstruments()[i].get_name();
+        instrument["error_value"] = Experiment::getInstance()->getInstruments()[i].get_error_value();
+        instruments.append(instrument);
+    }
+
+    mainObject["Instruments"] = instruments;
+
     QJsonDocument doc(mainObject);
 
     QFile file(fileName);

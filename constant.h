@@ -18,8 +18,11 @@ public:
   void set_error(double value);
   void set_meaning(const QString &meaning);
   bool get_readonly() const;
+  int get_id() const;
+  void set_id(int new_id);
 
 private:
+  int id;
   QString name;
   double value;
   double error;

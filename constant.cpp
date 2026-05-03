@@ -45,3 +45,11 @@ void Constant::set_meaning(const QString& meaning) {
 bool Constant::get_readonly() const {
     return readonly;
 }
+
+int Constant::get_id() const {
+    return id;
+}
+
+void Constant::set_id(int new_id) {
+    id = new_id;
+}

@@ -71,3 +71,11 @@ void Experiment::addConstant(Constant& cons) {
     cons.set_id(constant_id++);
     constants.append(cons);
 }
+
+QString& Experiment::get_file_name() {
+    return fileName;
+}
+
+void Experiment::set_file_name(QString& name) {
+    fileName = name;
+}

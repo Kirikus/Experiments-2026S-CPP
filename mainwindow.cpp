@@ -207,7 +207,7 @@ void MainWindow::updateAllGraphs()
 
 void MainWindow::addConstant() {
     Constant newConst("new constant", 0.0, 0.0, "meaning", false);
-    Experiment::getInstance()->getConstants().append(newConst);
+    Experiment::getInstance()->addConstant(newConst);
 
     constantModel->resetModel();
 }

@@ -32,6 +32,7 @@ public:
 
   void addVariable(Variable& var);
   void addInstrument(Instrument& inst);
+  void addConstant(Constant& cons);
 
 private:
 
@@ -49,6 +50,7 @@ private:
 
   unsigned long long variable_id = 1;
   unsigned long long instrument_id = 1;
+  unsigned long long constant_id = 1;
 };
 
 #endif // EXPERIMENT_H

@@ -66,3 +66,8 @@ void Experiment::addInstrument(Instrument& inst) {
     inst.set_id(instrument_id++);
     instruments.append(inst);
 }
+
+void Experiment::addConstant(Constant& cons) {
+    cons.set_id(constant_id++);
+    constants.append(cons);
+}

@@ -16,17 +16,21 @@ QVariant InstrumentTableModel::data(const QModelIndex &index, int role) const {
     int row = index.row();
     int col = index.column();
 
+    QHash<int, Instrument>& instruments = experiment.getInstruments();
+    QList<int> keys = instruments.keys();
+    std::sort(keys.begin(), keys.end());
+
     switch (role) {
     case Qt::DisplayRole:
-        Instrument& instrument = experiment.getInstrument(index.row());
+        Instrument* instrument = experiment.getInstrument(keys[index.row()]);
 
         switch (index.column()) {
             case 0:
-                return instrument.get_name();
+                return instrument->get_name();
             case 1:
-                return instrument.get_error_value();
+                return instrument->get_error_value();
             case 2:
-                return instrument.get_error_type();
+                return instrument->get_error_type();
         }
     }
     return QVariant();
@@ -37,20 +41,25 @@ bool InstrumentTableModel::setData(const QModelIndex &index, const QVariant &val
     if (role == Qt::EditRole) {
         if (!checkIndex(index))
             return false;
-        Instrument& instrument = experiment.getInstrument(index.row());
+
+        QHash<int, Instrument>& instruments = experiment.getInstruments();
+        QList<int> keys = instruments.keys();
+        std::sort(keys.begin(), keys.end());
+
+        Instrument* instrument = experiment.getInstrument(keys[index.row()]);
 
         switch (index.column()) {
             case 0: {
                 QString newName = value.toString();
-                instrument.set_name(newName);
+                instrument->set_name(newName);
                 break;
             }
             case 1:
-                instrument.set_error_value(value.toDouble());
+                instrument->set_error_value(value.toDouble());
                 break;
             case 2: {
                 QString newErrorType = value.toString();
-                instrument.set_error_type(newErrorType);
+                instrument->set_error_type(newErrorType);
                 break;
             }
         }   

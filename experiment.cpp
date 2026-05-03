@@ -2,7 +2,7 @@
 
 Experiment::Experiment(QList<Variable>& vars, 
   QList<class Constant>& cons, 
-  QList<class Instrument>& ins)
+  QHash<int, Instrument>& ins)
 : variables(vars), constants(cons), instruments(ins) {}
 
 Experiment::Experiment() : variables(), constants(), instruments(){
@@ -33,16 +33,21 @@ QList<Constant>& Experiment::getConstants() {
     return constants;
 }
 
-const QList<Instrument>& Experiment::getInstruments() const {
+const QHash<int, Instrument>& Experiment::getInstruments() const {
     return instruments;
 }
 
-QList<Instrument>& Experiment::getInstruments() {
+QHash<int, Instrument>& Experiment::getInstruments() {
     return instruments;
 }
 
-Instrument& Experiment::getInstrument(int i) {
-    return instruments[i];
+Instrument* Experiment::getInstrument(int id) {
+    auto it = instruments.find(id);
+    return it != instruments.end() ? &it.value() : nullptr;
+}
+const Instrument* Experiment::getInstrument(int id) const {
+    auto it = instruments.find(id);
+    return it != instruments.end() ? &it.value() : nullptr;
 }
 
 void Experiment::setVariables(const QList<Variable>& vars) {
@@ -53,7 +58,7 @@ void Experiment::setConstants(const QList<Constant>& cons) {
     constants = cons;
 }
 
-void Experiment::setInstruments(const QList<Instrument>& inst) {
+void Experiment::setInstruments(const QHash<int, Instrument>& inst) {
     instruments = inst;
 }
 
@@ -63,8 +68,8 @@ void Experiment::addVariable(Variable& var) {
 }
 
 void Experiment::addInstrument(Instrument& inst) {
-    inst.set_id(instrument_id++);
-    instruments.append(inst);
+    inst.set_id(instrument_id);
+    instruments[instrument_id++] = inst;
 }
 
 void Experiment::addConstant(Constant& cons) {

@@ -2,6 +2,7 @@
 #define EXPERIMENT_H
 
 #include <QList>
+#include <QHash>
 #include "instrument.h"
 #include "variable.h"
 #include "constant.h"
@@ -21,14 +22,15 @@ public:
   const QList<class Constant>& getConstants() const;
   QList<class Constant>& getConstants();
 
-  const QList<class Instrument>& getInstruments() const;
-  QList<class Instrument>& getInstruments();
+  const QHash<int, Instrument>& getInstruments() const;
+  QHash<int, class Instrument>& getInstruments();
 
-  Instrument& getInstrument(int i);
+  Instrument* getInstrument(int id);
+  const Instrument* getInstrument(int id) const;
 
   void setVariables(const QList<class Variable>& vars);
   void setConstants(const QList<class Constant>& cons);
-  void setInstruments(const QList<class Instrument>& inst);
+  void setInstruments(const QHash<int, Instrument>& inst);
 
   void addVariable(Variable& var);
   void addInstrument(Instrument& inst);
@@ -41,7 +43,7 @@ private:
 
   Experiment(QList<class Variable>& variables, 
              QList<class Constant>& constants,
-             QList<class Instrument>& instruments);
+             QHash<int, Instrument>& instruments);
 
   Experiment();
 
@@ -49,7 +51,7 @@ private:
 
   QList<class Variable> variables;
   QList<class Constant> constants;
-  QList<class Instrument> instruments;
+  QHash<int, Instrument> instruments;
 
   unsigned long long variable_id = 1;
   unsigned long long instrument_id = 1;

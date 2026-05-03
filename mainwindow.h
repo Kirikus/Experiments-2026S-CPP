@@ -38,7 +38,7 @@ private slots:
     //void createColourGraph();
     void addInstrument();
     void addVariable();
-    void removeInstrument();
+    bool removeInstrument();
     void removeVariable();
     void addConstant();
     void removeConstant();

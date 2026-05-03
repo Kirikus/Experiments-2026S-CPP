@@ -263,8 +263,132 @@ void MainWindow::newFile(){
     std::cout << "New file" << std::endl;
 }
 
-void MainWindow::openFile(){
-    std::cout << "Open file" << std::endl;
+void MainWindow::openFile()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Открыть файл"),
+        QDir::homePath(),
+        tr("JSON файлы (*.json);;Все файлы (*)"));
+
+    if (fileName.isEmpty())
+        return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::warning(this, "Ошибка", "Не удалось открыть файл: " + file.errorString());
+        return;
+    }
+
+    QByteArray data = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(data, &parseError);
+    if (parseError.error != QJsonParseError::NoError) {
+        QMessageBox::warning(this, "Ошибка", "Ошибка разбора JSON: " + parseError.errorString());
+        return;
+    }
+
+    if (!doc.isObject()) {
+        QMessageBox::warning(this, "Ошибка", "Файл не содержит JSON-объект");
+        return;
+    }
+
+    Experiment* experiment = Experiment::getInstance();
+    QJsonObject root = doc.object();
+
+    experiment->getVariables().clear();
+    experiment->getConstants().clear();
+    experiment->getInstruments().clear();
+
+    int maxInstrumentId = 0;
+    int maxConstantId = 0;
+    int maxVariableId = 0;
+
+    QJsonArray instrumentsArray = root["Instruments"].toArray();
+    QHash<int, Instrument> loadedInstruments;
+
+    for (const QJsonValue& val : instrumentsArray) {
+        QJsonObject obj = val.toObject();
+        int id = obj["id"].toInt();
+        QString name = obj["name"].toString();
+        double errorValue = obj["error_value"].toDouble();
+        QString errorType = obj["error_type"].toString();
+
+        Instrument inst(name, errorValue);
+        inst.set_id(id);
+        inst.set_error_type(errorType);
+        loadedInstruments.insert(id, inst);
+
+        if (id > maxInstrumentId) maxInstrumentId = id;
+    }
+
+    experiment->getInstruments() = loadedInstruments;
+
+    QJsonArray constantsArray = root["Constants"].toArray();
+    QList<Constant> loadedConstants;
+
+    for (const QJsonValue& val : constantsArray) {
+        QJsonObject obj = val.toObject();
+        int id = obj["id"].toInt();
+        QString name = obj["name"].toString();
+        double value = obj["value"].toDouble();
+        double error = obj["error"].toDouble();
+        QString meaning = obj["meaning"].toString();
+        bool readonly = obj["readonly"].toBool();
+
+        Constant cons(name, value, error, meaning, readonly);
+        cons.set_id(id);
+        loadedConstants.append(cons);
+
+        if (id > maxConstantId) maxConstantId = id;
+    }
+    experiment->getConstants() = loadedConstants;
+
+    // ----- Загрузка переменных -----
+    QJsonArray variablesArray = root["Variables"].toArray();
+    QList<Variable> loadedVariables;
+
+    for (const QJsonValue& val : variablesArray) {
+        QJsonObject obj = val.toObject();
+        int id = obj["id"].toInt();
+        QString name = obj["name"].toString();
+        int instrumentId = obj["instrument_id"].toInt(-1);
+
+        // Проверяем, существует ли инструмент с таким ID
+        if (instrumentId != -1 && !experiment->getInstruments().contains(instrumentId)) {
+            qWarning() << "Переменная" << name << "ссылается на несуществующий инструмент id=" << instrumentId;
+            instrumentId = -1;
+        }
+
+        // Создаём переменную (пока без значений)
+        QList<double> values;
+        Variable var(values, name);
+        var.set_id(id);
+        var.set_instrument_id(instrumentId);
+
+        // Читаем массив значений
+        QJsonArray valuesArray = obj["values"].toArray();
+        for (const QJsonValue& v : valuesArray) {
+            var.add_value(v.toDouble());
+        }
+
+        loadedVariables.append(var);
+
+        if (id > maxVariableId) maxVariableId = id;
+    }
+    experiment->getVariables() = loadedVariables;
+
+    experiment->setMaxVariableId(maxVariableId);
+    experiment->setMaxInstrumentId(maxInstrumentId);
+    experiment->setMaxConstantId(maxConstantId);
+
+    variableModel->resetModel();
+    constantModel->resetModel();
+    instrumentModel->resetModel();
+    connectionsModel->resetModel();
+
+    QMessageBox::information(this, "Успешно", "Файл загружен");
 }
 
 bool MainWindow::saveFile(){
@@ -358,6 +482,10 @@ bool MainWindow::saveAsFile(){
 
     if (fileName.isEmpty()) {
         return false;
+    }
+
+    if (!fileName.endsWith(".json")) {
+        fileName += ".json";
     }
 
     Experiment::getInstance()->set_file_name(fileName);

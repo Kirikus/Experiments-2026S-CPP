@@ -39,6 +39,10 @@ public:
   QString& get_file_name();
   void set_file_name(QString& name);
 
+  void setMaxVariableId(int maxId) { variable_id = maxId + 1; }
+  void setMaxInstrumentId(int maxId) { instrument_id = maxId + 1; }
+  void setMaxConstantId(int maxId) { constant_id = maxId + 1; }
+
 private:
 
   Experiment(QList<class Variable>& variables, 

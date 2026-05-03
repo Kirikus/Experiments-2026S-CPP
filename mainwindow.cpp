@@ -272,6 +272,10 @@ bool MainWindow::saveAsFile(){
 
     QJsonArray variables;
 
+    QJsonArray constants;
+
+    QJsonArray instruments;
+
     for (int i = 0; i < Experiment::getInstance()->getVariables().size(); i++) {
         QJsonObject variable;
         QJsonArray values;
@@ -290,7 +294,20 @@ bool MainWindow::saveAsFile(){
         }
         variables.append(variable);
     }
+
     mainObject["Variables"] = variables;
+
+    for (int i = 0; i < Experiment::getInstance()->getConstants().size(); i++) {
+        QJsonObject constant;
+        constant["id"] = Experiment::getInstance()->getConstants()[i].get_id();
+        constant["name"] = Experiment::getInstance()->getConstants()[i].get_name();
+        constant["value"] = Experiment::getInstance()->getConstants()[i].get_value();
+        constant["meaning"] = Experiment::getInstance()->getConstants()[i].get_meaning();
+        constant["readonly"] = Experiment::getInstance()->getConstants()[i].get_readonly();
+        constants.append(constant);
+    }
+
+    mainObject["Constants"] = constants;
 
     QJsonDocument doc(mainObject);
 

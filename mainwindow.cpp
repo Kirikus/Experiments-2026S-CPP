@@ -258,8 +258,52 @@ void MainWindow::saveFile(){
     std::cout << "Save file" << std::endl;
 }
 
-void MainWindow::saveAsFile(){
-    std::cout << "Save as file" << std::endl;
+bool MainWindow::saveAsFile(){
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Сохранить файл"),
+        QDir::homePath(),
+        tr("JSON файлы (*.json);;Все файлы (*)"));
+
+    if (fileName.isEmpty()) {
+        return false;
+    }
+
+    QJsonObject mainObject;
+
+    QJsonArray variables;
+
+    for (int i = 0; i < Experiment::getInstance()->getVariables().size(); i++) {
+        QJsonObject variable;
+        QJsonArray values;
+        variable["id"] = Experiment::getInstance()->getVariables()[i].get_id();
+        if (Experiment::getInstance()->getVariables()[i].get_instrument() != nullptr) {
+            variable["instrument_id"] = Experiment::getInstance()->getVariables()[i].get_instrument_id();
+        } else {
+            variable["instrument_id"] = -1;
+        }
+        variable["name"] = Experiment::getInstance()->getVariables()[i].get_name();
+        for (int j = 0; j < Experiment::getInstance()->getVariables()[i].get_values().size(); j++) {
+            values.append(Experiment::getInstance()->getVariables()[i].get_values()[j]);
+        }
+        if (values.size() > 0) {
+            variable["values"] = values;
+        }
+        variables.append(variable);
+    }
+    mainObject["Variables"] = variables;
+
+    QJsonDocument doc(mainObject);
+
+    QFile file(fileName);
+    
+    if (!file.open(QIODevice::WriteOnly)) {
+        return false;
+    }
+
+    file.write(doc.toJson(QJsonDocument::Indented)); 
+
+    file.close();
+    return true;
 }
 
 void MainWindow::uploadFile(){

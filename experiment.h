@@ -30,6 +30,8 @@ public:
   void setConstants(const QList<class Constant>& cons);
   void setInstruments(const QList<class Instrument>& inst);
 
+  void addVariable(Variable& var);
+  void addInstrument(Instrument& inst);
 
 private:
 
@@ -44,6 +46,9 @@ private:
   QList<class Variable> variables;
   QList<class Constant> constants;
   QList<class Instrument> instruments;
+
+  unsigned long long variable_id = 1;
+  unsigned long long instrument_id = 1;
 };
 
 #endif // EXPERIMENT_H

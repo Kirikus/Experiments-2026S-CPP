@@ -20,12 +20,14 @@ public:
   void set_instrument(const Instrument* instrument);
   int get_id() const;
   void set_id(int id);
+  int get_instrument_id() const;
   
 private:
   int id;
   QList<double> values;
   QString name;
   const Instrument* instrument;
+  int instrument_id;
 };
 
 #endif // VARIABLE_H

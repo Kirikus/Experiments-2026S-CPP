@@ -11,6 +11,10 @@
 #include "lingraph.h"
 #include "variable_delegate.h"
 #include <iostream>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -130,11 +134,12 @@ void MainWindow::addVariable()
 {
     // Создаем новую переменную
     QList<double> values;
-    Variable newVar(values, "new variable", nullptr);
+    Variable newVar(values, "New variable", nullptr);
+    newVar.set_id(Experiment::getInstance()->getVariables().size());
+    
 
-    // Добавляем в эксперимент
-    Experiment::getInstance()->getVariables().append(newVar);
-
+    Experiment::getInstance()->addVariable(newVar);
+    
     // Уведомляем модель об изменении
     variableModel->resetModel();
     connectionsModel->resetModel();
@@ -158,7 +163,7 @@ void MainWindow::removeVariable()
 void MainWindow::addInstrument()
 {
     // Создаем новый инструмент
-    Instrument newInst("new instrument", 0.0);
+    Instrument newInst("New instrument", 0.0);
     QString errorType = "Абсолютная";
     newInst.set_error_type(errorType);
 

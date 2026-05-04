@@ -31,20 +31,14 @@ public:
     ~MainWindow();
 
 private slots:
-    //void openGraphSettings();
     void openPreview();
     void createLinGraph();
     //void createBarGraph();
     //void createColourGraph();
-    void applyLinGraphSettings();
-    void applyBarGraphSettings();
-    void applyColourGraphSettings();
     void addInstrument();
     void addVariable();
     void removeInstrument();
     void removeVariable();
-    //void applyBarGraphSettings();
-    //void applyColourGraphSettings();
     void closeTab(int index);
     void updateAllGraphs();
 

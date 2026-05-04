@@ -15,6 +15,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    //удаление лишних вкладок графика
+    while (ui->GraphTabWidget->count() > 0) {
+        QWidget *widget = ui->GraphTabWidget->widget(0);
+        ui->GraphTabWidget->removeTab(0);
+        delete widget;
+    }
+
     ui->GraphTabWidget->setTabsClosable(true);
 
     connect(ui->GraphTabWidget, &QTabWidget::tabCloseRequested,

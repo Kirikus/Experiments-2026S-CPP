@@ -34,7 +34,7 @@ private slots:
     //void openGraphSettings();
     void openPreview();
     void createLinGraph();
-    //void createBarGraph();
+    void createBarGraph();
     //void createColourGraph();
     void applyLinGraphSettings();
     void applyBarGraphSettings();

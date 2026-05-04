@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QColor>
 #include <QStringList>
+#include <QComboBox>
 
 namespace Ui
 {
@@ -12,9 +13,11 @@ namespace Ui
 
 struct LineSetting
 {
+    QString variableName;
     QColor color;
     QString lineType;
     QString pointType;
+    bool visible;
 };
 
 class LinGraphSettings : public QDialog
@@ -27,13 +30,16 @@ public:
     
     QList<LineSetting> getLines() const;
     void setLines(const QList<LineSetting> &lines);
+    int getSelectedXIndex() const;
+    QComboBox* getXAxisCombo() const;
+
+
+
 
 signals:
     void settingsApplied(); 
 
 private slots:
-    void onAddLine();
-    void onDeleteLine();
     void onSave();
     void onCancel();
     

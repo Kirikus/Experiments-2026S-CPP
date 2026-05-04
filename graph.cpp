@@ -3,6 +3,8 @@
 #include "ui_graph.h"
 #include <QVBoxLayout>
 #include <QPushButton>
+#include "experiment.h"
+#include "variable.h"
 
 Graph::Graph(QWidget *parent)
     : QWidget(parent), ui(new Ui::Graph)
@@ -63,6 +65,35 @@ QCustomPlot *Graph::getPlot() const
 {
     return ui->customPlot;
 }
+
+//настройка осей
+double Graph::getXMin() const
+{
+    return ui->XBox->value();
+}
+
+double Graph::getXMax() const
+{
+    return ui->XToBox->value();
+}
+
+double Graph::getYMin() const
+{
+    return ui->YBox->value();
+}
+
+double Graph::getYMax() const
+{
+    return ui->YToBox->value();
+}
+
+bool Graph::hasXYRange() const
+{
+    return ui->XBox->value() != 0 || ui->XToBox->value() != 0 ||
+           ui->YBox->value() != 0 || ui->YToBox->value() != 0;
+}
+
+
 
 Graph::~Graph()
 {

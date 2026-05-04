@@ -6,6 +6,7 @@
 #include "qcustomplot.h"
 #include "graph.h"
 #include "lingraphsettings.h"
+#include <QMap>
 
 class LinGraph : public Graph
 {
@@ -20,12 +21,8 @@ public:
     void applySettings() override;
 
 private:
-    void applyLinesSettings(const QList<LineSetting> &lines);
-    
-    QList<LineSetting> currentLines;
-    QVector<double> m_xData;
-    QVector<double> m_yData;
-    QList<LineSetting> linesSettings;
+    QMap<QString, LineSetting> linesSettings;
+    int selectedIndex = 0;
 
 };
 

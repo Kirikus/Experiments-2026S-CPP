@@ -76,6 +76,8 @@ bool VariableTableModel::setData(const QModelIndex &index, const QVariant &value
                     beginInsertColumns(QModelIndex(), newMax, newMax);
                     endInsertColumns();
                 }
+            } else {
+                variable.add_value(value.toDouble());
             }
         }   
 

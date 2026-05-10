@@ -209,6 +209,18 @@ void MainWindow::closeTab(int index)
     ui->GraphTabWidget->removeTab(index);
     delete widget;
 }
+//для добавления графика в отчет
+QCustomPlot* MainWindow::getCurrentPlot() const
+{
+    int currentIndex = ui->GraphTabWidget->currentIndex();
+    if (currentIndex >= 0) {
+        Graph *graph = qobject_cast<Graph*>(ui->GraphTabWidget->widget(currentIndex));
+        if (graph) {
+            return graph->getPlot();
+        }
+    }
+    return nullptr;
+}
 
 MainWindow::~MainWindow()
 {

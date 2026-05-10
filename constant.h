@@ -7,6 +7,7 @@
 class Constant
 {
 public:
+  Constant() = default;
   Constant(const QString &name, double value, double error, const QString &meaning, bool readonly);
 
   QString get_name() const;

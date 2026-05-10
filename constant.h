@@ -22,6 +22,7 @@ public:
   int get_id() const;
   void set_id(int new_id);
   QJsonObject to_json() const;
+  static bool fromJson(const QJsonObject& obj, Constant& out, QString& error);
 
 private:
   int id;

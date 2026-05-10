@@ -45,6 +45,7 @@ public:
   void set_constant_id(int new_id) { constant_id = new_id + 1; }
   
   QJsonObject to_json() const;
+  bool from_json(const QJsonObject& root, QString& error);
 
 private:
 

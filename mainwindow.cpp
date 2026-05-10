@@ -282,90 +282,13 @@ void MainWindow::openFile()
     }
 
     Experiment* experiment = Experiment::getInstance();
-    QJsonObject root = doc.object();
-
-    experiment->getVariables().clear();
-    experiment->getConstants().clear();
-    experiment->getInstruments().clear();
-
-    int maxInstrumentId = 0;
-    int maxConstantId = 0;
-    int maxVariableId = 0;
-
-    QJsonArray instrumentsArray = root["Instruments"].toArray();
-    QHash<int, Instrument> loadedInstruments;
-
-    for (const QJsonValue& val : instrumentsArray) {
-        QJsonObject obj = val.toObject();
-        int id = obj["id"].toInt();
-        QString name = obj["name"].toString();
-        double errorValue = obj["error_value"].toDouble();
-        QString errorType = obj["error_type"].toString();
-
-        Instrument inst(name, errorValue);
-        inst.set_id(id);
-        inst.set_error_type(errorType);
-        loadedInstruments.insert(id, inst);
-
-        if (id > maxInstrumentId) maxInstrumentId = id;
+    QString errorMsg;
+    if (!experiment->from_json(doc.object(), errorMsg)) {
+        QMessageBox::critical(this, "Ошибка загрузки", errorMsg);
+        return;
     }
 
-    experiment->getInstruments() = loadedInstruments;
-
-    QJsonArray constantsArray = root["Constants"].toArray();
-    QList<Constant> loadedConstants;
-
-    for (const QJsonValue& val : constantsArray) {
-        QJsonObject obj = val.toObject();
-        int id = obj["id"].toInt();
-        QString name = obj["name"].toString();
-        double value = obj["value"].toDouble();
-        double error = obj["error"].toDouble();
-        QString meaning = obj["meaning"].toString();
-        bool readonly = obj["readonly"].toBool();
-
-        Constant cons(name, value, error, meaning, readonly);
-        cons.set_id(id);
-        loadedConstants.append(cons);
-
-        if (id > maxConstantId) maxConstantId = id;
-    }
-    experiment->getConstants() = loadedConstants;
-
-    QJsonArray variablesArray = root["Variables"].toArray();
-    QList<Variable> loadedVariables;
-
-    for (const QJsonValue& val : variablesArray) {
-        QJsonObject obj = val.toObject();
-        int id = obj["id"].toInt();
-        QString name = obj["name"].toString();
-        int instrumentId = obj["instrument_id"].toInt(-1);
-
-        if (instrumentId != -1 && !experiment->getInstruments().contains(instrumentId)) {
-            qWarning() << "Переменная" << name << "ссылается на несуществующий инструмент id=" << instrumentId;
-            instrumentId = -1;
-        }
-
-        QList<double> values;
-        Variable var(values, name);
-        var.set_id(id);
-        var.set_instrument_id(instrumentId);
-
-        QJsonArray valuesArray = obj["values"].toArray();
-        for (const QJsonValue& v : valuesArray) {
-            var.add_value(v.toDouble());
-        }
-
-        loadedVariables.append(var);
-
-        if (id > maxVariableId) maxVariableId = id;
-    }
-    experiment->getVariables() = loadedVariables;
-
-    experiment->set_variable_id(maxVariableId);
-    experiment->set_instrument_id(maxInstrumentId);
-    experiment->set_constant_id(maxConstantId);
-
+    // Обновление всех моделей
     variableModel->resetModel();
     constantModel->resetModel();
     instrumentModel->resetModel();

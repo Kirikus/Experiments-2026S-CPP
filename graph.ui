@@ -177,7 +177,7 @@
         <item>
          <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>Formula</string>
+           <string>Title</string>
           </property>
          </widget>
         </item>

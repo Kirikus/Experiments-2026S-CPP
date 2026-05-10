@@ -16,6 +16,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    //удаление лишних вкладок графика
+    while (ui->GraphTabWidget->count() > 0) {
+        QWidget *widget = ui->GraphTabWidget->widget(0);
+        ui->GraphTabWidget->removeTab(0);
+        delete widget;
+    }
+
     ui->GraphTabWidget->setTabsClosable(true);
 
     connect(ui->GraphTabWidget, &QTabWidget::tabCloseRequested,
@@ -101,31 +108,6 @@ void MainWindow::createColourGraph()
     qDebug() << "Colour graph";
 }
 */
-
-void MainWindow::applyLinGraphSettings()
-{
-    qDebug() << "Line graph settings";
-    // graph update
-}
-*/
-
-void MainWindow::applyLinGraphSettings()
-{
-    qDebug() << "Line graph settings";
-    // graph update
-}
-/*
-void MainWindow::applyBarGraphSettings()
-{
-    qDebug() << "Bar graph settings";
-    // graph update
-}
-
-void MainWindow::applyColourGraphSettings()
-{
-    qDebug() << "Colour graph settings";
-    // graph update
-}
 
 void MainWindow::openPreview()
 {

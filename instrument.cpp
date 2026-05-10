@@ -44,19 +44,19 @@ QJsonObject Instrument::to_json() const {
 bool Instrument::from_json(const QJsonObject& obj, Instrument& out, QString& error) {
     // Проверка наличия полей
     if (!obj.contains("id")) {
-        error = "Отсутствует поле 'id' для Instrument";
+        error = "Отсутствует поле 'id'";
         return false;
     }
     if (!obj.contains("name")) {
-        error = "Отсутствует поле 'name' для Instrument";
+        error = "Отсутствует поле 'name'";
         return false;
     }
     if (!obj.contains("error_value")) {
-        error = "Отсутствует поле 'error_value' для Instrument";
+        error = "Отсутствует поле 'error_value'";
         return false;
     }
     if (!obj.contains("error_type")) {
-        error = "Отсутствует поле 'error_type' для Instrument";
+        error = "Отсутствует поле 'error_type'";
         return false;
     }
 
@@ -79,37 +79,36 @@ bool Instrument::from_json(const QJsonObject& obj, Instrument& out, QString& err
     }
     
     // Проверка значений
-    if (obj["error_type"].toString() != "абсолютная" && obj["error_type"].toString() != "относительная") {
-        error = "Недопустимое значение 'error_type': " + obj["error_type"].toString();
+    QString errorTypeValue = obj["error_type"].toString();
+    if (errorTypeValue != "абсолютная" && errorTypeValue != "относительная") {
+        error = QString("Недопустимое значение 'error_type': %1. Допустимые значения: абсолютная, относительная.")
+                    .arg(errorTypeValue);
         return false;
     }
-    if (obj["error_value"].toDouble() < 0) {
-        error = "Недопустимое значение 'error_value': " + obj["error_value"].toString() + 
-            ". Значение должно быть неотрицательно.";
+    
+    double errorValue = obj["error_value"].toDouble();
+    if (errorValue < 0) {
+        error = QString("Недопустимое значение 'error_value': %1. Значение должно быть неотрицательным.")
+                    .arg(errorValue);
         return false;
     }
-    if (obj["id"].toInt() < 0) {
-        error = "Недопустимое значние id: " + obj["id"].toString() + 
-            ". id должен быть натуральным числом.";
+    
+    int id = obj["id"].toInt();
+    if (id <= 0) {
+        error = QString("Недопустимое значение 'id': %1. Значение должно быть натуральным числом.")
+                    .arg(id);
         return false;
     }
-    if (obj["name"].toString().isEmpty()) {
-        error = "Значение 'name' не может быть пустым";
-        return false;
-    }
-    if (obj["error_type"].toString().isEmpty()) {
-        error = "Значение 'error_type' не может быть пустым";
+    
+    QString name = obj["name"].toString();
+    if (name.isEmpty()) {
+        error = "Недопустимое значение 'name'. Значение не может быть пустым.";
         return false;
     }
 
     // Извлечение значений
-    int id = obj["id"].toInt();
-    QString name = obj["name"].toString();
-    double errorValue = obj["error_value"].toDouble();
-    QString errorType = obj["error_type"].toString();
-
     out = Instrument(name, errorValue);
     out.set_id(id);
-    out.set_error_type(errorType);
+    out.set_error_type(errorTypeValue);
     return true;
 }

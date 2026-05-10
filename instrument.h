@@ -17,6 +17,7 @@ public:
   int get_id() const;
   void set_id(int new_id);
   QJsonObject to_json() const;
+  static bool from_json(const QJsonObject& obj, Instrument& out, QString& error);
 
 protected:
   QString name;        //   название инструмента

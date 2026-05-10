@@ -2,6 +2,7 @@
 #define CONSTANT_H
 
 #include <QString>
+#include <QJsonObject>
 
 class Constant
 {
@@ -20,6 +21,7 @@ public:
   bool get_readonly() const;
   int get_id() const;
   void set_id(int new_id);
+  QJsonObject to_json() const;
 
 private:
   int id;

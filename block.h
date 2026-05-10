@@ -1,22 +1,23 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include <QDialog>
+#include <QWidget>
 
-namespace Ui {
-class Block;
-}
-
-class Block : public QDialog
+class Block : public QWidget
 {
     Q_OBJECT
 
 public:
     explicit Block(QWidget *parent = nullptr);
-    ~Block();
+    virtual ~Block();
 
-private:
-    Ui::Block *ui;
+signals:
+    void moveUpButton();
+    void moveDownButton();
+    void deleteButton();
+
+    protected:
+    void setupBlockButtons();
 };
 
 #endif // BLOCK_H

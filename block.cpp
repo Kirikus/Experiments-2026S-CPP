@@ -1,14 +1,31 @@
 #include "block.h"
-#include "ui_block.h"
+#include <QPushButton>
+#include <QVBoxLayout>
 
 Block::Block(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::Block)
+    : QWidget(parent)
 {
-    ui->setupUi(this);
 }
 
 Block::~Block()
 {
-    delete ui;
 }
+
+
+void Block::setupBlockButtons()
+{
+    QPushButton *upButton = findChild<QPushButton*>("UpButton");
+    QPushButton *downButton = findChild<QPushButton*>("DownButton");
+    QPushButton *delButton = findChild<QPushButton*>("DelButton");
+    
+    if (upButton) {
+        connect(upButton, &QPushButton::clicked, this, &Block::moveUpButton);
+    }
+    if (downButton) {
+        connect(downButton, &QPushButton::clicked, this, &Block::moveDownButton);
+    }
+    if (delButton) {
+        connect(delButton, &QPushButton::clicked, this, &Block::deleteButton);
+    }
+}
+

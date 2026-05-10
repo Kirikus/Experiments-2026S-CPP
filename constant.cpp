@@ -63,3 +63,63 @@ QJsonObject Constant::to_json() const {
     constant["readonly"] = readonly;
     return constant;
 }
+
+bool Constant::fromJson(const QJsonObject& obj, Constant& out, QString& error) {
+    // Проверка наличия полей
+    const QStringList required = {"id", "name", "value", "error", "meaning", "readonly"};
+    for (const QString& field : required) {
+        if (!obj.contains(field)) {
+            error = QString("Отсутствует поле '%1'").arg(field);
+            return false;
+        }
+    }
+
+    // Проверка типов
+    if (!obj["id"].isDouble()) {
+        error = "Поле 'id' должно быть числом";
+        return false;
+    }
+    if (!obj["name"].isString()) {
+        error = "Поле 'name' должно быть строкой";
+        return false;
+    }
+    if (!obj["value"].isDouble()) {
+        error = "Поле 'value' должно быть числом";
+        return false;
+    }
+    if (!obj["error"].isDouble()) {
+        error = "Поле 'error' должно быть числом";
+        return false;
+    }
+    if (!obj["meaning"].isString()) {
+        error = "Поле 'meaning' должно быть строкой";
+        return false;
+    }
+    if (!obj["readonly"].isBool()) {
+        error = "Поле 'readonly' должно быть true/false";
+        return false;
+    }
+
+    // Проверка значений
+    int id = obj["id"].toInt();
+    if (id <= 0) {
+        error = QString("Недопустимое значение 'id': %1. Значение должно быть натуральным числом.").arg(id);
+        return false;
+    }
+    QString name = obj["name"].toString();
+    if (name.isEmpty()) {
+        error = "Недопустимое значение 'name'. Значение не может быть пустым.";
+        return false;
+    }
+    double errorVal = obj["error"].toDouble();
+    if (errorVal < 0) {
+        error = QString("Недопустимое значение 'error': %1. Значение не может быть отрицательным.").arg(errorVal);
+        return false;
+    }
+    QString meaning = obj["meaning"].toString();
+    bool readonly = obj["readonly"].toBool();
+
+    out = Constant(name, obj["value"].toDouble(), errorVal, meaning, readonly);
+    out.set_id(id);
+    return true;
+}

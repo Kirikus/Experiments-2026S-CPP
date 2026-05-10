@@ -6,6 +6,7 @@
 #include "instrument.h"
 #include "variable.h"
 #include "constant.h"
+#include <QJsonObject>
 
 class Experiment {   // Основной класс для хранения всех данных
 public:          
@@ -42,6 +43,8 @@ public:
   void set_variable_id(int new_id) { variable_id = new_id + 1; }
   void set_instrument_id(int new_id) { instrument_id = new_id + 1; }
   void set_constant_id(int new_id) { constant_id = new_id + 1; }
+  
+  QJsonObject to_json() const;
 
 private:
 

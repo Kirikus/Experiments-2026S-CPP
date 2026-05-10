@@ -84,3 +84,32 @@ QString& Experiment::get_file_name() {
 void Experiment::set_file_name(QString& name) {
     fileName = name;
 }
+
+QJsonObject Experiment::to_json() const {
+
+    QJsonObject experiment_json;
+    QJsonArray variables_json;
+    QJsonArray constants_json;
+    QJsonArray instruments_json;
+    QList<int> inst_keys = instruments.keys();
+    std::sort(inst_keys.begin(), inst_keys.end());
+
+    for (int i = 0; i < variables.size(); i++) {
+        variables_json.append(variables[i].to_json());
+    }
+
+    for (int i = 0; i < constants.size(); i++) {
+        constants_json.append(constants[i].to_json());
+    }
+
+    for (int key : inst_keys) {
+        instruments_json.append(instruments[key].to_json());
+    }
+
+    experiment_json["Constants"] = constants_json;
+    experiment_json["Variables"] = variables_json;
+    experiment_json["Instruments"] = instruments_json;
+
+    return experiment_json;
+    
+}

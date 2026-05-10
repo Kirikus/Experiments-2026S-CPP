@@ -4,6 +4,8 @@
 #include <QList>
 #include <QString>
 #include "instrument.h"
+#include <QJsonObject>
+#include <QJsonArray>
 
 class Variable{
 public:
@@ -20,6 +22,7 @@ public:
   void set_id(int id);
   int get_instrument_id() const;
   void set_instrument_id(int id);
+  QJsonObject to_json() const;
   
 private:
   int id;

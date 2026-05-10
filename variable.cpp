@@ -40,3 +40,18 @@ int Variable::get_instrument_id() const {
 void Variable::set_instrument_id(int new_id) {
     instrument_id = new_id;
 }
+
+QJsonObject Variable::to_json() const {
+    
+    QJsonObject variable;
+    QJsonArray values_list;
+
+    variable["id"] = id;
+    variable["instrument_id"] = instrument_id;
+    variable["name"] = name;
+    for (int j = 0; j < values.size(); j++) {
+        values_list.append(values[j]);
+    }
+    variable["values"] = values_list;
+    return variable;
+}

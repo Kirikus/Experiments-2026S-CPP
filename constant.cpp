@@ -53,3 +53,13 @@ int Constant::get_id() const {
 void Constant::set_id(int new_id) {
     id = new_id;
 }
+
+QJsonObject Constant::to_json() const {
+    QJsonObject constant;
+    constant["id"] = id;
+    constant["name"] = name;
+    constant["value"] = value;
+    constant["meaning"] = meaning;
+    constant["readonly"] = readonly;
+    return constant;
+}

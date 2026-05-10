@@ -380,68 +380,9 @@ bool MainWindow::saveFile(){
     }
 
     Experiment* experiment = Experiment::getInstance();
-
     QString& fileName = Experiment::getInstance()->get_file_name();
-
-    QJsonObject mainObject;
-
-    QJsonArray variables;
-
-    QJsonArray constants;
-
-    QJsonArray instruments;
-
-    for (int i = 0; i < experiment->getVariables().size(); i++) {
-        QJsonObject variable;
-        QJsonArray values;
-        variable["id"] = experiment->getVariables()[i].get_id();
-        if (experiment->getVariables()[i].get_instrument_id() != -1) {
-            variable["instrument_id"] = experiment->getVariables()[i].get_instrument_id();
-        } else {
-            variable["instrument_id"] = -1;
-        }
-        variable["name"] = experiment->getVariables()[i].get_name();
-        for (int j = 0; j < experiment->getVariables()[i].get_values().size(); j++) {
-            values.append(experiment->getVariables()[i].get_values()[j]);
-        }
-        if (values.size() > 0) {
-            variable["values"] = values;
-        }
-        variables.append(variable);
-    }
-
-    mainObject["Variables"] = variables;
-
-    for (int i = 0; i < experiment->getConstants().size(); i++) {
-        QJsonObject constant;
-        constant["id"] = experiment->getConstants()[i].get_id();
-        constant["name"] = experiment->getConstants()[i].get_name();
-        constant["value"] = experiment->getConstants()[i].get_value();
-        constant["meaning"] = experiment->getConstants()[i].get_meaning();
-        constant["readonly"] = experiment->getConstants()[i].get_readonly();
-        constants.append(constant);
-    }
-
-    mainObject["Constants"] = constants;
-
-
-    QList<int> keys = experiment->getInstruments().keys();
-    std::sort(keys.begin(), keys.end());
-
-    for (int key : keys) {
-
-        QJsonObject instrument;
-        instrument["id"] = experiment->getInstruments()[key].get_id();
-        instrument["error_type"] = experiment->getInstruments()[key].get_error_type();
-        instrument["name"] = experiment->getInstruments()[key].get_name();
-        instrument["error_value"] = experiment->getInstruments()[key].get_error_value();
-        instruments.append(instrument);
-    }
-
-    mainObject["Instruments"] = instruments;
-
+    QJsonObject mainObject = Experiment::getInstance()->to_json();
     QJsonDocument doc(mainObject);
-
     QFile file(fileName);
     
     if (!file.open(QIODevice::WriteOnly)) {
@@ -449,9 +390,7 @@ bool MainWindow::saveFile(){
     }
 
     file.write(doc.toJson(QJsonDocument::Indented)); 
-
     file.close();
-
     experiment->set_file_name(fileName);
 
     return true;
@@ -486,11 +425,10 @@ MainWindow::~MainWindow()
 
     delete constantModel;
     delete constantDelegate;
+    delete connectionsModel;
     delete connectionsDelegate;
-
     delete instrumentModel;
     delete instrumentDelegate;
     delete variableModel;
     delete variableDelegate;
-    delete connectionsModel;
 }

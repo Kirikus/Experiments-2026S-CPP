@@ -23,6 +23,8 @@ public:
   int get_instrument_id() const;
   void set_instrument_id(int id);
   QJsonObject to_json() const;
+  static bool fromJson(const QJsonObject& obj, const QHash<int, Instrument>& instruments,
+                         Variable& out, QString& error);
   
 private:
   int id;

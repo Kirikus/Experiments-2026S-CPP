@@ -362,9 +362,9 @@ void MainWindow::openFile()
     }
     experiment->getVariables() = loadedVariables;
 
-    experiment->setMaxVariableId(maxVariableId);
-    experiment->setMaxInstrumentId(maxInstrumentId);
-    experiment->setMaxConstantId(maxConstantId);
+    experiment->set_variable_id(maxVariableId);
+    experiment->set_instrument_id(maxInstrumentId);
+    experiment->set_constant_id(maxConstantId);
 
     variableModel->resetModel();
     constantModel->resetModel();

@@ -39,9 +39,9 @@ public:
   QString& get_file_name();
   void set_file_name(QString& name);
 
-  void setMaxVariableId(int maxId) { variable_id = maxId + 1; }
-  void setMaxInstrumentId(int maxId) { instrument_id = maxId + 1; }
-  void setMaxConstantId(int maxId) { constant_id = maxId + 1; }
+  void set_variable_id(int new_id) { variable_id = new_id + 1; }
+  void set_instrument_id(int new_id) { instrument_id = new_id + 1; }
+  void set_constant_id(int new_id) { constant_id = new_id + 1; }
 
 private:
 

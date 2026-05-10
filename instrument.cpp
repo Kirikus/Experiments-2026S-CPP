@@ -31,3 +31,12 @@ int Instrument::get_id() const {
 void Instrument::set_id(int new_id) {
     id = new_id;
 }
+
+QJsonObject Instrument::to_json() const {
+    QJsonObject instrument;
+    instrument["id"] = id;
+    instrument["error_type"] = error_type;
+    instrument["name"] = name;
+    instrument["error_value"] = error_value;
+    return instrument;
+}

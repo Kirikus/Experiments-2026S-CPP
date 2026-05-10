@@ -2,6 +2,7 @@
 #define INSTRUMENT_H
 
 #include <QString>
+#include <QJsonObject>
 
 class Instrument {
 public:
@@ -15,6 +16,7 @@ public:
   void set_error_type(QString& new_error_type);
   int get_id() const;
   void set_id(int new_id);
+  QJsonObject to_json() const;
 
 protected:
   QString name;        //   название инструмента

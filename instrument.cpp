@@ -80,7 +80,7 @@ bool Instrument::from_json(const QJsonObject& obj, Instrument& out, QString& err
     
     // Проверка значений
     QString errorTypeValue = obj["error_type"].toString();
-    if (errorTypeValue != "абсолютная" && errorTypeValue != "относительная") {
+    if (errorTypeValue.toLower() != "абсолютная" && errorTypeValue.toLower() != "относительная") {
         error = QString("Недопустимое значение 'error_type': %1. Допустимые значения: абсолютная, относительная.")
                     .arg(errorTypeValue);
         return false;

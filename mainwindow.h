@@ -40,6 +40,8 @@ private slots:
     void addVariable();
     bool removeInstrument();
     void removeVariable();
+    void addVarValue();
+    bool removeVarValue();
     void addConstant();
     void removeConstant();
     //void applyBarGraphSettings();

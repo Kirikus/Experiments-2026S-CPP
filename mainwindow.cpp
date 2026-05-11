@@ -66,6 +66,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ActionSave, &QAction::triggered, this, &MainWindow::saveFile);
     connect(ui->ActionSaveAs, &QAction::triggered, this, &MainWindow::saveAsFile);
     connect(ui->ActionUploadData, &QAction::triggered, this, &MainWindow::uploadFile);
+    connect(ui->ExpAddColButton, &QPushButton::clicked, this, &MainWindow::addVarValue);
+    connect(ui->ExpDelColButton, &QPushButton::clicked, this, &MainWindow::removeVarValue);
 
 
     // setup constants table
@@ -82,6 +84,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(connectionsModel, &QAbstractTableModel::dataChanged, this, &MainWindow::updateAllGraphs);
     connect(connectionsModel, &QAbstractTableModel::modelReset, this, &MainWindow::updateAllGraphs);
+
+    
 }
 
 void MainWindow::createLinGraph()
@@ -145,6 +149,29 @@ void MainWindow::removeVariable()
         variableModel->resetModel();
         connectionsModel->resetModel();
     }
+}
+
+void MainWindow::addVarValue() {
+    variableModel->addColumn();
+    variableModel->resetModel();
+}
+
+bool MainWindow::removeVarValue() {
+    QModelIndex currentIndex = ui->VariablesTable->currentIndex();
+    if (currentIndex.isValid()) {
+        int row = currentIndex.row();
+        int col = currentIndex.column();
+        if (col == 0) {
+            return false;
+        }
+        Variable& var = Experiment::getInstance()->getVariables()[row];
+        if (var.get_values().size() > col - 1) {
+            var.get_values().removeAt(col - 1);
+            variableModel->resetModel();
+            return true;
+        }
+    }
+    return false;
 }
 
 void MainWindow::addInstrument()

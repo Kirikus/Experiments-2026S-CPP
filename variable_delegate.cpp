@@ -1,8 +1,8 @@
 #include "variable_delegate.h"
-
 #include <QPainter>
 #include <QComboBox>
 #include <QLineEdit>
+#include <QMouseEvent>
 
 VariableDelegate::VariableDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
@@ -19,16 +19,14 @@ QWidget *VariableDelegate::createEditor(QWidget *parent,
                                     const QStyleOptionViewItem &option,
                                     const QModelIndex &index) const
 {
-    // Для колонки с именем (0) — обычное текстовое поле
     if (index.column() == 0) {
         QLineEdit *editor = new QLineEdit(parent);
-        editor->setFrame(false); // Отключаем рамку, чтобы не было визуальных артефактов
+        editor->setFrame(false);
         return editor;
     }
-    // Для колонки со значениями (1 и далее) — текстовое поле
     else if (index.column() >= 1) {
         QLineEdit *editor = new QLineEdit(parent);
-        editor->setFrame(false); // Отключаем рамку
+        editor->setFrame(false);
         QDoubleValidator *validator = new QDoubleValidator(editor);
         validator->setRange(-99999.99, 99999.99);
         validator->setDecimals(3);
@@ -37,7 +35,6 @@ QWidget *VariableDelegate::createEditor(QWidget *parent,
         editor->setValidator(validator);
         return editor;
     }
-
     return QStyledItemDelegate::createEditor(parent, option, index);
 }
 
@@ -56,10 +53,8 @@ void VariableDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     QLineEdit *lineEdit = qobject_cast<QLineEdit*>(editor);
     if (lineEdit) {
         if (index.column() == 0) {
-            // Имя переменной
             model->setData(index, lineEdit->text(), Qt::EditRole);
         } else {
-            // Значение переменной
             bool ok;
             double value = lineEdit->text().toDouble(&ok);
             if (ok) {
@@ -67,4 +62,23 @@ void VariableDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
             }
         }
     }
+}
+
+// открытие редактора только по двойному клику
+bool VariableDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
+                                   const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    if (event->type() == QEvent::MouseButtonDblClick) {
+        QWidget *editor = createEditor(nullptr, option, index);
+        if (editor) {
+            setEditorData(editor, index);
+            QWidget editorWidget;
+            editor->setParent(&editorWidget);
+            QStyledItemDelegate::setModelData(editor, model, index);
+            model->setData(index, editor->property("text").isValid() ? editor->property("text") : QVariant(), Qt::EditRole);
+            delete editor;
+        }
+        return true;
+    }
+    return QStyledItemDelegate::editorEvent(event, model, option, index);
 }

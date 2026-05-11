@@ -8,66 +8,65 @@
 #include "constant.h"
 #include <QJsonObject>
 
-class Experiment {   // Основной класс для хранения всех данных
-public:          
+class Experiment {
+public:
+    Experiment(const Experiment& obj) = delete;
+    void operator=(const Experiment&) = delete;
 
-  Experiment(const Experiment& obj) = delete;
+    static Experiment* getInstance();
 
-  void operator=(const Experiment&) = delete;
+    const QList<class Variable>& getVariables() const;
+    QList<class Variable>& getVariables();
 
-  static Experiment* getInstance();
+    const QList<class Constant>& getConstants() const;
+    QList<class Constant>& getConstants();
 
-  const QList<class Variable>& getVariables() const;
-  QList<class Variable>& getVariables();
+    const QHash<int, Instrument>& getInstruments() const;
+    QHash<int, class Instrument>& getInstruments();
 
-  const QList<class Constant>& getConstants() const;
-  QList<class Constant>& getConstants();
+    Instrument* getInstrument(int id);
+    const Instrument* getInstrument(int id) const;
 
-  const QHash<int, Instrument>& getInstruments() const;
-  QHash<int, class Instrument>& getInstruments();
+    void setVariables(const QList<class Variable>& vars);
+    void setConstants(const QList<class Constant>& cons);
+    void setInstruments(const QHash<int, Instrument>& inst);
 
-  Instrument* getInstrument(int id);
-  const Instrument* getInstrument(int id) const;
+    void addVariable(Variable& var);
+    void addInstrument(Instrument& inst);
+    void addConstant(Constant& cons);
 
-  void setVariables(const QList<class Variable>& vars);
-  void setConstants(const QList<class Constant>& cons);
-  void setInstruments(const QHash<int, Instrument>& inst);
+    QString& get_file_name();
+    void set_file_name(QString& name);
 
-  void addVariable(Variable& var);
-  void addInstrument(Instrument& inst);
-  void addConstant(Constant& cons);
+    void set_variable_id(int new_id) { variable_id = new_id + 1; }
+    void set_instrument_id(int new_id) { instrument_id = new_id + 1; }
+    void set_constant_id(int new_id) { constant_id = new_id + 1; }
 
-  QString& get_file_name();
-  void set_file_name(QString& name);
+    // ДОБАВЛЕНО: геттеры для счётчиков ID
+    int get_variable_id() const { return variable_id; }
+    int get_instrument_id() const { return instrument_id; }
+    int get_constant_id() const { return constant_id; }
 
-  void set_variable_id(int new_id) { variable_id = new_id + 1; }
-  void set_instrument_id(int new_id) { instrument_id = new_id + 1; }
-  void set_constant_id(int new_id) { constant_id = new_id + 1; }
-  
-  QJsonObject to_json() const;
-  bool from_json(const QJsonObject& root, QString& error);
+    QJsonObject to_json() const;
+    bool from_json(const QJsonObject& root, QString& error);
 
 private:
+    Experiment(QList<class Variable>& variables,
+               QList<class Constant>& constants,
+               QHash<int, Instrument>& instruments);
+    Experiment();
 
-  Experiment(QList<class Variable>& variables, 
-             QList<class Constant>& constants,
-             QHash<int, Instrument>& instruments);
+    static Experiment* instance;
 
-  Experiment();
+    QList<class Variable> variables;
+    QList<class Constant> constants;
+    QHash<int, Instrument> instruments;
 
-  static Experiment* instance;
+    unsigned long long variable_id = 1;
+    unsigned long long instrument_id = 1;
+    unsigned long long constant_id = 1;
 
-  QList<class Variable> variables;
-  QList<class Constant> constants;
-  QHash<int, Instrument> instruments;
-
-  unsigned long long variable_id = 1;
-  unsigned long long instrument_id = 1;
-  unsigned long long constant_id = 1;
-
-  QString fileName;
+    QString fileName;
 };
 
 #endif // EXPERIMENT_H
-
-

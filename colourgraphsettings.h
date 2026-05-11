@@ -1,16 +1,13 @@
 #ifndef COLOURGRAPHSETTINGS_H
 #define COLOURGRAPHSETTINGS_H
 
-#include "graphsettings.h"
-
-
 #include <QDialog>
 
 namespace Ui {
 class ColourGraphSettings;
 }
 
-class ColourGraphSettings : public GraphSettings
+class ColourGraphSettings : public QDialog
 {
     Q_OBJECT
 
@@ -18,11 +15,15 @@ public:
     explicit ColourGraphSettings(QWidget *parent = nullptr);
     ~ColourGraphSettings();
 
-    void applySettings() override;
+signals:
+    void settingsApplied();
+
+private slots:
+    void onSave();
+    void onCancel();
 
 private:
     Ui::ColourGraphSettings *ui;
-
 };
 
 #endif // COLOURGRAPHSETTINGS_H

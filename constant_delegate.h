@@ -23,6 +23,10 @@ public:
 
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
                              const QModelIndex &index) const override;
+
+    // редактор открывается только по двойному клику
+    bool editorEvent(QEvent *event, QAbstractItemModel *model,
+                     const QStyleOptionViewItem &option, const QModelIndex &index) override;
 };
 
 #endif // CONSTANT_DELEGATE_H

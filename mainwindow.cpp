@@ -9,6 +9,8 @@
 #include "qcustomplot.h"
 #include "graph.h"
 #include "lingraph.h"
+#include "bargraph.h"
+#include "colourgraph.h"
 #include "variable_delegate.h"
 #include <iostream>
 #include <QJsonDocument>
@@ -87,27 +89,26 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::createLinGraph()
 {
     Graph *graph = new LinGraph(this);
-
     int index = ui->GraphTabWidget->addTab(graph,
-                                           QString("График 1").arg(ui->GraphTabWidget->count() + 1));
+        QString("График %1").arg(ui->GraphTabWidget->count() + 1));
     ui->GraphTabWidget->setCurrentIndex(index);
 }
-/*
+
 void MainWindow::createBarGraph()
 {
-    Graph *graph = new Graph(this);
-    graph->setGraphType(Graph::Bar);
-
+    Graph *graph = new BarGraph(this);
     int index = ui->GraphTabWidget->addTab(graph,
-        QString("График 2").arg(ui->GraphTabWidget->count() + 1));
+        QString("Столбчатый %1").arg(ui->GraphTabWidget->count() + 1));
     ui->GraphTabWidget->setCurrentIndex(index);
 }
 
 void MainWindow::createColourGraph()
 {
-    qDebug() << "Colour graph";
+    Graph *graph = new ColourGraph(this);
+    int index = ui->GraphTabWidget->addTab(graph,
+        QString("Тепловая карта %1").arg(ui->GraphTabWidget->count() + 1));
+    ui->GraphTabWidget->setCurrentIndex(index);
 }
-*/
 
 void MainWindow::openPreview()
 {
@@ -124,7 +125,6 @@ void MainWindow::addVariable()
     Variable newVar(values, "New variable");
     newVar.set_id(Experiment::getInstance()->getVariables().size());
     
-
     Experiment::getInstance()->addVariable(newVar);
     
     // Уведомляем модель об изменении
@@ -179,7 +179,6 @@ bool MainWindow::removeInstrument() {
             }
         }
 
-        
         // Удаляем из эксперимента
         insts.remove(keys[row]);
         
@@ -213,7 +212,7 @@ void MainWindow::addConstant() {
 }
 
 void MainWindow::removeConstant() {
-QModelIndex currentIndex = ui->ConstantsTable->currentIndex();
+    QModelIndex currentIndex = ui->ConstantsTable->currentIndex();
     if (currentIndex.isValid()) {
         int row = currentIndex.row();
         
@@ -223,18 +222,19 @@ QModelIndex currentIndex = ui->ConstantsTable->currentIndex();
         constantModel->resetModel();
     }
 }
+
 // new graph button
 void MainWindow::setupCreateButton()
 {
     QMenu *menu = new QMenu(this);
 
     QAction *lineAction = menu->addAction("Line graph");
-    // QAction *barAction = menu->addAction("Bar graph");
-    // QAction *colourAction = menu->addAction("Colour graph");
+    QAction *barAction = menu->addAction("Bar graph");
+    QAction *colourAction = menu->addAction("Colour graph");
 
     connect(lineAction, &QAction::triggered, this, &MainWindow::createLinGraph);
-    // connect(barAction, &QAction::triggered, this, &MainWindow::createBarGraph);
-    // connect(colourAction, &QAction::triggered, this, &MainWindow::createColourGraph);
+    connect(barAction, &QAction::triggered, this, &MainWindow::createBarGraph);
+    connect(colourAction, &QAction::triggered, this, &MainWindow::createColourGraph);
 
     ui->NewGraphButton->setMenu(menu);
 }

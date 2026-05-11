@@ -1,15 +1,26 @@
 #ifndef BARGRAPHSETTINGS_H
 #define BARGRAPHSETTINGS_H
 
-#include "graphsettings.h"
-
 #include <QDialog>
+#include <QColor>
+#include <QStringList>
+#include <QComboBox>
 
-namespace Ui {
-class BarGraphSettings;
+namespace Ui
+{
+    class BarGraphSettings;
 }
 
-class BarGraphSettings : public GraphSettings
+struct BarSetting
+{
+    QString variableName;
+    QColor color;
+    int binCount;
+    double barWidth;
+    bool visible;
+};
+
+class BarGraphSettings : public QDialog
 {
     Q_OBJECT
 
@@ -17,11 +28,24 @@ public:
     explicit BarGraphSettings(QWidget *parent = nullptr);
     ~BarGraphSettings();
 
-    void applySettings() override;
+    QList<BarSetting> getBars() const;
+    void setBars(const QList<BarSetting> &bars);
+    int getSelectedXIndex() const;
+    QComboBox* getXAxisCombo() const;
+
+signals:
+    void settingsApplied();
+
+private slots:
+    void onSave();
+    void onCancel();
 
 private:
-    Ui::BarGraphSettings *ui;
+    void updateTable();
+    void setComboBox(int row, int column, const QStringList &items, const QString &current);
 
+    Ui::BarGraphSettings *ui;
+    QList<BarSetting> bars_e;
 };
 
 #endif // BARGRAPHSETTINGS_H

@@ -19,6 +19,9 @@ public:
     void setModelData(QWidget *editor, QAbstractItemModel *model,
                       const QModelIndex &index) const override;
 
+    // ДОБАВЛЕНО: редактор открывается только по двойному клику
+    bool editorEvent(QEvent *event, QAbstractItemModel *model,
+                     const QStyleOptionViewItem &option, const QModelIndex &index) override;
 
 private:
     Experiment* experiment = nullptr;

@@ -3,9 +3,14 @@
 
 Variable::Variable(QList<double> values, QString name) : values(values), name(name), instrument_id(-1) {}
 
-Variable::Variable() : values(), name() , id() , instrument_id(-1) {}
+Variable::Variable() : values(), name(), id(), instrument_id(-1) {}
 
 QList<double>& Variable::get_values() {
+    return values;
+}
+
+// ДОБАВЛЕНО: константная версия
+const QList<double>& Variable::get_values() const {
     return values;
 }
 
@@ -13,15 +18,15 @@ void Variable::set_values(QList<double>& new_values) {
     values = new_values;
 }
 
-void Variable::add_value(double new_value){
+void Variable::add_value(double new_value) {
     values.append(new_value);
 }
 
-void Variable::set_name(const QString& new_name){
+void Variable::set_name(const QString& new_name) {
     name = new_name;
 }
 
-const QString& Variable::get_name() {
+const QString& Variable::get_name() const {
     return name;
 }
 
@@ -42,10 +47,8 @@ void Variable::set_instrument_id(int new_id) {
 }
 
 QJsonObject Variable::to_json() const {
-    
     QJsonObject variable;
     QJsonArray values_list;
-
     variable["id"] = id;
     variable["instrument_id"] = instrument_id;
     variable["name"] = name;
@@ -58,7 +61,6 @@ QJsonObject Variable::to_json() const {
 
 bool Variable::fromJson(const QJsonObject& obj, const QHash<int, Instrument>& instruments,
                         Variable& out, QString& error) {
-    // Проверка наличия полей
     const QStringList required = {"id", "name", "instrument_id", "values"};
     for (const QString& field : required) {
         if (!obj.contains(field)) {
@@ -66,8 +68,6 @@ bool Variable::fromJson(const QJsonObject& obj, const QHash<int, Instrument>& in
             return false;
         }
     }
-
-    // Проверка типов
     if (!obj["id"].isDouble()) {
         error = "Поле 'id' должно быть числом";
         return false;
@@ -84,8 +84,6 @@ bool Variable::fromJson(const QJsonObject& obj, const QHash<int, Instrument>& in
         error = "Поле 'values' должно быть массивом";
         return false;
     }
-
-    // Проверка значений id
     int id = obj["id"].toInt();
     if (id <= 0) {
         error = QString("Недопустимое значение 'id': %1. Значение должно быть натуральным числом.").arg(id);
@@ -107,8 +105,6 @@ bool Variable::fromJson(const QJsonObject& obj, const QHash<int, Instrument>& in
             return false;
         }
     }
-
-    // Проверка массива values
     QJsonArray valuesArray = obj["values"].toArray();
     QList<double> values;
     for (const QJsonValue& v : valuesArray) {
@@ -118,7 +114,6 @@ bool Variable::fromJson(const QJsonObject& obj, const QHash<int, Instrument>& in
         }
         values.append(v.toDouble());
     }
-
     out = Variable(values, name);
     out.set_id(id);
     out.set_instrument_id(instrumentId);

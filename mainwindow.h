@@ -34,26 +34,22 @@ public:
 private slots:
     void openPreview();
     void createLinGraph();
-    //void createBarGraph();
-    //void createColourGraph();
+    void createBarGraph();
+    void createColourGraph();
     void addInstrument();
     void addVariable();
     bool removeInstrument();
     void removeVariable();
     void addConstant();
     void removeConstant();
-    //void applyBarGraphSettings();
-    //void applyColourGraphSettings();
     void closeTab(int index);
     void updateAllGraphs();
-
 
     void newFile();
     void openFile();
     bool saveFile();
     bool saveAsFile();
     void uploadFile();
-    
 
 private:
     void setupCreateButton();

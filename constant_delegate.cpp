@@ -1,9 +1,8 @@
-
 #include "constant_delegate.h"
-
 #include <QPainter>
 #include <QLineEdit>
 #include <QDoubleSpinBox>
+#include <QMouseEvent>
 
 ConstantDelegate::ConstantDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
@@ -22,12 +21,10 @@ QWidget *ConstantDelegate::createEditor(QWidget *parent,
 {
     int column = index.column();
 
-    // Колонка 0 — имя (текст)
     if (column == 0) {
         QLineEdit *editor = new QLineEdit(parent);
         return editor;
     }
-    // Колонка 1 — значение (число)
     else if (column == 1) {
         QDoubleSpinBox *editor = new QDoubleSpinBox(parent);
         editor->setMinimum(-999999.0);
@@ -36,8 +33,6 @@ QWidget *ConstantDelegate::createEditor(QWidget *parent,
         editor->setSingleStep(0.1);
         return editor;
     }
-
-    // Колонка 2 — погрешность (число)
     else if (column == 2) {
         QDoubleSpinBox *editor = new QDoubleSpinBox(parent);
         editor->setMinimum(-999999.0);
@@ -46,8 +41,6 @@ QWidget *ConstantDelegate::createEditor(QWidget *parent,
         editor->setSingleStep(0.1);
         return editor;
     }
-
-    // Колонка 3 — обозначение (текст)
     else if (column == 3) {
         QLineEdit *editor = new QLineEdit(parent);
         return editor;
@@ -88,4 +81,20 @@ void ConstantDelegate::updateEditorGeometry(QWidget *editor,
                                             const QModelIndex &index) const
 {
     editor->setGeometry(option.rect);
+}
+
+// ДОБАВЛЕНО: открытие редактора только по двойному клику
+bool ConstantDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
+                                   const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    if (event->type() == QEvent::MouseButtonDblClick) {
+        QWidget *editor = createEditor(nullptr, option, index);
+        if (editor) {
+            setEditorData(editor, index);
+            setModelData(editor, model, index);
+            delete editor;
+        }
+        return true;
+    }
+    return QStyledItemDelegate::editorEvent(event, model, option, index);
 }

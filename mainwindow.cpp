@@ -134,6 +134,7 @@ void MainWindow::addVariable()
     // Уведомляем модель об изменении
     variableModel->resetModel();
     connectionsModel->resetModel();
+    Experiment::getInstance()->setModified(true);
 }
 
 void MainWindow::removeVariable()
@@ -148,6 +149,7 @@ void MainWindow::removeVariable()
         // Уведомляем модель об изменении
         variableModel->resetModel();
         connectionsModel->resetModel();
+        Experiment::getInstance()->setModified(true);
     }
 }
 
@@ -168,6 +170,7 @@ bool MainWindow::removeVarValue() {
         if (var.get_values().size() > col - 1) {
             var.get_values().removeAt(col - 1);
             variableModel->resetModel();
+            Experiment::getInstance()->setModified(true);
             return true;
         }
     }
@@ -186,6 +189,7 @@ void MainWindow::addInstrument()
     
     // Уведомляем модель об изменении
     instrumentModel->resetModel();
+    Experiment::getInstance()->setModified(true);
 }
 
 bool MainWindow::removeInstrument() {
@@ -213,6 +217,7 @@ bool MainWindow::removeInstrument() {
         // Уведомляем модель об изменении
         instrumentModel->resetModel();
 
+        Experiment::getInstance()->setModified(true);
         return true;
     }
 
@@ -237,6 +242,7 @@ void MainWindow::addConstant() {
     Experiment::getInstance()->addConstant(newConst);
 
     constantModel->resetModel();
+    Experiment::getInstance()->setModified(true);
 }
 
 void MainWindow::removeConstant() {
@@ -249,6 +255,7 @@ QModelIndex currentIndex = ui->ConstantsTable->currentIndex();
         // Уведомляем модель об изменении
         constantModel->resetModel();
     }
+    Experiment::getInstance()->setModified(true);
 }
 // new graph button
 void MainWindow::setupCreateButton()
@@ -273,8 +280,39 @@ void MainWindow::closeTab(int index)
     delete widget;
 }
 
-void MainWindow::newFile(){
-    std::cout << "New file" << std::endl;
+void MainWindow::newFile() {
+    Experiment* exp = Experiment::getInstance();
+
+    if (exp->isModified()) {
+        QMessageBox::StandardButton reply = QMessageBox::question(
+            this,
+            "Несохранённые изменения",
+            "Сохранить изменения перед созданием нового эксперимента?",
+            QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel
+        );
+
+        if (reply == QMessageBox::Save) {
+            if (!saveFile())
+                return;
+        } else if (reply == QMessageBox::Cancel) {
+            return;
+        }
+    }
+
+    // Очистка данных
+    exp->getVariables().clear();
+    exp->getConstants().clear();
+    exp->getInstruments().clear();
+    exp->set_file_name(QString());   
+    exp->setModified(false);       
+
+    // Обновление таблиц
+    variableModel->resetModel();
+    constantModel->resetModel();
+    instrumentModel->resetModel();
+    connectionsModel->resetModel();
+
+    QMessageBox::information(this, "Успешно", "Создан новый файл");
 }
 
 void MainWindow::openFile()
@@ -342,6 +380,7 @@ bool MainWindow::saveFile(){
     file.write(doc.toJson(QJsonDocument::Indented)); 
     file.close();
     experiment->set_file_name(fileName);
+    experiment->setModified(false);
 
     return true;
 }

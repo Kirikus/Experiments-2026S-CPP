@@ -34,8 +34,9 @@ public:
     double getYMax() const;
     bool hasXYRange() const;
 
-protected:
     QCustomPlot *getPlot() const;
+
+protected:
     void updateAxesFromUI();
 
 private slots:

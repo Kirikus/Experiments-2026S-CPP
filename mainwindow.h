@@ -31,6 +31,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QCustomPlot* getCurrentPlot() const;
+
 private slots:
     void openPreview();
     void createLinGraph();

@@ -38,16 +38,22 @@ public:
   void addConstant(Constant& cons);
 
   QString& get_file_name();
-  void set_file_name(QString& name);
+  void set_file_name(QString name);
 
   void set_variable_id(int new_id) { variable_id = new_id + 1; }
   void set_instrument_id(int new_id) { instrument_id = new_id + 1; }
   void set_constant_id(int new_id) { constant_id = new_id + 1; }
-  
+
+public:
   QJsonObject to_json() const;
   bool from_json(const QJsonObject& root, QString& error);
 
+  bool isModified() const { return is_modified; }
+  void setModified(bool new_modified) { is_modified = new_modified; }
+
 private:
+
+  bool is_modified = false;
 
   Experiment(QList<class Variable>& variables, 
              QList<class Constant>& constants,

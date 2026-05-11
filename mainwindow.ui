@@ -36,7 +36,7 @@
           <item row="1" column="1">
            <widget class="QPushButton" name="ExpDelColButton">
             <property name="text">
-             <string>Delete column</string>
+             <string>Delete value</string>
             </property>
            </widget>
           </item>
@@ -55,21 +55,21 @@
           <item row="0" column="1">
            <widget class="QPushButton" name="ExpAddColButton">
             <property name="text">
-             <string>Add column</string>
+             <string>Add value</string>
             </property>
            </widget>
           </item>
           <item row="1" column="2">
            <widget class="QPushButton" name="ExpDelRowButton">
             <property name="text">
-             <string>Delete row</string>
+             <string>Delete variable</string>
             </property>
            </widget>
           </item>
           <item row="0" column="2">
            <widget class="QPushButton" name="ExpAddRowButton">
             <property name="text">
-             <string>Add row</string>
+             <string>Add variable</string>
             </property>
            </widget>
           </item>
@@ -93,7 +93,7 @@
            </widget>
           </item>
           <item row="1" column="0" colspan="4">
-           <widget class="QTableView" name="CalculationsTable"/>
+           <widget class="QTextEdit" name="CalculationsTable"/>
           </item>
           <item row="0" column="3">
            <widget class="QPushButton" name="CalcAddButton">
@@ -219,20 +219,6 @@
          </item>
          <item row="1" column="0" colspan="3">
           <widget class="QTableView" name="ConnectionsTable"/>
-         </item>
-         <item row="2" column="0">
-          <widget class="QPushButton" name="VarDelButton">
-           <property name="text">
-            <string>Delete column</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QPushButton" name="VarAddButton">
-           <property name="text">
-            <string>Add column</string>
-           </property>
-          </widget>
          </item>
         </layout>
        </widget>

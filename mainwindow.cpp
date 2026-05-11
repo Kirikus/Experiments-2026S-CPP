@@ -55,8 +55,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ConnectionsTable->setModel(connectionsModel);
     ui->ConnectionsTable->setItemDelegate(connectionsDelegate);
 
-    connect(ui->VarAddButton, &QPushButton::clicked, this, &MainWindow::addVariable);
-    connect(ui->VarDelButton, &QPushButton::clicked, this, &MainWindow::removeVariable);
+    connect(ui->ExpAddRowButton, &QPushButton::clicked, this, &MainWindow::addVariable);
+    connect(ui->ExpDelRowButton, &QPushButton::clicked, this, &MainWindow::removeVariable);
     connect(ui->InstAddButton, &QPushButton::clicked, this, &MainWindow::addInstrument);
     connect(ui->InstDelButton, &QPushButton::clicked, this, &MainWindow::removeInstrument);
     connect(ui->ConstAddButton, &QPushButton::clicked, this, &MainWindow::addConstant);

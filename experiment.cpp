@@ -31,6 +31,7 @@ const QList<Constant>& Experiment::getConstants() const {
 
 QList<Constant>& Experiment::getConstants() {
     return constants;
+    setModified(true);
 }
 
 const QHash<int, Instrument>& Experiment::getInstruments() const {
@@ -39,11 +40,13 @@ const QHash<int, Instrument>& Experiment::getInstruments() const {
 
 QHash<int, Instrument>& Experiment::getInstruments() {
     return instruments;
+    setModified(true);
 }
 
 Instrument* Experiment::getInstrument(int id) {
     auto it = instruments.find(id);
     return it != instruments.end() ? &it.value() : nullptr;
+    setModified(true);
 }
 const Instrument* Experiment::getInstrument(int id) const {
     auto it = instruments.find(id);
@@ -52,36 +55,42 @@ const Instrument* Experiment::getInstrument(int id) const {
 
 void Experiment::setVariables(const QList<Variable>& vars) {
     variables = vars;
+    setModified(true);
 }
 
 void Experiment::setConstants(const QList<Constant>& cons) {
     constants = cons;
+    setModified(true);
 }
 
 void Experiment::setInstruments(const QHash<int, Instrument>& inst) {
     instruments = inst;
+    setModified(true);
 }
 
 void Experiment::addVariable(Variable& var) {
     var.set_id(variable_id++);
     variables.append(var);
+    setModified(true);
 }
 
 void Experiment::addInstrument(Instrument& inst) {
     inst.set_id(instrument_id);
     instruments[instrument_id++] = inst;
+    setModified(true);
 }
 
 void Experiment::addConstant(Constant& cons) {
     cons.set_id(constant_id++);
     constants.append(cons);
+    setModified(true);
 }
 
 QString& Experiment::get_file_name() {
     return fileName;
 }
 
-void Experiment::set_file_name(QString& name) {
+void Experiment::set_file_name(QString name) {
     fileName = name;
 }
 
@@ -109,6 +118,7 @@ QJsonObject Experiment::to_json() const {
     experiment_json["Constants"] = constants_json;
     experiment_json["Variables"] = variables_json;
     experiment_json["Instruments"] = instruments_json;
+
 
     return experiment_json;
     
@@ -198,6 +208,8 @@ bool Experiment::from_json(const QJsonObject& root, QString& error) {
     set_variable_id(maxVarId);
     set_instrument_id(maxInstId);
     set_constant_id(maxConstId);
+
+    setModified(false);
 
     return true;
 }

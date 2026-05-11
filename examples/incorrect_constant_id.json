@@ -1,0 +1,88 @@
+{
+    "Constants": [
+        {
+            "error": 0.1,
+            "id": 1,
+            "meaning": "g",
+            "name": "Ускорение",
+            "readonly": false,
+            "value": 9.8
+        },
+        {
+            "error": 0.000003,
+            "id": 2,
+            "meaning": "pi",
+            "name": "Число пи",
+            "readonly": false,
+            "value": 3.14159
+        },
+        {   
+            "error": 0.67,
+            "id": -67,
+            "meaning": "sixseven",
+            "name": "Константа",
+            "readonly": false,
+            "value": 67
+        }
+    ],
+    "Instruments": [
+        {
+            "error_type": "Абсолютная",
+            "error_value": 0.5,
+            "id": 1,
+            "name": "Линейка"
+        },
+        {
+            "error_type": "Относительная",
+            "error_value": 0.01,
+            "id": 2,
+            "name": "Вольтметр"
+        }
+    ],
+    "Variables": [
+        {
+            "id": 1,
+            "instrument_id": 1,
+            "name": "Длина",
+            "values": [
+                15,
+                16,
+                18,
+                28
+            ]
+        },
+        {
+            "id": 2,
+            "instrument_id": 1,
+            "name": "Ширина",
+            "values": [
+                12,
+                15,
+                14,
+                24
+            ]
+        },
+        {
+            "id": 3,
+            "instrument_id": 1,
+            "name": "Высота",
+            "values": [
+                3,
+                9,
+                5,
+                15
+            ]
+        },
+        {
+            "id": 4,
+            "instrument_id": 2,
+            "name": "Напряжение",
+            "values": [
+                219,
+                220,
+                221,
+                350
+            ]
+        }
+    ]
+}

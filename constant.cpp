@@ -57,6 +57,7 @@ void Constant::set_id(int new_id) {
 QJsonObject Constant::to_json() const {
     QJsonObject constant;
     constant["id"] = id;
+    constant["error"] = error;
     constant["name"] = name;
     constant["value"] = value;
     constant["meaning"] = meaning;

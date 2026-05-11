@@ -3,6 +3,13 @@
 #include "Qt"
 
 VariableTableModel::VariableTableModel(Experiment& exp) : experiment(exp) {
+    int max = 0;
+    for (int i = 0; i < experiment.getVariables().size(); i++) {
+        if (experiment.getVariables()[i].get_values().size() > max) {
+            max = experiment.getVariables()[i].get_values().size();
+        }
+    }
+    columns = max + 2;
 }
 
 int VariableTableModel::rowCount(const QModelIndex &parent) const {
@@ -10,13 +17,11 @@ int VariableTableModel::rowCount(const QModelIndex &parent) const {
 }
 
 int VariableTableModel::columnCount(const QModelIndex &parent) const {
-    int max = 0;
-    for (int i = 0; i < experiment.getVariables().size(); i++) {
-        if (experiment.getVariables()[i].get_values().size() > max) {
-            max = experiment.getVariables()[i].get_values().size();
-        }
-    }
-    return max + 2;
+    return columns;
+}
+
+void VariableTableModel::addColumn() {
+    columns++;
 }
 
 QVariant VariableTableModel::data(const QModelIndex &index, int role) const { 
@@ -58,24 +63,6 @@ bool VariableTableModel::setData(const QModelIndex &index, const QVariant &value
             default:
             if (index.column() - 1 < variable.get_values().size()) {
                 variable.get_values()[index.column() - 1] = value.toDouble();
-            } else if (index.column() - 1 == variable.get_values().size()) {
-                int oldMax = 0;
-                for (int i = 0; i < experiment.getVariables().size(); i++) {
-                    if (experiment.getVariables()[i].get_values().size() > oldMax) {
-                        oldMax = experiment.getVariables()[i].get_values().size();
-                    }
-                }
-                variable.get_values().append(value.toDouble());
-                int newMax = 0;
-                for (int i = 0; i < experiment.getVariables().size(); i++) {
-                    if (experiment.getVariables()[i].get_values().size() > newMax) {
-                        newMax = experiment.getVariables()[i].get_values().size();
-                    }
-                }
-                if (newMax > oldMax) {
-                    beginInsertColumns(QModelIndex(), newMax, newMax);
-                    endInsertColumns();
-                }
             } else {
                 variable.add_value(value.toDouble());
             }

@@ -4,7 +4,7 @@
 #include "tableblock.h"
 #include "textblock.h"
 #include "mainwindow.h"
-//#include "experiment.h"
+#include "experiment.h"
 #include <QMenu>
 #include <QScrollArea>
 
@@ -79,7 +79,8 @@ void Preview_widget::addConstantTable()
 {
     TableBlock *block = new TableBlock();
     
-    ConstantTableModel *model = new ConstantTableModel();
+    Experiment *exp = Experiment::getInstance();
+    ConstantTableModel *model = new ConstantTableModel(*exp);
     block->setModel(model);
     
     setupBlockConnections(block);

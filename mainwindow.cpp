@@ -89,7 +89,7 @@ void MainWindow::createLinGraph()
     Graph *graph = new LinGraph(this);
 
     int index = ui->GraphTabWidget->addTab(graph,
-                                           QString("График 1").arg(ui->GraphTabWidget->count() + 1));
+                                           QString("График %1").arg(ui->GraphTabWidget->count() + 1));
     ui->GraphTabWidget->setCurrentIndex(index);
 }
 /*
